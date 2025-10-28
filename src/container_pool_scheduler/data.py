@@ -157,6 +157,8 @@ def split_dataframe(df: pd.DataFrame) -> dict:
 
     for key, dataset in datasets.items():
         print(dataset.shape[0], key)
+        # print(dataset.head(2))
+        # input("Press Enter to continue...")
 
     return datasets
 
@@ -164,7 +166,7 @@ def split_dataframe(df: pd.DataFrame) -> dict:
 def create_samples(datasets: dict, n_input_steps: int, n_pred_steps: int) -> dict:
     data = {}
     for key, dataset in datasets.items():
-        dataset = datasets[key]
+        # dataset = datasets[key]
         n_cols = dataset.shape[1]
         dataset = dataset.values.astype(np.float64)
 
@@ -179,11 +181,10 @@ def create_samples(datasets: dict, n_input_steps: int, n_pred_steps: int) -> dic
         useable = np.all(
             ~np.isnan(samples.reshape(-1, n_timesteps * n_cols)), axis=-1)
         data[key] = samples[useable]
-
-        # print(data[key].shape)
+        
         print(data[key].shape[0],
               f'samples of {n_input_steps} input steps and {n_pred_steps} output steps in', key)
-
+        
     return data
 
 

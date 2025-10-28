@@ -67,7 +67,7 @@ def main():
     # --------------------------------------------------------------------------
     device = utils.get_device()
     encoder_decoder_loc = model_artifacts_dir / "lstm_encoder_decoder.pt"
-    encoder_decoder = torch.load(encoder_decoder_loc)
+    encoder_decoder = torch.load(encoder_decoder_loc, weights_only=False, map_location="cpu")
     prediction_network = Predict(
         n_extracted_features=n_input_steps,
         n_external_features=4,

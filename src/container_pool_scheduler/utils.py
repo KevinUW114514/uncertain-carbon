@@ -26,6 +26,13 @@ def get_device() -> str:
     return torch.device(device)
 
 
+from typing import Tuple
+import numpy as np
+import torch
+import torch.nn as nn
+import torch.nn.functional as F
+import torch.optim as optim
+
 def train_encoder_decoder(
     device: str,
     model: nn.Module,
@@ -40,19 +47,23 @@ def train_encoder_decoder(
     dataloaders = data.get_dataloaders(datasets=datasets, train_batch_size=batch_size)
 
     loss_fn = F.mse_loss
-    losses = {}
-    losses["train"] = []
-    losses["valid"] = []
-    valid_loss = np.nan
+    losses = {"train": [], "valid": []}
 
-    epochs = range(num_epochs)
+    # Wrap epochs in a progress iterator, but DON'T overwrite num_epochs
     if use_tqdm:
         from tqdm.auto import tqdm
+        epoch_iter = tqdm(range(num_epochs), leave=True, disable=not use_tqdm)
+    else:
+        epoch_iter = range(num_epochs)
 
-        epochs = tqdm(epochs)
+    total_train = len(dataloaders["train"].dataset)
 
-    for epoch in epochs:
+    for epoch in epoch_iter:
         model.train()
+
+        running_train_loss = 0.0
+        samples_seen = 0
+
         for i, (x, y) in enumerate(dataloaders["train"]):
             x, y = x.to(device), y.to(device)
             out = model(x)
@@ -62,27 +73,34 @@ def train_encoder_decoder(
             loss.backward()
             optimiser.step()
 
-            step = i * batch_size + len(x)
-            losses["train"].append(
-                [epoch * len(dataloaders["train"].dataset) + step, loss.item()]
-            )
+            # track running average (nice stable metric per epoch)
+            bs = x.size(0)
+            running_train_loss += loss.item() * bs
+            samples_seen += bs
 
-            if use_tqdm:
-                epochs.set_description(
-                    "Epoch={0} | [{1:>5}|{2}]\ttrain. loss={3:.4f}\tvalid. loss={4:.4f}".format(
-                        epoch,
-                        step,
-                        len(dataloaders["train"].dataset),
-                        losses["train"][-1][1],
-                        valid_loss,
-                    )
-                )
+            # record step-wise loss if you want to keep your current log structure
+            step = i * batch_size + bs
+            losses["train"].append([epoch * total_train + step, loss.item()])
+
+        # end of epoch: compute validation ONCE
         valid_loss = lstm_evaluate(device, model, dataloaders["valid"])["loss"]
-        losses["valid"].append(
-            [epoch * len(dataloaders["train"].dataset) + step, valid_loss]
-        )
+        avg_train_loss = running_train_loss / max(1, samples_seen)
+
+        # store a point for the epoch (align step at end of epoch)
+        losses["valid"].append([epoch * total_train + samples_seen, valid_loss])
+
+        # update UI ONCE per epoch
+        if use_tqdm:
+            epoch_iter.set_description(f"Epoch {epoch+1}/{num_epochs}")
+            epoch_iter.set_postfix(train_loss=f"{avg_train_loss:.4f}",
+                                   valid_loss=f"{valid_loss:.4f}")
+            # epoch_iter.refresh()  # optional
+        else:
+            print(f"Epoch {epoch+1}/{num_epochs} | "
+                  f"train loss={avg_train_loss:.4f} | valid loss={valid_loss:.4f}")
 
     return model, losses
+
 
 
 def lstm_evaluate(device: str, model: nn.Module, valid_loader: DataLoader):
@@ -96,6 +114,13 @@ def lstm_evaluate(device: str, model: nn.Module, valid_loader: DataLoader):
     return {"loss": np.float32(loss.cpu().detach().numpy())}
 
 
+from typing import Tuple
+import numpy as np
+import torch
+import torch.nn as nn
+import torch.nn.functional as F
+import torch.optim as optim
+
 def train_prediction_network(
     device: str,
     datasets: dict,
@@ -104,29 +129,32 @@ def train_prediction_network(
     batch_size: int,
     learning_rate: float,
     use_tqdm: bool = True,
-):
-    dataloaders = data.get_dataloaders(datasets=datasets, train_batch_size=batch_size)
+) -> Tuple[nn.Module, dict]:
 
+    dataloaders = data.get_dataloaders(datasets=datasets, train_batch_size=batch_size)
     prediction_network.to(device)
 
     optimiser = optim.Adam(
         lr=learning_rate, params=prediction_network.model.parameters()
     )
     loss_fn = F.mse_loss
-    losses = {}
-    losses["train"] = []
-    losses["valid"] = []
-    valid_loss = np.nan
+    losses = {"train": [], "valid": []}
 
-    epochs = range(num_epochs)
     if use_tqdm:
-        from tqdm import tqdm
+        from tqdm.auto import tqdm
+        epoch_iter = tqdm(range(num_epochs), leave=True)
+    else:
+        epoch_iter = range(num_epochs)
 
-        epochs = tqdm(epochs)
+    total_train = len(dataloaders["train"].dataset)
 
-    for epoch in epochs:
+    for epoch in epoch_iter:
+        prediction_network.train()
+        running_train_loss = 0.0
+        samples_seen = 0
+
+        # ---- training loop ----
         for i, (x, y) in enumerate(dataloaders["train"]):
-            prediction_network.train()
             x, y = x.to(device), y.to(device)
             out = prediction_network((x, y[:, 0, 1:]))
 
@@ -135,29 +163,35 @@ def train_prediction_network(
             loss.backward()
             optimiser.step()
 
-            step = i * batch_size + len(x)
-            losses["train"].append(
-                [epoch * len(dataloaders["train"].dataset) + step, loss.item()]
-            )
-            if use_tqdm:
-                epochs.set_description(
-                    "Epoch={0} | [{1:>5}|{2}]\ttrain. loss={3:.4f}\tvalid. loss={4:.4f}".format(
-                        epoch,
-                        step,
-                        len(dataloaders["train"].dataset),
-                        losses["train"][-1][1],
-                        valid_loss,
-                    )
-                )
+            bs = x.size(0)
+            running_train_loss += loss.item() * bs
+            samples_seen += bs
 
+            step = i * batch_size + bs
+            losses["train"].append(
+                [epoch * total_train + step, loss.item()]
+            )
+
+        # ---- validation after each epoch ----
         valid_loss = evaluate_prediction_network(
             device, prediction_network, dataloaders["valid"]
         )
+        avg_train_loss = running_train_loss / max(1, samples_seen)
         losses["valid"].append(
-            [epoch * len(dataloaders["train"].dataset) + step, valid_loss]
+            [epoch * total_train + samples_seen, valid_loss]
         )
 
+        # ---- update tqdm ONCE per epoch ----
+        if use_tqdm:
+            epoch_iter.set_description(f"Epoch {epoch+1}/{num_epochs}")
+            epoch_iter.set_postfix(train_loss=f"{avg_train_loss:.4f}",
+                                   valid_loss=f"{valid_loss:.4f}")
+        else:
+            print(f"Epoch {epoch+1}/{num_epochs} | "
+                  f"train loss={avg_train_loss:.4f} | valid loss={valid_loss:.4f}")
+
     return prediction_network, losses
+
 
 
 def evaluate_prediction_network(
