@@ -86,6 +86,8 @@ sudo firewall-cmd --reload
 
 sudo firewall-cmd --list-all-zones
 
+# On k8s-mgr
+sudo kubeadm init --pod-network-cidr=10.52.0.0/16
 mkdir -p $HOME/.kube
 sudo cp /etc/kubernetes/admin.conf $HOME/.kube/config
 sudo chown $(id -u):$(id -g) $HOME/.kube/config
@@ -93,9 +95,6 @@ export KUBECONFIG=/etc/kubernetes/admin.conf
 
 # test
 kubectl get nodes
-
-# On k8s-mgr
-sudo kubeadm init --pod-network-cidr=10.52.0.0/16
 
 # CNI, manager only
 curl -fsSL -O https://raw.githubusercontent.com/projectcalico/calico/v3.28.0/manifests/calico.yaml
