@@ -46,12 +46,56 @@ sudo apt-get install -y bash-completion
 echo 'source <(kubectl completion bash)' >>~/.bashrc
 source ~/.bashrc
 
-# On k8s-mgr
-sudo kubeadm init --pod-network-cidr=10.52.0.0/16
+# manager
+# Kubernetes control-plane
+sudo firewall-cmd --add-port=6443/tcp --permanent         # API server
+sudo firewall-cmd --add-port=2379-2380/tcp --permanent    # etcd
+sudo firewall-cmd --add-port=10250/tcp --permanent        # kubelet
+sudo firewall-cmd --add-port=10257/tcp --permanent        # kube-controller-manager
+sudo firewall-cmd --add-port=10259/tcp --permanent        # kube-scheduler
+
+# Optional: NodePort range for services you expose that way
+sudo firewall-cmd --add-port=30000-32767/tcp --permanent
+
+# CNI-dependent (pick what matches your plugin)
+# Calico (VXLAN default): 
+sudo firewall-cmd --add-port=4789/udp --permanent         # VXLAN
+# If using Calico BGP mode instead of VXLAN:
+# sudo firewall-cmd --add-port=179/tcp --permanent
+
+# Flannel (VXLAN):
+# sudo firewall-cmd --add-port=8472/udp --permanent
+
+sudo firewall-cmd --reload
+
+
+sudo firewall-cmd --list-all-zones
+
+
+# worker:
+sudo firewall-cmd --add-port=10250/tcp --permanent
+sudo firewall-cmd --add-port=30000-32767/tcp --permanent   # NodePort (optional)
+
+# Match your CNI choice:
+# Calico VXLAN:
+sudo firewall-cmd --add-port=4789/udp --permanent
+# Flannel VXLAN:
+# sudo firewall-cmd --add-port=8472/udp --permanent
+
+sudo firewall-cmd --reload
+
+sudo firewall-cmd --list-all-zones
 
 mkdir -p $HOME/.kube
-sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+sudo cp /etc/kubernetes/admin.conf $HOME/.kube/config
 sudo chown $(id -u):$(id -g) $HOME/.kube/config
+export KUBECONFIG=/etc/kubernetes/admin.conf
+
+# test
+kubectl get nodes
+
+# On k8s-mgr
+sudo kubeadm init --pod-network-cidr=10.52.0.0/16
 
 # CNI, manager only
 curl -fsSL -O https://raw.githubusercontent.com/projectcalico/calico/v3.28.0/manifests/calico.yaml
@@ -62,12 +106,13 @@ kubectl apply -f calico.yaml
 # create token on manager
 kubeadm token create --print-join-command
 
-
 # join workers
 sudo kubeadm join <CONTROL_PLANE_IP>:6443 \
   --token <token> \
   --discovery-token-ca-cert-hash sha256:<hash>
 
+sudo kubeadm join 10.52.2.162:6443 --token 9rxaas.fhuza2ceryz1gru3 \
+        --discovery-token-ca-cert-hash sha256:5f642e1954ab1f8993bac82bb3fd22b7d09023fa86c94b863c7e07188698397d
 
 # mgr smoke test
 kubectl get nodes
