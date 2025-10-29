@@ -1,0 +1,28 @@
+# pvc-test.yaml
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: pvc-test
+spec:
+  accessModes: ["ReadWriteOnce"]
+  resources:
+    requests:
+      storage: 1Gi
+  storageClassName: local-path
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pvc-tester
+spec:
+  containers:
+  - name: sh
+    image: busybox
+    command: ["sh","-c","echo hello > /data/hello && sleep 3600"]
+    volumeMounts:
+    - name: data
+      mountPath: /data
+  volumes:
+  - name: data
+    persistentVolumeClaim:
+      claimName: pvc-test

@@ -116,3 +116,27 @@ sudo kubeadm join 10.52.2.162:6443 --token 9rxaas.fhuza2ceryz1gru3 \
 # mgr smoke test
 kubectl get nodes
 kubectl get pods -A
+
+wget https://get.helm.sh/helm-v3.19.0-linux-amd64.tar.gz
+tar -xzvf helm-v3.19.0-linux-amd64.tar.gz
+sudo mv linux-amd64/helm /usr/local/bin/helm
+helm version
+rm -rf helm-v4.0.0-beta.2-linux-amd64.tar.gz linux-amd64
+
+helm repo add openwhisk https://openwhisk.apache.org/charts
+helm repo update
+
+sudo mkdir -p /opt/local-path-provisioner
+sudo chmod 777 /opt/local-path-provisioner   # quick unblock; tighten later
+
+kubectl apply -f https://raw.githubusercontent.com/rancher/local-path-provisioner/master/deploy/local-path-storage.yaml
+
+kubectl -n local-path-storage rollout restart deploy/local-path-provisioner
+kubectl -n local-path-storage rollout status deploy/local-path-provisioner
+
+kubectl -n local-path-storage get pods
+
+kubectl apply -f pvc-test.yaml
+kubectl get pvc pvc-test       # should show STATUS=Bound
+kubectl exec -it pvc-tester -- cat /data/hello
+

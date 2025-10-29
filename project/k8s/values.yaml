@@ -1,0 +1,78 @@
+# values.yaml
+# OpenWhisk Helm configuration for a 3-node Kubernetes cluster
+# Use with: helm install ow openwhisk/openwhisk -n openwhisk -f values.yaml
+
+whisk:
+  ingress:
+    type: NodePort
+    apiHostName: my-openwhisk.local
+    apiHostPort: 31001
+    useInternally: true
+  limits:
+    actionsInvokesConcurrent: 8
+    actionsInvokesPerminute: 120
+  loadbalancer:
+    kind: ShardingContainerPoolBalancer
+  controller:
+    replicas: 1
+  invoker:
+    replicas: 2
+  runtimes:
+    languages: [nodejs, python, java]
+
+nginx:
+  httpsNodePort: 31001
+
+# CouchDB storage for actions, activations, etc.
+db:
+  external: false
+  persistence:
+    enabled: true
+    size: 5Gi
+
+# Kafka for messaging between controller and invokers
+kafka:
+  replicas: 1
+  persistence:
+    enabled: true
+    size: 5Gi
+
+# Redis for load balancer state
+redis:
+  enabled: true
+
+# Enable metrics and logs (optional)
+metrics:
+  prometheus:
+    enabled: true
+  grafana:
+    enabled: true
+
+# Kubernetes resource tuning
+invoker:
+  containerFactory:
+    impl: "docker"
+  resources:
+    requests:
+      cpu: "500m"
+      memory: "1Gi"
+    limits:
+      cpu: "2"
+      memory: "2Gi"
+
+controller:
+  resources:
+    requests:
+      cpu: "250m"
+      memory: "512Mi"
+    limits:
+      cpu: "1"
+      memory: "1Gi"
+
+# Node affinity example (optional)
+tolerations: []
+affinity: {}
+
+# Persistence volume class (adjust to your cluster)
+persistence:
+  defaultStorageClass: standard
