@@ -61,8 +61,13 @@ class VDEncoderDecoder(nn.Module):
         )
 
     def forward(self, x):
+        # input: batch_size x input_steps x dimension
         out = self.model["encoder"](x)
+        # print(f"Encoder output shape: {out.shape}")
+        # input("debug")
+        # output: batch_size x input_steps x hidden_size
 
+        # batch_size x output_steps x 1
         x_auxiliary = x[:, -self.output_steps :, [self.invocation_col]]
         decoder_input = torch.cat([out, x_auxiliary], dim=1)
 

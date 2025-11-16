@@ -14,7 +14,7 @@ SCHED_DIR = Path(__file__).resolve().parents[0]
 sys.path.append(str(PROJECT_DIR))
 sys.path.append(str(SCHED_DIR))
 
-import data
+import huawei_data as data
 from models.predict import *
 
 import utils
@@ -40,7 +40,7 @@ def main():
     n_output_steps = args.n_output_steps
     num_days = args.num_days
     trace_id = args.trace_id
-    dataset_dir = args.dataset_dir
+    dataset_path = args.dataset_dir
     model_artifacts_dir = SCHED_DIR / "model_artifacts"
     num_epochs = args.num_epochs
     batch_size = args.batch_size
@@ -50,11 +50,11 @@ def main():
     # --------------------------------------------------------------------------
     # Load datasets
     # --------------------------------------------------------------------------
-    df, split_dfs, samples = data.pipeline(
+    samples = data.pipeline(
         n_input_steps=n_input_steps,
         n_pred_steps=n_output_steps,
         hash_function=trace_id,
-        dataset_dir=dataset_dir,
+        dataset_path=dataset_path,
         num_days=num_days,
     )
 
@@ -67,12 +67,12 @@ def main():
     # --------------------------------------------------------------------------
     device = utils.get_device()
     encoder_decoder_loc = model_artifacts_dir / "lstm_encoder_decoder.pt"
-    encoder_decoder = torch.load(encoder_decoder_loc)
+    encoder_decoder = torch.load(encoder_decoder_loc, weights_only=False)
     prediction_network = Predict(
         n_extracted_features=n_input_steps,
-        n_external_features=4,
+        n_external_features=2,
         n_output_steps=n_output_steps,
-        p=0.2,
+        p=dropout_p,
         encoder_decoder=encoder_decoder,
     )
 

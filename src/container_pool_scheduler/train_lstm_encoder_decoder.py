@@ -6,7 +6,7 @@ PROJECT_DIR = Path(__file__).resolve().parents[2]
 SCHED_DIR = Path(__file__).resolve().parents[0]
 sys.path.append(str(PROJECT_DIR))
 sys.path.append(str(SCHED_DIR))
-import data
+import huawei_data as data
 from models.encoder_decoder_dropout import *
 
 import utils
@@ -32,7 +32,7 @@ def main():
     n_output_steps = args.n_output_steps
     num_days = args.num_days
     trace_id = args.trace_id
-    dataset_dir = args.dataset_dir
+    dataset_path = args.dataset_dir
     model_artifacts_dir = SCHED_DIR / "model_artifacts"
     num_epochs = args.num_epochs
     batch_size = args.batch_size
@@ -42,17 +42,20 @@ def main():
     # --------------------------------------------------------------------------
     # Load datasets
     # --------------------------------------------------------------------------
-    df, split_dfs, samples = data.pipeline(
+    samples = data.pipeline(
         n_input_steps=n_input_steps,
         n_pred_steps=n_output_steps,
         hash_function=trace_id,
-        dataset_dir=dataset_dir,
+        dataset_path=dataset_path,
         num_days=num_days,
     )
     datasets = data.get_datasets(
         samples=samples, n_input_steps=n_input_steps, pretraining=True
     )
-    encoder_in_features = datasets["train"].X.shape[-1]  # 5
+    # encoder_in_features = datasets["train"].X.shape[-1]  # 5
+    # print(f"encoder_in_features: {encoder_in_features}")
+    # input("debug")
+    encoder_in_features = 1  # 5
     device = utils.get_device()
 
     # --------------------------------------------------------------------------
