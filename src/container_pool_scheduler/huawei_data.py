@@ -151,14 +151,14 @@ def pipeline(n_input_steps: int, n_pred_steps: int,
              is_inference: bool = False
             ) -> Tuple[pd.DataFrame, dict, dict]:
     datasets = dict()
-    
+    units_per_hour = 60
     if not is_inference:
-        train_df = build_features(dataset_path=dataset_path, units_per_hour=3600, data_type="train")
-        valid_df = build_features(dataset_path=dataset_path, units_per_hour=3600, data_type="valid")
+        train_df = build_features(dataset_path=dataset_path, units_per_hour=units_per_hour, data_type="train")
+        valid_df = build_features(dataset_path=dataset_path, units_per_hour=units_per_hour, data_type="valid")
         datasets['train'] = train_df
         datasets['valid'] = valid_df
     else:
-        infer_df = build_features(dataset_path=dataset_path, units_per_hour=3600, data_type="inference")
+        infer_df = build_features(dataset_path=dataset_path, units_per_hour=units_per_hour, data_type="inference")
         datasets['inference'] = infer_df
         
     samples = create_samples(datasets, n_input_steps, n_pred_steps)

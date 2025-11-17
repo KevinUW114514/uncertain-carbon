@@ -184,7 +184,7 @@ def train_prediction_network(
     prediction_network.to(device)
 
     optimiser = optim.Adam(
-        lr=learning_rate, params=prediction_network.model.parameters()
+        lr=learning_rate, params=prediction_network.model.parameters(), weight_decay=3e-4
     )
     loss_fn = F.mse_loss
     losses = {"train": [], "valid": []}
@@ -325,7 +325,11 @@ def inference(
             (torch.abs(predicted - target) / target).sum() / len(x_hour),
         )
 
-        print(f"[inference] mean: {mean}, var: {var}, smape_rate: {smape_rate}")
+        
+        s = f"[inference] mean: {mean}, var: {var}, smape_rate: {smape_rate}"
+        with open(f"inference_results.log", "a") as f:
+            f.write(s + "\n")
+        print(s)
         # print(f"[inference] predicted: {predicted}, target: {target}, error: {predicted - target}")
 
         # print(f"x_hour.shape: {x_hour.shape}, y_hour.shape: {y_hour.shape}")
