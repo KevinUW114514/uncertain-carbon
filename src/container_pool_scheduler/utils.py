@@ -325,7 +325,11 @@ def inference(
             (torch.abs(predicted - target) / target).sum() / len(x_hour),
         )
 
-        print(f"[inference] mean: {mean}, var: {var}, smape_rate: {smape_rate}")
+        s = f"[inference] mean: {mean}, var: {var}, smape_rate: {smape_rate}"
+        with open(f"inference_results.log", "a") as f:
+            f.write(s + "\n")
+        print(s)    
+        
         # print(f"[inference] predicted: {predicted}, target: {target}, error: {predicted - target}")
 
         # print(f"x_hour.shape: {x_hour.shape}, y_hour.shape: {y_hour.shape}")
