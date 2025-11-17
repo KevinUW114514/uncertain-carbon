@@ -70,7 +70,7 @@ def main():
     encoder_decoder = torch.load(encoder_decoder_loc, weights_only=False)
     prediction_network = Predict(
         n_extracted_features=n_input_steps,
-        n_external_features=2,
+        n_external_features=48,
         n_output_steps=n_output_steps,
         p=dropout_p,
         encoder_decoder=encoder_decoder,

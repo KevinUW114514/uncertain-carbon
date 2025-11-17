@@ -36,8 +36,8 @@ import torch.optim as optim
 
 
 def calc_percentile_stats(error_rates, overall_error_rate: float):
-    print(f"max error rate: {np.max(error_rates)}")
-    percentiles = [25, 50, 75, 90, 95, 99]
+    print(f"max error rate: {np.argmax(error_rates)}: {np.max(error_rates)}")
+    percentiles = [5, 10, 25, 50, 75, 90, 95, 99]
     percentile_values = np.percentile(error_rates, percentiles)
 
     lines = []
@@ -100,6 +100,8 @@ def train_encoder_decoder(
             # print(f"x[0].shape: {x[0].shape}")
             # print(f"x.shape: {x.shape}")
             # print(f"y: {y[0]}")
+            # input("debug")
+            # print(x.shape)
             # input("debug")
             out = model(x)
             optimiser.zero_grad()
@@ -210,16 +212,22 @@ def train_prediction_network(
             x, y = x.to(device), y.to(device)
             # print(y[:, 0, 1:])
             # input("debug")
-            out = prediction_network((x, y[:, 0, 1:]))
+            # print(x[0, :-3, 1:])
+            # x = x[:, :-3, 1:]
+            # x = x.reshape(x.size(0), -1)
+            # print(x.shape)
+            # print(x[:, :, 0].shape)
+            # input("debug")
+            out = prediction_network((x[:, :, 0].unsqueeze(-1), x[:, :-3, 1:].reshape(x.size(0), -1)))
 
             optimiser.zero_grad()
-            loss = loss_fn(out, y[:, :, 0])
+            loss = loss_fn(out, y[:, 0])
             loss.backward()
             optimiser.step()
 
             bs = x.size(0)
             # running_train_loss += loss.item() * bs
-            running_train_loss += torch.abs(out - y[:, :, 0]).sum().item()
+            running_train_loss += torch.abs(out - y[:, 0]).sum().item()
             samples_seen += bs
 
             # step = i * batch_size + bs
@@ -260,9 +268,9 @@ def evaluate_prediction_network(
     for i, (x, y, _, _, _) in enumerate(valid_loader):
         break
     x, y = x.to(device), y.to(device)
-    out = model((x, y[:, 0, 1:]))
+    out = model((x[:, :, 0].unsqueeze(-1), x[:, :-3, 1:].reshape(x.size(0), -1)))
     # loss = loss_fn(out, y[:, :, 0])
-    loss = torch.abs(out - y[:, :, 0]).sum() / samples_seen * 100
+    loss = torch.abs(out - y[:, 0]).sum() / samples_seen * 100
 
     return np.float32(loss.cpu().detach().numpy())
 
@@ -316,7 +324,8 @@ def inference(
         target = (
             ((y[:, 0, 0] + x[:, 0, 0]) * train_sigma + train_mu).to(device).squeeze(-1)
         )
-        error_rates = torch.abs(predicted - target) / target * 100
+        print(f"predicted_shape: {predicted.shape}, target_shape: {target.shape}")
+        error_rates = torch.abs(predicted - target) / target
         # error_rate = (torch.abs(predicted - target) / target).sum() / len(x_hour) * 100
         error_rate = smape(target.cpu().numpy(), predicted.cpu().numpy())
 
@@ -325,7 +334,7 @@ def inference(
             (torch.abs(predicted - target) / target).sum() / len(x_hour),
         )
 
-        print(f"[inference] mean: {mean}, var: {var}, error_rate: {error_rate}")
+        print(f"[inference] mean: {mean}, var: {var}, smape: {error_rate}")
         # print(f"[inference] predicted: {predicted}, target: {target}, error: {predicted - target}")
 
         # print(f"x_hour.shape: {x_hour.shape}, y_hour.shape: {y_hour.shape}")
