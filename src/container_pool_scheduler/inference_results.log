@@ -1,9 +1,9 @@
 ================================================================================
-Overall mean error rate: 55.48%
+Overall mean error rate: 50.68%
 ================================================================================
-25th percentile error rate: 971.05%
-50th percentile error rate: 2172.43%
-75th percentile error rate: 5158.78%
-90th percentile error rate: 9868.01%
-95th percentile error rate: 15832.43%
-99th percentile error rate: 96187.30%
+25th percentile error rate: 9.72%
+50th percentile error rate: 21.25%
+75th percentile error rate: 46.38%
+90th percentile error rate: 86.51%
+95th percentile error rate: 136.41%
+99th percentile error rate: 878.30%

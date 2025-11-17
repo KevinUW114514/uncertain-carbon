@@ -12,10 +12,10 @@ python train_lstm_encoder_decoder.py \
 # 100 rps: 
 python train_lstm_encoder_decoder.py \
     --n_input_steps 24 \
-    --n_output_steps 1 \
+    --n_output_steps 2 \
     --num_days 7 \
     --num_epochs 350 \
-    --batch_size 16 \
+    --batch_size 32 \
     --learning_rate 3e-4 \
     --variational_dropout_p 0.1 \
     --trace_id "e896d7ac37090135a8a1c812e6d3a9a64d15e7806332d189935e9e593fab6322" \

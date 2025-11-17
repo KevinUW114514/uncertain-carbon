@@ -80,10 +80,14 @@ def build_features(dataset_path: str, units_per_hour: int, data_type: str) -> pd
         file_name = "valid.csv"
     elif data_type == "inference":
         file_name = "test.csv"
-        
+    
     df = pd.read_csv(dataset_path + file_name)
-    data = df.copy().sort_values("time").reset_index(drop=True)
+    if data_type == "train":
+        df_valid = pd.read_csv(dataset_path + "valid.csv")
+        df = pd.concat([df, df_valid], ignore_index=True)
 
+    data = df.copy().sort_values("time").reset_index(drop=True)
+    
     hours_since_0 = (data["time"] // units_per_hour).astype(int)
     data["hour_of_day"] = (hours_since_0 % 24).astype(int)
     data["day_of_week"] = ((hours_since_0 // 24) % 7).astype(int)
@@ -188,7 +192,7 @@ def create_samples(datasets: dict, n_input_steps: int, n_pred_steps: int) -> dic
         # 1) Drop rows with NaN or 0 in invocation_rate
         df_clean = dataset.copy()
         df_clean = df_clean.dropna(subset=["hour_invocation"])
-        df_clean = df_clean[df_clean["hour_invocation"] != 0]
+        df_clean = df_clean[df_clean["hour_invocation"] >= 10]
 
         # If all rows were dropped, return an empty tensor
         if df_clean.empty:
