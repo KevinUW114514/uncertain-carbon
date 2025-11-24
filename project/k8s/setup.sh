@@ -61,7 +61,7 @@ sudo firewall-cmd --add-port=30000-32767/tcp --permanent
 # Calico (VXLAN default): 
 sudo firewall-cmd --add-port=4789/udp --permanent         # VXLAN
 # If using Calico BGP mode instead of VXLAN:
-# sudo firewall-cmd --add-port=179/tcp --permanent
+sudo firewall-cmd --add-port=179/tcp --permanent          # BGP
 
 # Flannel (VXLAN):
 # sudo firewall-cmd --add-port=8472/udp --permanent
@@ -79,6 +79,8 @@ sudo firewall-cmd --add-port=30000-32767/tcp --permanent   # NodePort (optional)
 # Match your CNI choice:
 # Calico VXLAN:
 sudo firewall-cmd --add-port=4789/udp --permanent
+# If using Calico BGP mode instead of VXLAN:
+sudo firewall-cmd --add-port=179/tcp --permanent          # BGP
 # Flannel VXLAN:
 # sudo firewall-cmd --add-port=8472/udp --permanent
 
@@ -87,19 +89,24 @@ sudo firewall-cmd --reload
 sudo firewall-cmd --list-all-zones
 
 # On k8s-mgr
-sudo kubeadm init --pod-network-cidr=10.52.0.0/16
+sudo kubeadm init --pod-network-cidr=192.168.0.0/16
 mkdir -p $HOME/.kube
 sudo cp /etc/kubernetes/admin.conf $HOME/.kube/config
 sudo chown $(id -u):$(id -g) $HOME/.kube/config
 export KUBECONFIG=/etc/kubernetes/admin.conf
 
+kubeadm join 10.191.131.3:6443 --token 4a8gpc.gsdmu0cikrvd3pn2 \
+        --discovery-token-ca-cert-hash sha256:5f75de8a8024141916af1ff105b511d84e8851fce17b29beefeec542e0da7c7f 
+
 # test
 kubectl get nodes
 
 # CNI, manager only
-curl -fsSL -O https://raw.githubusercontent.com/projectcalico/calico/v3.28.0/manifests/calico.yaml
+# Download Calico manifest
+# curl -fsSL -O https://raw.githubusercontent.com/projectcalico/calico/v3.28.0/manifests/calico.yaml
+
 # replace the default 192.168.0.0/16 pool with 10.52.0.0/16
-sed -i 's#192\.168\.0\.0/16#10.52.0.0/16#g' calico.yaml
+# sed -i 's#192\.168\.0\.0/16#10.52.0.0/16#g' calico.yaml
 kubectl apply -f calico.yaml
 
 # create token on manager
@@ -109,9 +116,6 @@ kubeadm token create --print-join-command
 sudo kubeadm join <CONTROL_PLANE_IP>:6443 \
   --token <token> \
   --discovery-token-ca-cert-hash sha256:<hash>
-
-sudo kubeadm join 10.52.2.162:6443 --token 9rxaas.fhuza2ceryz1gru3 \
-        --discovery-token-ca-cert-hash sha256:5f642e1954ab1f8993bac82bb3fd22b7d09023fa86c94b863c7e07188698397d
 
 # mgr smoke test
 kubectl get nodes
@@ -139,4 +143,5 @@ kubectl -n local-path-storage get pods
 kubectl apply -f pvc-test.yaml
 kubectl get pvc pvc-test       # should show STATUS=Bound
 kubectl exec -it pvc-tester -- cat /data/hello
-
+kubectl delete pod pvc-tester
+kubectl get pods
