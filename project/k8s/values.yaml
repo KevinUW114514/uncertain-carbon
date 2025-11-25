@@ -5,23 +5,23 @@
 whisk:
   ingress:
     type: NodePort
-    apiHostName: my-openwhisk.local
-    apiHostPort: 31001
-    useInternally: true
+    apiHostName: ow-nginx
+    apiHostPort: 443
+    useInternally: false
   limits:
     actionsInvokesConcurrent: 8
     actionsInvokesPerminute: 120
-  loadbalancer:
-    kind: ShardingContainerPoolBalancer
-  controller:
-    replicas: 1
-  invoker:
-    replicas: 1
+  # loadbalancer:
+  #   kind: ShardingContainerPoolBalancer
+  # controller:
+  #   replicas: 1
+  # invoker:
+  #   replicas: 1
   # runtimes:
   #   languages: [nodejs, python, java]
 
-nginx:
-  httpsNodePort: 31001
+# nginx:
+#   httpsNodePort: 31001
 
 # CouchDB storage for actions, activations, etc.
 db:
@@ -36,7 +36,7 @@ kafka:
   replicas: 1
   persistence:
     enabled: true
-    size: 5Gi
+    size: 512Mi
     storageClass: "local-path"
 
 providers:
@@ -58,6 +58,8 @@ metrics:
 invoker:
   containerFactory:
     impl: "kubernetes"
+  prewarm:
+      - kind: "python:3.11"
   resources:
     requests:
       cpu: "500m"
