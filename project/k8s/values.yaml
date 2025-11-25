@@ -16,9 +16,9 @@ whisk:
   controller:
     replicas: 1
   invoker:
-    replicas: 2
-  runtimes:
-    languages: [nodejs, python, java]
+    replicas: 1
+  # runtimes:
+  #   languages: [nodejs, python, java]
 
 nginx:
   httpsNodePort: 31001
@@ -29,6 +29,7 @@ db:
   persistence:
     enabled: true
     size: 5Gi
+    storageClass: "local-path"
 
 # Kafka for messaging between controller and invokers
 kafka:
@@ -36,6 +37,11 @@ kafka:
   persistence:
     enabled: true
     size: 5Gi
+    storageClass: "local-path"
+
+providers:
+  alarm:
+    enabled: false
 
 # Redis for load balancer state
 redis:
@@ -51,7 +57,7 @@ metrics:
 # Kubernetes resource tuning
 invoker:
   containerFactory:
-    impl: "docker"
+    impl: "kubernetes"
   resources:
     requests:
       cpu: "500m"
@@ -70,9 +76,9 @@ controller:
       memory: "1Gi"
 
 # Node affinity example (optional)
-tolerations: []
-affinity: {}
+# tolerations: []
+# affinity: {}
 
 # Persistence volume class (adjust to your cluster)
 persistence:
-  defaultStorageClass: standard
+  defaultStorageClass: local-path

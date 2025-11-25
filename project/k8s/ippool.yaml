@@ -1,0 +1,20 @@
+apiVersion: crd.projectcalico.org/v1
+kind: IPPool
+metadata:
+  annotations:
+    projectcalico.org/metadata: '{"creationTimestamp":"2025-11-25T05:30:03Z"}'
+  creationTimestamp: "2025-11-25T05:30:03Z"
+  generation: 1
+  name: default-ipv4-ippool
+  resourceVersion: "688"
+  uid: f4643d97-eaf0-449d-91e4-4c6c0dc3b19e
+spec:
+  allowedUses:
+  - Workload
+  - Tunnel
+  blockSize: 26
+  cidr: 192.168.0.0/16
+  ipipMode: Never
+  natOutgoing: true
+  nodeSelector: all()
+  vxlanMode: Always

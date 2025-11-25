@@ -20,6 +20,7 @@ sudo sysctl --system
 
 sudo apt-get update
 sudo apt-get install -y containerd
+sudo apt-get install -y net-tools
 # Create default config and switch to systemd cgroups
 sudo mkdir -p /etc/containerd
 containerd config default | sudo tee /etc/containerd/config.toml >/dev/null
@@ -45,6 +46,32 @@ sudo apt-mark hold kubelet kubeadm kubectl
 sudo apt-get install -y bash-completion
 echo 'source <(kubectl completion bash)' >>~/.bashrc
 source ~/.bashrc
+
+sudo systemctl stop firewalld
+sudo systemctl disable firewalld
+
+# docker
+sudo apt update
+sudo apt install ca-certificates curl
+sudo install -m 0755 -d /etc/apt/keyrings
+sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+sudo chmod a+r /etc/apt/keyrings/docker.asc
+
+# Add the repository to Apt sources:
+sudo tee /etc/apt/sources.list.d/docker.sources <<EOF
+Types: deb
+URIs: https://download.docker.com/linux/ubuntu
+Suites: $(. /etc/os-release && echo "${UBUNTU_CODENAME:-$VERSION_CODENAME}")
+Components: stable
+Signed-By: /etc/apt/keyrings/docker.asc
+EOF
+
+sudo apt update
+
+sudo apt install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+
+sudo chmod 777 /var/run/docker.sock
+# end of docker
 
 # manager
 # Kubernetes control-plane
@@ -89,14 +116,15 @@ sudo firewall-cmd --reload
 sudo firewall-cmd --list-all-zones
 
 # On k8s-mgr
+sudo kubeadm reset -f
 sudo kubeadm init --pod-network-cidr=192.168.0.0/16
 mkdir -p $HOME/.kube
 sudo cp /etc/kubernetes/admin.conf $HOME/.kube/config
 sudo chown $(id -u):$(id -g) $HOME/.kube/config
 export KUBECONFIG=/etc/kubernetes/admin.conf
 
-kubeadm join 10.191.131.3:6443 --token 4a8gpc.gsdmu0cikrvd3pn2 \
-        --discovery-token-ca-cert-hash sha256:5f75de8a8024141916af1ff105b511d84e8851fce17b29beefeec542e0da7c7f 
+kubeadm join 10.191.131.3:6443 --token ujsmyk.bjuzr96aszywjg0c \
+    --discovery-token-ca-cert-hash sha256:02c1f427bf6986dbd7a40de8e5cbcfb4a5977f9b183d1d2bb39b5e2193880075 
 
 # test
 kubectl get nodes
@@ -125,7 +153,7 @@ wget https://get.helm.sh/helm-v3.19.0-linux-amd64.tar.gz
 tar -xzvf helm-v3.19.0-linux-amd64.tar.gz
 sudo mv linux-amd64/helm /usr/local/bin/helm
 helm version
-rm -rf helm-v4.0.0-beta.2-linux-amd64.tar.gz linux-amd64
+rm -rf helm-v3.19.0-linux-amd64.tar.tar.gz linux-amd64
 
 helm repo add openwhisk https://openwhisk.apache.org/charts
 helm repo update
@@ -145,3 +173,14 @@ kubectl get pvc pvc-test       # should show STATUS=Bound
 kubectl exec -it pvc-tester -- cat /data/hello
 kubectl delete pod pvc-tester
 kubectl get pods
+
+kubectl label node intel-worker1 openwhisk-role=invoker
+kubectl label node intel-manager openwhisk-role=core
+
+kubectl annotate storageclass local-path storageclass.kubernetes.io/is-default-class="true" --overwrite
+
+kubectl create namespace openwhisk
+helm install ow openwhisk/openwhisk -n openwhisk -f values.yaml
+helm uninstall ow -n openwhisk
+kubectl delete namespace openwhisk
+kubectl get pods -n openwhisk

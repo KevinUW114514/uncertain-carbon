@@ -1,0 +1,222 @@
+# mycluster.yaml
+# Values file for deploying Apache OpenWhisk to Kubernetes via Helm
+
+# --------------------------------------------------------------------
+# 1. Basic cluster configuration
+# --------------------------------------------------------------------
+whisk:
+  ingress:
+    # Set to true if you have an Ingress controller (nginx, traefik, etc.)
+    # If you prefer LoadBalancer service directly, you can disable this.
+    enabled: true
+
+    # Public hostname you will use to access the API
+    apiHostName: openwhisk.example.com
+    apiHostPort: 443
+    apiHostProto: https
+
+    # Ingress class (depends on your ingress controller)
+    ingressName: ow-ingress
+    type: nginx
+    annotations:
+      kubernetes.io/ingress.class: "nginx"
+      nginx.ingress.kubernetes.io/ssl-redirect: "true"
+
+    # TLS configuration – either via existing secret or cert-manager
+    tls:
+      enabled: true
+      # If you already have a TLS secret:
+      secretName: openwhisk-tls
+      # If using cert-manager, you might add:
+      # annotations:
+      #   cert-manager.io/cluster-issuer: "letsencrypt-prod"
+
+  # System namespace name; `"guest"` is default for sample deployments
+  controller:
+    serviceType: ClusterIP
+    replicas: 1
+
+  # Limits / sizes for actions
+  limits:
+    time:
+      min: "100ms"
+      max: "5m"
+      std: "1m"
+    memory:
+      min: "128m"
+      max: "512m"
+      std: "256m"
+    concurrentInvocations:
+      max: 1000
+
+providers:
+  alarm:
+    enabled: false
+
+# --------------------------------------------------------------------
+# 2. Authentication / system keys
+# --------------------------------------------------------------------
+# Admin and guest auth keys.
+# For production, generate your own random keys and keep them secret.
+auth:
+  system:
+    # "whisk.system" key
+    key: "23BC1C1D-23BC-1C1D-23BC-1C1D23BC1C1D"
+  guest:
+    # "guest" key
+    key: "ABCD1234-ABCD-1234-ABCD-1234ABCD1234"
+
+# --------------------------------------------------------------------
+# 3. Persistence: CouchDB
+# --------------------------------------------------------------------
+db:
+  type: CouchDB
+  external: false
+
+  # In-cluster CouchDB configuration (good for dev/test, not HA)
+  couchdb:
+    volumeSize: 5Gi
+    persistence:
+      enabled: true
+      storageClass: ""
+    # default user/pass; change for production
+    admin:
+      username: "whisk_admin"
+      password: "whisk_admin_password"
+    # database name prefix
+    dbPrefix: "whisk_"
+
+# --------------------------------------------------------------------
+# 4. Messaging: Kafka + Zookeeper
+# --------------------------------------------------------------------
+kafka:
+  # Use bundled Kafka for dev/testing
+  enabled: true
+  replicas: 1
+  persistence:
+    enabled: true
+    size: 5Gi
+    storageClass: "local-path"
+
+zookeeper:
+  enabled: true
+  replicas: 1
+  persistence:
+    enabled: true
+    size: 5Gi
+    storageClass: "local-path"
+
+# --------------------------------------------------------------------
+# 5. Invokers (where actions run)
+# --------------------------------------------------------------------
+invoker:
+  replicas: 2
+
+  # Container runtime resource limits for action containers
+  containerFactory:
+    impl: "kubernetes"
+    # If using containerd / cri-o runtimes, see chart docs for options
+
+  # Node selector / tolerations, if you want invokers on specific nodes
+  nodeSelector: {}
+  # Example:
+  # nodeSelector:
+  #   openwhisk-invoker: "true"
+
+  resources:
+    requests:
+      cpu: "500m"
+      memory: "512Mi"
+    limits:
+      cpu: "2"
+      memory: "2Gi"
+
+# --------------------------------------------------------------------
+# 6. Kubernetes service exposure
+# --------------------------------------------------------------------
+nginx:
+  # Use bundled nginx for API endpoint if you do not already have ingress
+  enabled: true
+  httpsNodePort: 32443
+  httpNodePort: 32080
+  type: LoadBalancer  # or NodePort if your environment requires it
+
+  # Optional: static IP, annotations, etc., for cloud environments
+  serviceAnnotations: {}
+  # Example for AWS NLB:
+  # serviceAnnotations:
+  #   service.beta.kubernetes.io/aws-load-balancer-type: "nlb"
+
+# --------------------------------------------------------------------
+# 7. Metrics / logging
+# --------------------------------------------------------------------
+metrics:
+  prometheus:
+    enabled: false
+  grafana:
+    enabled: false
+
+logs:
+  logLevel: INFO
+  dockerLogging:
+    enabled: true
+
+# --------------------------------------------------------------------
+# 8. Runtimes (languages)
+# --------------------------------------------------------------------
+runtimes:
+  languages:
+    - name: nodejs
+      default: true
+      versions:
+        - name: "nodejs:18"
+          image: "openwhisk/action-nodejs-v18:latest"
+          deprecated: false
+
+    - name: python
+      default: false
+      versions:
+        - name: "python:3.11"
+          image: "openwhisk/action-python-v3.11:latest"
+          deprecated: false
+
+    - name: java
+      default: false
+      versions:
+        - name: "java:11"
+          image: "openwhisk/action-java-v11:latest"
+          deprecated: false
+
+# # --------------------------------------------------------------------
+# # 9. Docker registry (optional, for private images)
+# # --------------------------------------------------------------------
+# docker:
+#   registry:
+#     # If you push custom action images to a private registry, configure here
+#     # Example:
+#     # host: "my-registry.example.com"
+#     # username: "myuser"
+#     # password: "mypassword"
+#     host: ""
+#     username: ""
+#     password: ""
+
+# --------------------------------------------------------------------
+# 10. Misc Helm / deployment settings
+# --------------------------------------------------------------------
+k8s:
+  # Namespace where OpenWhisk will be installed (must exist)
+  namespace: openwhisk
+
+  # Image pull secrets if you use private registries
+  imagePullSecrets: []
+  # - name: my-regcred
+
+  # Tolerations / node affinity globally
+  tolerations: []
+  nodeSelector: {}
+
+# Reduce resource usage in dev / small cluster
+limits:
+  invokers:
+    concurrentInvocations: 100
