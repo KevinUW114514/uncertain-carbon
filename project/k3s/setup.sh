@@ -20,6 +20,11 @@ sudo sysctl --system
 sudo systemctl stop firewalld
 sudo systemctl disable firewalld
 
+# bash completion (helpful!)
+sudo apt-get install -y bash-completion
+echo 'source <(kubectl completion bash)' >>~/.bashrc
+source ~/.bashrc
+
 curl -sfL https://get.k3s.io | sudo sh -
 sudo cat /var/lib/rancher/k3s/server/node-token
 
@@ -28,8 +33,45 @@ mkdir -p ~/.kube
 sudo cp /etc/rancher/k3s/k3s.yaml ~/.kube/config
 sudo chown $USER:$USER ~/.kube/config
 
+sudo apt update
+sudo apt install -y bash-completion net-tools
+
 kubectl get pods -A
+
+# workers:
+curl -sfL https://get.k3s.io | \
+  sudo sh -s - agent \
+    --server https://10.52.2.108:6443 \
+    --token "K10c35200070edd4ece9a470003a2c7168f68bd372c9273077330309cfb499aed8d::server:4bed334070fe056829e35c9522d97bab"
+
 kubectl get nodes
+
+curl -sSL https://cli.openfaas.com | sudo -E sh
+curl -sSLf https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash
+
+# We recommend creating two namespaces, one for the 'OpenFaaS core services' and one for the 'functions'.
+kubectl apply -f https://raw.githubusercontent.com/openfaas/faas-netes/master/namespaces.yml
+
+helm repo add openfaas https://openfaas.github.io/faas-netes/
+
+helm repo update \
+ && helm upgrade openfaas \
+  --install openfaas/openfaas \
+  --namespace openfaas
+
+PASSWORD=$(kubectl -n openfaas get secret basic-auth -o jsonpath="{.data.basic-auth-password}" | base64 --decode) && \
+echo "OpenFaaS admin password: $PASSWORD"
+
+kubectl get svc -n openfaas gateway-external -o wide
+CLUSTER_IP=10.52.2.108
+echo $CLUSTER_IP
+OPENFAAS_URL=$CLUSTER_IP:31112
+export OPENFAAS_URL=$OPENFAAS_URL
+echo "export OPENFAAS_URL=$OPENFAAS_URL" >> ~/.bashrc
+source ~/.bashrc
+
+echo -n $PASSWORD | faas-cli login -g $OPENFAAS_URL -u admin --password-stdin
+
 
 sudo apt-get update
 sudo apt-get install -y containerd
