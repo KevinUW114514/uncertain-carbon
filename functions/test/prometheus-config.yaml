@@ -1,0 +1,81 @@
+apiVersion: v1
+data:
+  alert.rules.yml: |
+    groups:
+      - name: openfaas
+        rules:
+        - alert: APIHighInvocationRate
+          expr: sum(rate(gateway_function_invocation_total{code="200"}[10s])) BY (function_name) > 5
+          for: 2s
+          labels:
+            service: gateway
+            severity: major
+          annotations:
+            description: High invocation total on "{{$labels.function_name}}"
+            summary: High invocation total on "{{$labels.function_name}}"
+  prometheus.yml: |
+    global:
+      scrape_interval:     1s
+      evaluation_interval: 1s
+      external_labels:
+          monitor: 'faas-monitor'
+
+    rule_files:
+        - 'alert.rules.yml'
+
+    alerting:
+      alertmanagers:
+      - static_configs:
+        - targets:
+          - alertmanager:9093
+
+    scrape_configs:
+      - job_name: 'prometheus'
+        scrape_interval: 10s
+        static_configs:
+          - targets: ['localhost:9090']
+
+      - job_name: 'openfaas-pods'
+        scrape_interval: 5s
+        honor_labels: false
+        kubernetes_sd_configs:
+          - role: pod
+            namespaces:
+              names:
+                - openfaas
+        relabel_configs:
+        - action: labelmap
+          regex: __meta_kubernetes_pod_label_(.+)
+        - source_labels: [__meta_kubernetes_namespace]
+          action: replace
+          target_label: kubernetes_namespace
+        - source_labels: [__meta_kubernetes_pod_name]
+          action: replace
+          target_label: kubernetes_pod_name
+        - source_labels: [__meta_kubernetes_pod_annotation_prometheus_io_scrape]
+          action: keep
+          regex: true
+        - source_labels: [__address__, __meta_kubernetes_pod_annotation_prometheus_io_port]
+          action: replace
+          regex: ([^:]+)(?::\d+)?;(\d+)
+          replacement: $1:$2
+          target_label: __address__
+kind: ConfigMap
+metadata:
+  annotations:
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"v1","data":{"alert.rules.yml":"groups:\n  - name: openfaas\n    rules:\n    - alert: APIHighInvocationRate\n      expr: sum(rate(gateway_function_invocation_total{code=\"200\"}[3s])) BY (function_name) \u003e 5\n      for: 2s\n      labels:\n        service: gateway\n        severity: major\n      annotations:\n        description: High invocation total on \"{{$labels.function_name}}\"\n        summary: High invocation total on \"{{$labels.function_name}}\"\n","prometheus.yml":"global:\n  scrape_interval:     1s\n  evaluation_interval: 1s\n  external_labels:\n      monitor: 'faas-monitor'\n\nrule_files:\n    - 'alert.rules.yml'\n\nalerting:\n  alertmanagers:\n  - static_configs:\n    - targets:\n      - alertmanager:9093\n\nscrape_configs:\n  - job_name: 'prometheus'\n    scrape_interval: 10s\n    static_configs:\n      - targets: ['localhost:9090']\n\n  - job_name: 'openfaas-pods'\n    scrape_interval: 5s\n    honor_labels: false\n    kubernetes_sd_configs:\n      - role: pod\n        namespaces:\n          names:\n            - openfaas\n    relabel_configs:\n    - action: labelmap\n      regex: __meta_kubernetes_pod_label_(.+)\n    - source_labels: [__meta_kubernetes_namespace]\n      action: replace\n      target_label: kubernetes_namespace\n    - source_labels: [__meta_kubernetes_pod_name]\n      action: replace\n      target_label: kubernetes_pod_name\n    - source_labels: [__meta_kubernetes_pod_annotation_prometheus_io_scrape]\n      action: keep\n      regex: true\n    - source_labels: [__address__, __meta_kubernetes_pod_annotation_prometheus_io_port]\n      action: replace\n      regex: ([^:]+)(?::\\d+)?;(\\d+)\n      replacement: $1:$2\n      target_label: __address__\n"},"kind":"ConfigMap","metadata":{"annotations":{"meta.helm.sh/release-name":"openfaas","meta.helm.sh/release-namespace":"openfaas"},"creationTimestamp":"2025-12-11T15:55:29Z","labels":{"app":"openfaas","app.kubernetes.io/managed-by":"Helm","chart":"openfaas-14.2.132","component":"prometheus-config","heritage":"Helm","release":"openfaas"},"name":"prometheus-config","namespace":"openfaas","resourceVersion":"2746","uid":"d25bffd5-645f-45c9-a742-a8596760f348"}}
+    meta.helm.sh/release-name: openfaas
+    meta.helm.sh/release-namespace: openfaas
+  creationTimestamp: "2025-12-11T15:55:29Z"
+  labels:
+    app: openfaas
+    app.kubernetes.io/managed-by: Helm
+    chart: openfaas-14.2.132
+    component: prometheus-config
+    heritage: Helm
+    release: openfaas
+  name: prometheus-config
+  namespace: openfaas
+  resourceVersion: "2855"
+  uid: d25bffd5-645f-45c9-a742-a8596760f348

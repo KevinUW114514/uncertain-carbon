@@ -28,7 +28,8 @@ source ~/.bashrc
 curl -sfL https://get.k3s.io | sudo sh -
 sudo cat /var/lib/rancher/k3s/server/node-token
 
-sudo chmod 644 /etc/rancher/k3s/k3s.yaml
+sudo chmod 777 /etc/rancher/k3s/k3s.yaml
+
 mkdir -p ~/.kube
 sudo cp /etc/rancher/k3s/k3s.yaml ~/.kube/config
 sudo chown $USER:$USER ~/.kube/config
@@ -42,8 +43,9 @@ kubectl get pods -A
 curl -sfL https://get.k3s.io | \
   sudo sh -s - agent \
     --server https://10.52.2.108:6443 \
-    --token "K10c35200070edd4ece9a470003a2c7168f68bd372c9273077330309cfb499aed8d::server:4bed334070fe056829e35c9522d97bab"
+    --token "K103b0b11b947418327eba9e397c68e27255a864a55b07fffd7ff0edadf4eed1376::server:afbe48d958e93bb8edc34651414a0d24"
 
+sudo chmod 777 /etc/rancher/k3s/k3s.yaml
 kubectl get nodes
 
 curl -sSL https://cli.openfaas.com | sudo -E sh
@@ -70,7 +72,47 @@ export OPENFAAS_URL=$OPENFAAS_URL
 echo "export OPENFAAS_URL=$OPENFAAS_URL" >> ~/.bashrc
 source ~/.bashrc
 
-echo -n $PASSWORD | faas-cli login -g $OPENFAAS_URL -u admin --password-stdin
+echo -n $PASSWORD | faas-cli login -g $OPENFAAS_URL -u admin -p $PASSWORD
+
+# Download the latest release
+VERSION=$(curl -s https://api.github.com/repos/containerd/nerdctl/releases/latest | grep tag_name | cut -d '"' -f 4)
+curl -LO https://github.com/containerd/nerdctl/releases/download/${VERSION}/nerdctl-${VERSION#v}-linux-amd64.tar.gz
+
+# Extract
+sudo tar zxvf nerdctl-*-linux-amd64.tar.gz -C /usr/local/bin nerdctl
+nerdctl login docker.io
+
+kubectl patch svc prometheus -n openfaas \
+  -p '{"spec": {"type": "NodePort", "ports": [{"port": 9090, "targetPort": 9090, "nodePort": 30091}]}}'
+
+curl -u admin:$PASSWORD \
+  http://10.52.2.108:31112/system/functions
+
+kubectl patch svc alertmanager -n openfaas \
+  -p '{"spec": {"type": "NodePort", "ports": [{"port": 9093, "targetPort": 9093, "nodePort": 30093}]}}'
+
+# conda
+wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
+bash Miniconda3-latest-Linux-x86_64.sh
+source ~/.bashrc
+conda create -n faas python=3.10
+conda activate faas
+python -m pip install locust
+
+# autoscaler rule
+kubectl -n openfaas get configmap prometheus-config -o yaml > prometheus-config.yaml
+kubectl -n openfaas apply -f prometheus-config.yaml
+kubectl -n openfaas delete pod -l app=prometheus
+kubectl -n openfaas get pods
+
+kubectl -n openfaas-fn get deploy my-function -o yaml > hu.yaml
+
+kubectl -n openfaas get configmap alertmanager-config -o yaml > alertmanager-config.yaml
+kubectl -n openfaas apply -f alertmanager-config.yaml
+kubectl -n openfaas delete pod -l app=alertmanager
+kubectl -n openfaas get pods
+
+
 
 
 sudo apt-get update
