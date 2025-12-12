@@ -72,11 +72,19 @@ fission pkg create --sourcearchive demo-src-pkg.zip \
 fission fn create --name hello \
   --env python --src demo-src-pkg.zip  --entrypoint "hello.main" --buildcmd "./build.sh"
 
-fission fn create --name hello --pkg demo --entrypoint "hello.main" --env python
+fission fn create --name hello --pkg demo --entrypoint "hello.main" --env python --rpp 20
+
+fission fn create --name hello --pkg demo --entrypoint "hello.main" --env python --executortype newdeploy --minscale 1 --maxscale 5 --mincpu 100 --maxcpu 200 --minmemory 128 --maxmemory 256
 
 fission route create --name hello-route \
   --function hello --url /hello --method POST
 
+
+# patch for HPA behavior
+kubectl patch hpa newdeploy-hello-default-8318-2ef751adfb1f \
+  --type=merge \
+  --patch-file hpa-behavior-patch.yaml
+kubectl get horizontalpodautoscalers -o yaml
 
 # fission cli
 curl -Lo fission https://github.com/fission/fission/releases/download/v1.21.0/fission-v1.21.0-linux-amd64 \

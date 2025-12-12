@@ -47,10 +47,10 @@ class ServerlessUser(FastHttpUser):
     @task
     def test(self):
 
-        action_params = {}
+        action_params = {"name": "Locust"}
         # url_params = {"blocking": "true", "result": "false"}
         response = self.client.post(
-            url="/function/my-function",
+            url="/hello",
             # params=url_params,
             json=action_params,
             # auth=(USER_PASS[0], USER_PASS[1]),
