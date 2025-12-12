@@ -48,8 +48,79 @@ curl -sfL https://get.k3s.io | \
 sudo chmod 777 /etc/rancher/k3s/k3s.yaml
 kubectl get nodes
 
-curl -sSL https://cli.openfaas.com | sudo -E sh
+# helm
 curl -sSLf https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash
+
+# fission
+export FISSION_NAMESPACE="fission"
+kubectl create namespace $FISSION_NAMESPACE
+kubectl create -k "github.com/fission/fission/crds/v1?ref=v1.21.0"
+helm repo add fission-charts https://fission.github.io/fission-charts/
+helm repo update
+helm install --version v1.21.0 --namespace $FISSION_NAMESPACE fission \
+  --set serviceType=NodePort,routerServiceType=NodePort,logger.enableSecurityContext=true \
+  fission-charts/fission-all
+
+
+fission env create --name python --version 3 --poolsize 1 \
+  --image ghcr.io/fission/python-env --mincpu 100 --maxcpu 200 \
+  --minmemory 128 --maxmemory 256 --builder ghcr.io/fission/python-builder
+
+fission pkg create --sourcearchive demo-src-pkg.zip \
+  --env python --buildcmd "./build.sh" --name demo
+
+fission fn create --name hello \
+  --env python --src demo-src-pkg.zip  --entrypoint "hello.main" --buildcmd "./build.sh"
+
+fission fn create --name hello --pkg demo --entrypoint "hello.main" --env python
+
+fission route create --name hello-route \
+  --function hello --url /hello --method POST
+
+
+# fission cli
+curl -Lo fission https://github.com/fission/fission/releases/download/v1.21.0/fission-v1.21.0-linux-amd64 \
+    && chmod +x fission && sudo mv fission /usr/local/bin/
+fission version
+
+# prometheus
+# 1) Add Prometheus community charts and update
+helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+helm repo update
+
+# 2) Create a namespace for metrics stack
+kubectl create namespace monitoring
+
+# 3) Install kube-prometheus-stack into `monitoring` namespace
+helm install prometheus prometheus-community/kube-prometheus-stack -n monitoring
+
+kubectl -n monitoring get svc | grep prometheus
+
+base64 <<EOF
+canary:
+  enabled: true
+  prometheusSvc: "http://prometheus-kube-prometheus-prometheus.monitoring.svc.cluster.local:9090"
+EOF
+
+kubectl -n fission patch configmap feature-config \
+    -p '{"data":{"config.yaml":"Y2FuYXJ5OgogIGVuYWJsZWQ6IHRydWUKICBwcm9tZXRoZXVzU3ZjOiAiaHR0cDovL3Byb21ldGhldXMta3ViZS1wcm9tZXRoZXVzLXByb21ldGhldXMubW9uaXRvcmluZy5zdmMuY2x1c3Rlci5sb2NhbDo5MDkwIgo="}}'
+
+kubectl -n fission get deploy -o name | xargs -n1 kubectl -n fission rollout restart
+
+
+# kn-cli
+curl -SLf https://github.com/knative/client/releases/download/knative-v1.20.0/kn-linux-amd64 > kn
+sudo chmod 777 kn
+sudo mv kn /usr/local/bin/kn
+kn version
+
+# kn-operator
+curl -SLf https://github.com/knative-extensions/kn-plugin-operator/releases/download/knative-v1.7.1/kn-operator-linux-amd64 > kn-operator
+sudo chmod 777 kn-operator
+mkdir -p ~/.config/kn/plugins
+cp kn-operator ~/.config/kn/plugins
+kn operator -h
+
 
 # We recommend creating two namespaces, one for the 'OpenFaaS core services' and one for the 'functions'.
 kubectl apply -f https://raw.githubusercontent.com/openfaas/faas-netes/master/namespaces.yml
