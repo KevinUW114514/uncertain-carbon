@@ -1,0 +1,11 @@
+gevent
+flask
+numpy
+scikit-learn
+scipy
+Pillow
+cloudant
+minio
+gunicorn
+ultralytics
+opencv-python

@@ -1,0 +1,14 @@
+version: 1.0
+provider:
+  name: openfaas
+  gateway: http://10.52.2.108:31112
+functions:
+  my-function:
+    lang: python3-http
+    handler: ./my-function
+    image: kevinjieuw114514/my-function:latest
+    labels:
+      # com.openfaas.scale.min: "2"
+      # com.openfaas.scale.max: "5"
+      com.openfaas.scale.factor: "20"
+

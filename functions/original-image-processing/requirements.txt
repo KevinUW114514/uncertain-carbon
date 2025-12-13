@@ -1,0 +1,8 @@
+gevent
+flask
+numpy
+scikit-learn
+scipy
+Pillow
+cloudant
+minio

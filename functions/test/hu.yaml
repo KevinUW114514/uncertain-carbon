@@ -2,19 +2,19 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   annotations:
-    deployment.kubernetes.io/revision: "1"
+    deployment.kubernetes.io/revision: "2"
     prometheus.io.scrape: "false"
   creationTimestamp: "2025-12-11T02:49:03Z"
-  generation: 8
+  generation: 9
   labels:
     faas_function: my-function
   name: my-function
   namespace: openfaas-fn
-  resourceVersion: "44166"
+  resourceVersion: "45194"
   uid: 7b5da500-891a-4dee-aebd-a5f85dd78187
 spec:
   progressDeadlineSeconds: 600
-  replicas: 1
+  replicas: 2
   revisionHistoryLimit: 10
   selector:
     matchLabels:
@@ -30,7 +30,11 @@ spec:
         prometheus.io.scrape: "false"
       creationTimestamp: null
       labels:
+        com.openfaas.scale.factor: "20"
+        com.openfaas.scale.max: "5"
+        com.openfaas.scale.min: "2"
         faas_function: my-function
+        uid: "914817792"
       name: my-function
     spec:
       containers:
@@ -75,21 +79,21 @@ spec:
       securityContext: {}
       terminationGracePeriodSeconds: 30
 status:
-  availableReplicas: 1
+  availableReplicas: 2
   conditions:
-  - lastTransitionTime: "2025-12-11T02:49:03Z"
-    lastUpdateTime: "2025-12-11T02:49:08Z"
-    message: ReplicaSet "my-function-fb578ddb5" has successfully progressed.
-    reason: NewReplicaSetAvailable
-    status: "True"
-    type: Progressing
-  - lastTransitionTime: "2025-12-11T05:02:50Z"
-    lastUpdateTime: "2025-12-11T05:02:50Z"
+  - lastTransitionTime: "2025-12-11T05:38:48Z"
+    lastUpdateTime: "2025-12-11T05:38:48Z"
     message: Deployment has minimum availability.
     reason: MinimumReplicasAvailable
     status: "True"
     type: Available
-  observedGeneration: 8
-  readyReplicas: 1
-  replicas: 1
-  updatedReplicas: 1
+  - lastTransitionTime: "2025-12-11T02:49:03Z"
+    lastUpdateTime: "2025-12-11T05:38:51Z"
+    message: ReplicaSet "my-function-58cd498ff9" has successfully progressed.
+    reason: NewReplicaSetAvailable
+    status: "True"
+    type: Progressing
+  observedGeneration: 9
+  readyReplicas: 2
+  replicas: 2
+  updatedReplicas: 2

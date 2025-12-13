@@ -61,7 +61,7 @@ helm install --version v1.21.0 --namespace $FISSION_NAMESPACE fission \
   --set serviceType=NodePort,routerServiceType=NodePort,logger.enableSecurityContext=true \
   fission-charts/fission-all
 
-
+# functions
 fission env create --name python --version 3 --poolsize 1 \
   --image ghcr.io/fission/python-env --mincpu 100 --maxcpu 200 \
   --minmemory 128 --maxmemory 256 --builder ghcr.io/fission/python-builder
@@ -69,12 +69,17 @@ fission env create --name python --version 3 --poolsize 1 \
 fission pkg create --sourcearchive demo-src-pkg.zip \
   --env python --buildcmd "./build.sh" --name demo
 
+fission pkg info --name ml-image-processing
+
 fission fn create --name hello \
   --env python --src demo-src-pkg.zip  --entrypoint "hello.main" --buildcmd "./build.sh"
 
-fission fn create --name hello --pkg demo --entrypoint "hello.main" --env python --rpp 20
+fission fn create --name hello --pkg demo --entrypoint "hello.main" \
+  --env python --con 5 --idletimeout 5 --rpp 10
 
-fission fn create --name hello --pkg demo --entrypoint "hello.main" --env python --executortype newdeploy --minscale 1 --maxscale 5 --mincpu 100 --maxcpu 200 --minmemory 128 --maxmemory 256
+fission fn create --name hello --pkg demo --entrypoint "hello.main" --env python \
+  --executortype newdeploy \--minscale 1 --maxscale 5 --mincpu 1000 \
+  --maxcpu 2000 --minmemory 256 --maxmemory 512
 
 fission route create --name hello-route \
   --function hello --url /hello --method POST
@@ -85,6 +90,50 @@ kubectl patch hpa newdeploy-hello-default-8318-2ef751adfb1f \
   --type=merge \
   --patch-file hpa-behavior-patch.yaml
 kubectl get horizontalpodautoscalers -o yaml
+
+
+# minio
+helm repo add minio https://charts.min.io/
+helm repo update
+
+kubectl create namespace minio
+
+helm install minio minio/minio \
+  --namespace minio \
+  -f minio-values.yaml
+
+wget https://dl.min.io/client/mc/release/linux-amd64/mc
+chmod +x mc
+./mc --help
+sudo mv mc /usr/local/bin/mc
+
+export POD_NAME=$(kubectl get pods --namespace minio -l "release=minio" -o jsonpath="{.items[0].metadata.name}")
+kubectl port-forward $POD_NAME 9000 --namespace minio
+export MC_HOST_minio-local=http://$(kubectl get secret --namespace minio minio \
+  -o jsonpath="{.data.rootUser}" | base64 --decode):$(kubectl get secret \
+  --namespace minio minio -o jsonpath="{.data.rootPassword}" | \
+  base64 --decode)@localhost:9000
+
+kubectl port-forward -n minio svc/minio-console 9001
+
+kubectl patch svc minio -n minio \
+  -p '{"spec": {"type": "NodePort", "ports": [{"port": 9000, "targetPort": 9000, "nodePort": 30900}]}}'
+
+kubectl patch svc minio-console -n minio \
+  -p '{"spec": {"type": "NodePort", "ports": [{"port": 9001, "targetPort": 9001, "nodePort": 30901}]}}'
+
+mc alias set myminio http://localhost:30900 minioadmin minioadmin123
+mc mb myminio/images
+mc ls myminio
+
+## image
+wget https://huggingface.co/datasets/poloclub/diffusiondb/resolve/main/images/part-000001.zip?download=true
+mkdir images
+unzip part-000001.zip?download=true -d images
+rm images/part-000001.json
+
+mc cp images/* myminio/images
+
 
 # fission cli
 curl -Lo fission https://github.com/fission/fission/releases/download/v1.21.0/fission-v1.21.0-linux-amd64 \

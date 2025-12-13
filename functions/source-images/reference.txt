@@ -1,0 +1,3 @@
+https://huggingface.co/datasets/poloclub/diffusiondb
+https://huggingface.co/datasets/poloclub/diffusiondb/blob/main/images/part-000001.zip
+wget https://huggingface.co/datasets/poloclub/diffusiondb/resolve/main/images/part-000001.zip?download=true
