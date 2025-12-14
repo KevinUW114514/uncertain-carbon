@@ -55,7 +55,7 @@ def minio_put_image(minio_client, bucket_name, image_name, image, timestamps):
 # else:
 #     endpoint = "localhost:9000"
 
-endpoint = "http://minio.minio.svc.cluster.local:9000"
+endpoint = "minio.minio.svc.cluster.local:9000"
 
 # @app.post("/ping")
 def main():
@@ -73,8 +73,8 @@ def main():
     }
     timestamps["main_start_ms"] = get_timestamp_ms()
     # timestamps["main_start_ms"] = os.times()
-    access_key = "ROOTNAME"
-    secret_key = "CHANGEME123"
+    access_key = "minioadmin"
+    secret_key = "minioadmin123"
     bucket_name = "images"
     if minio_client is None:
         minio_client = Minio(

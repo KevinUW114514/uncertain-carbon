@@ -61,6 +61,7 @@ def update_resource_config(functions: list, resource_config: list):
 
 
 def sample_cost(x: torch.tensor):
+    # x is random tensor
     resource_config = from_x_to_resource_config(x)
     hash_id = hash(str(resource_config))
     if hash_id not in CACHE:

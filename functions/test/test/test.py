@@ -47,10 +47,10 @@ class ServerlessUser(FastHttpUser):
     @task
     def test(self):
 
-        action_params = {"name": "Locust"}
+        action_params = {"image_name": "000b7b74-0a22-4d0c-b717-e240fdc5d555.png"}
         # url_params = {"blocking": "true", "result": "false"}
         response = self.client.post(
-            url="/hello",
+            url="/ml-image-processing",
             # params=url_params,
             json=action_params,
             # auth=(USER_PASS[0], USER_PASS[1]),

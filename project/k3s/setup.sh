@@ -61,6 +61,31 @@ helm install --version v1.21.0 --namespace $FISSION_NAMESPACE fission \
   --set serviceType=NodePort,routerServiceType=NodePort,logger.enableSecurityContext=true \
   fission-charts/fission-all
 
+helm upgrade fission fission-charts/fission-all --namespace fission -f prometheus.yaml
+
+## prothemus
+export METRICS_NAMESPACE="monitoring"
+kubectl create namespace $METRICS_NAMESPACE
+helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+helm repo update
+helm install prometheus prometheus-community/kube-prometheus-stack -n monitoring
+helm upgrade fission fission-charts/fission-all --namespace fission -f fission-prometheus.yaml
+helm upgrade prometheus prometheus-community/kube-prometheus-stack \
+  -n monitoring \
+  -f prometheus.yaml
+kubectl -n monitoring patch svc prometheus-kube-prometheus-prometheus \
+  --type='merge' \
+  -p '{
+    "spec": {
+      "type": "NodePort",
+      "ports": [
+        { "name": "http-web", "port": 9090, "targetPort": 9090, "nodePort": 30990, "protocol": "TCP" },
+        { "name": "http-reloader", "port": 8080, "targetPort": 8080, "protocol": "TCP" }
+      ]
+    }
+  }'
+  
+
 # functions
 fission env create --name python --version 3 --poolsize 1 \
   --image ghcr.io/fission/python-env --mincpu 100 --maxcpu 200 \
@@ -85,11 +110,34 @@ fission route create --name hello-route \
   --function hello --url /hello --method POST
 
 
+# ml-image-processing
+zip -jr image-processing.zip ./image_processing
+fission pkg update --sourcearchive image-processing.zip \
+  --env python --buildcmd "./build.sh" --name ml-image-processing
+fission pkg info --name ml-image-processing
+fission fn delete --name ml-image-processing
+fission fn create --name ml-image-processing --pkg ml-image-processing --entrypoint "ml_image_processing.main" --env python \
+  --executortype newdeploy \--minscale 1 --maxscale 5 --mincpu 1000 \
+  --maxcpu 2000 --minmemory 256 --maxmemory 512
+
 # patch for HPA behavior
-kubectl patch hpa newdeploy-hello-default-8318-2ef751adfb1f \
+kubectl patch hpa newdeploy-ml-image-processing-default-9b09-b29e7fe83013 \
   --type=merge \
   --patch-file hpa-behavior-patch.yaml
 kubectl get horizontalpodautoscalers -o yaml
+
+sudo mkdir -p /etc/rancher/k3s
+sudo vim /etc/rancher/k3s/config.yaml
+## kube-controller-manager-arg:
+##  - "horizontal-pod-autoscaler-sync-period=10s"
+sudo systemctl restart k3s
+ps aux | grep kube-controller-manager | grep horizontal-pod-autoscaler-sync-period
+
+kubectl -n kube-system edit deployment metrics-server
+# - --metric-resolution=15s
+kubectl -n kube-system rollout restart deployment metrics-server
+kubectl -n kube-system rollout status deployment metrics-serve
+
 
 
 # minio
@@ -119,12 +167,29 @@ kubectl port-forward -n minio svc/minio-console 9001
 kubectl patch svc minio -n minio \
   -p '{"spec": {"type": "NodePort", "ports": [{"port": 9000, "targetPort": 9000, "nodePort": 30900}]}}'
 
+kubectl -n monitoring patch svc prometheus-kube-prometheus-prometheus \
+  --type='merge' \
+  -p '{
+    "spec": {
+      "type": "NodePort",
+      "ports": [
+        { "name": "http-web", "port": 9090, "targetPort": 9090, "nodePort": 30990, "protocol": "TCP" },
+        { "name": "http-reloader", "port": 8080, "targetPort": 8080, "protocol": "TCP" }
+      ]
+    }
+  }'
+
 kubectl patch svc minio-console -n minio \
   -p '{"spec": {"type": "NodePort", "ports": [{"port": 9001, "targetPort": 9001, "nodePort": 30901}]}}'
 
 mc alias set myminio http://localhost:30900 minioadmin minioadmin123
 mc mb myminio/images
 mc ls myminio
+mc ls myminio/images
+
+
+kubectl patch svc minio -n minio \
+  -p '{"spec": {"type": "NodePort", "ports": [{"port": 9000, "targetPort": 9000, "nodePort": 30900}]}}'
 
 ## image
 wget https://huggingface.co/datasets/poloclub/diffusiondb/resolve/main/images/part-000001.zip?download=true

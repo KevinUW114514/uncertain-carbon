@@ -6,8 +6,12 @@ spec:
         - type: Percent
           value: 10
           periodSeconds: 10
+        - type: Pods
+          value: 2
+          periodSeconds: 10
+      selectPolicy: Max
     scaleDown:
-      stabilizationWindowSeconds: 15
+      stabilizationWindowSeconds: 10
       policies:
         - type: Percent
           value: 10

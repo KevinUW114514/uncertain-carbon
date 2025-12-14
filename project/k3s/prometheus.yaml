@@ -1,0 +1,4 @@
+prometheus:
+  prometheusSpec:
+    scrapeInterval: 4s
+    scrapeTimeout: 3s
