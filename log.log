@@ -1,0 +1,233 @@
+Name:        ml-object-detection
+Environment: pytorch
+Status:      succeeded
+Build Logs:
+Looking in indexes: https://pypi.org/simple, https://download.pytorch.org/whl/cpu
+Collecting torch (from -r /packages/ml-object-detection-7jlsuh/requirements-torch.txt (line 3))
+  Downloading https://download.pytorch.org/whl/cpu/torch-2.9.1%2Bcpu-cp311-cp311-manylinux_2_28_x86_64.whl.metadata (29 kB)
+Collecting torchvision (from -r /packages/ml-object-detection-7jlsuh/requirements-torch.txt (line 4))
+  Downloading https://download.pytorch.org/whl/cpu/torchvision-0.24.1%2Bcpu-cp311-cp311-manylinux_2_28_x86_64.whl.metadata (5.9 kB)
+Collecting torchaudio (from -r /packages/ml-object-detection-7jlsuh/requirements-torch.txt (line 5))
+  Downloading https://download.pytorch.org/whl/cpu/torchaudio-2.9.1%2Bcpu-cp311-cp311-manylinux_2_28_x86_64.whl.metadata (6.9 kB)
+Collecting gevent (from -r /packages/ml-object-detection-7jlsuh/requirements-base.txt (line 1))
+  Downloading gevent-25.9.1-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (14 kB)
+Collecting flask (from -r /packages/ml-object-detection-7jlsuh/requirements-base.txt (line 2))
+  Downloading flask-3.1.2-py3-none-any.whl.metadata (3.2 kB)
+Collecting numpy (from -r /packages/ml-object-detection-7jlsuh/requirements-base.txt (line 3))
+  Downloading numpy-2.3.5-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (62 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 62.1/62.1 kB 3.8 MB/s eta 0:00:00
+Collecting scikit-learn (from -r /packages/ml-object-detection-7jlsuh/requirements-base.txt (line 4))
+  Downloading scikit_learn-1.8.0-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (11 kB)
+Collecting scipy (from -r /packages/ml-object-detection-7jlsuh/requirements-base.txt (line 5))
+  Downloading scipy-1.16.3-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (62 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 62.0/62.0 kB 18.6 MB/s eta 0:00:00
+Collecting Pillow (from -r /packages/ml-object-detection-7jlsuh/requirements-base.txt (line 6))
+  Downloading pillow-12.0.0-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (8.8 kB)
+Collecting cloudant (from -r /packages/ml-object-detection-7jlsuh/requirements-base.txt (line 7))
+  Downloading cloudant-2.15.0-py3-none-any.whl.metadata (5.8 kB)
+Collecting minio (from -r /packages/ml-object-detection-7jlsuh/requirements-base.txt (line 8))
+  Downloading minio-7.2.20-py3-none-any.whl.metadata (6.5 kB)
+Collecting gunicorn (from -r /packages/ml-object-detection-7jlsuh/requirements-base.txt (line 9))
+  Downloading gunicorn-23.0.0-py3-none-any.whl.metadata (4.4 kB)
+Collecting ultralytics (from -r /packages/ml-object-detection-7jlsuh/requirements-base.txt (line 10))
+  Downloading ultralytics-8.3.237-py3-none-any.whl.metadata (37 kB)
+Collecting opencv-python-headless (from -r /packages/ml-object-detection-7jlsuh/requirements-base.txt (line 11))
+  Downloading opencv_python_headless-4.12.0.88-cp37-abi3-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (19 kB)
+Collecting filelock (from torch->-r /packages/ml-object-detection-7jlsuh/requirements-torch.txt (line 3))
+  Downloading filelock-3.20.0-py3-none-any.whl.metadata (2.1 kB)
+Collecting typing-extensions>=4.10.0 (from torch->-r /packages/ml-object-detection-7jlsuh/requirements-torch.txt (line 3))
+  Downloading https://download.pytorch.org/whl/typing_extensions-4.15.0-py3-none-any.whl.metadata (3.3 kB)
+Collecting sympy>=1.13.3 (from torch->-r /packages/ml-object-detection-7jlsuh/requirements-torch.txt (line 3))
+  Downloading sympy-1.14.0-py3-none-any.whl.metadata (12 kB)
+Collecting networkx>=2.5.1 (from torch->-r /packages/ml-object-detection-7jlsuh/requirements-torch.txt (line 3))
+  Downloading networkx-3.6.1-py3-none-any.whl.metadata (6.8 kB)
+Collecting jinja2 (from torch->-r /packages/ml-object-detection-7jlsuh/requirements-torch.txt (line 3))
+  Downloading https://download.pytorch.org/whl/jinja2-3.1.6-py3-none-any.whl.metadata (2.9 kB)
+Collecting fsspec>=0.8.5 (from torch->-r /packages/ml-object-detection-7jlsuh/requirements-torch.txt (line 3))
+  Downloading fsspec-2025.12.0-py3-none-any.whl.metadata (10 kB)
+Collecting greenlet>=3.2.2 (from gevent->-r /packages/ml-object-detection-7jlsuh/requirements-base.txt (line 1))
+  Downloading greenlet-3.3.0-cp311-cp311-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl.metadata (4.1 kB)
+Collecting zope.event (from gevent->-r /packages/ml-object-detection-7jlsuh/requirements-base.txt (line 1))
+  Downloading zope_event-6.1-py3-none-any.whl.metadata (5.1 kB)
+Collecting zope.interface (from gevent->-r /packages/ml-object-detection-7jlsuh/requirements-base.txt (line 1))
+  Downloading zope_interface-8.1.1-cp311-cp311-manylinux1_x86_64.manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_5_x86_64.whl.metadata (45 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 45.2/45.2 kB 37.1 MB/s eta 0:00:00
+Collecting blinker>=1.9.0 (from flask->-r /packages/ml-object-detection-7jlsuh/requirements-base.txt (line 2))
+  Downloading blinker-1.9.0-py3-none-any.whl.metadata (1.6 kB)
+Collecting click>=8.1.3 (from flask->-r /packages/ml-object-detection-7jlsuh/requirements-base.txt (line 2))
+  Downloading click-8.3.1-py3-none-any.whl.metadata (2.6 kB)
+Collecting itsdangerous>=2.2.0 (from flask->-r /packages/ml-object-detection-7jlsuh/requirements-base.txt (line 2))
+  Downloading itsdangerous-2.2.0-py3-none-any.whl.metadata (1.9 kB)
+Collecting markupsafe>=2.1.1 (from flask->-r /packages/ml-object-detection-7jlsuh/requirements-base.txt (line 2))
+  Downloading markupsafe-3.0.3-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (2.7 kB)
+Collecting werkzeug>=3.1.0 (from flask->-r /packages/ml-object-detection-7jlsuh/requirements-base.txt (line 2))
+  Downloading werkzeug-3.1.4-py3-none-any.whl.metadata (4.0 kB)
+Collecting joblib>=1.3.0 (from scikit-learn->-r /packages/ml-object-detection-7jlsuh/requirements-base.txt (line 4))
+  Downloading joblib-1.5.2-py3-none-any.whl.metadata (5.6 kB)
+Collecting threadpoolctl>=3.2.0 (from scikit-learn->-r /packages/ml-object-detection-7jlsuh/requirements-base.txt (line 4))
+  Downloading threadpoolctl-3.6.0-py3-none-any.whl.metadata (13 kB)
+Collecting requests<3.0.0,>=2.7.0 (from cloudant->-r /packages/ml-object-detection-7jlsuh/requirements-base.txt (line 7))
+  Downloading requests-2.32.5-py3-none-any.whl.metadata (4.9 kB)
+Collecting argon2-cffi (from minio->-r /packages/ml-object-detection-7jlsuh/requirements-base.txt (line 8))
+  Downloading argon2_cffi-25.1.0-py3-none-any.whl.metadata (4.1 kB)
+Collecting certifi (from minio->-r /packages/ml-object-detection-7jlsuh/requirements-base.txt (line 8))
+  Downloading certifi-2025.11.12-py3-none-any.whl.metadata (2.5 kB)
+Collecting pycryptodome (from minio->-r /packages/ml-object-detection-7jlsuh/requirements-base.txt (line 8))
+  Downloading pycryptodome-3.23.0-cp37-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (3.4 kB)
+Collecting urllib3 (from minio->-r /packages/ml-object-detection-7jlsuh/requirements-base.txt (line 8))
+  Downloading urllib3-2.6.2-py3-none-any.whl.metadata (6.6 kB)
+Collecting packaging (from gunicorn->-r /packages/ml-object-detection-7jlsuh/requirements-base.txt (line 9))
+  Downloading packaging-25.0-py3-none-any.whl.metadata (3.3 kB)
+Collecting matplotlib>=3.3.0 (from ultralytics->-r /packages/ml-object-detection-7jlsuh/requirements-base.txt (line 10))
+  Downloading matplotlib-3.10.8-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (52 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 52.8/52.8 kB 101.6 MB/s eta 0:00:00
+Collecting opencv-python>=4.6.0 (from ultralytics->-r /packages/ml-object-detection-7jlsuh/requirements-base.txt (line 10))
+  Downloading opencv_python-4.12.0.88-cp37-abi3-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (19 kB)
+Collecting pyyaml>=5.3.1 (from ultralytics->-r /packages/ml-object-detection-7jlsuh/requirements-base.txt (line 10))
+  Downloading pyyaml-6.0.3-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (2.4 kB)
+Collecting psutil>=5.8.0 (from ultralytics->-r /packages/ml-object-detection-7jlsuh/requirements-base.txt (line 10))
+  Downloading psutil-7.1.3-cp36-abi3-manylinux2010_x86_64.manylinux_2_12_x86_64.manylinux_2_28_x86_64.whl.metadata (23 kB)
+Collecting polars>=0.20.0 (from ultralytics->-r /packages/ml-object-detection-7jlsuh/requirements-base.txt (line 10))
+  Downloading polars-1.36.1-py3-none-any.whl.metadata (10 kB)
+Collecting ultralytics-thop>=2.0.18 (from ultralytics->-r /packages/ml-object-detection-7jlsuh/requirements-base.txt (line 10))
+  Downloading ultralytics_thop-2.0.18-py3-none-any.whl.metadata (14 kB)
+Collecting numpy (from -r /packages/ml-object-detection-7jlsuh/requirements-base.txt (line 3))
+  Downloading numpy-2.2.6-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (62 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 62.0/62.0 kB 28.2 MB/s eta 0:00:00
+Collecting contourpy>=1.0.1 (from matplotlib>=3.3.0->ultralytics->-r /packages/ml-object-detection-7jlsuh/requirements-base.txt (line 10))
+  Downloading contourpy-1.3.3-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (5.5 kB)
+Collecting cycler>=0.10 (from matplotlib>=3.3.0->ultralytics->-r /packages/ml-object-detection-7jlsuh/requirements-base.txt (line 10))
+  Downloading cycler-0.12.1-py3-none-any.whl.metadata (3.8 kB)
+Collecting fonttools>=4.22.0 (from matplotlib>=3.3.0->ultralytics->-r /packages/ml-object-detection-7jlsuh/requirements-base.txt (line 10))
+  Downloading fonttools-4.61.1-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (114 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 114.2/114.2 kB 22.1 MB/s eta 0:00:00
+Collecting kiwisolver>=1.3.1 (from matplotlib>=3.3.0->ultralytics->-r /packages/ml-object-detection-7jlsuh/requirements-base.txt (line 10))
+  Downloading kiwisolver-1.4.9-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (6.3 kB)
+Collecting pyparsing>=3 (from matplotlib>=3.3.0->ultralytics->-r /packages/ml-object-detection-7jlsuh/requirements-base.txt (line 10))
+  Downloading pyparsing-3.2.5-py3-none-any.whl.metadata (5.0 kB)
+Collecting python-dateutil>=2.7 (from matplotlib>=3.3.0->ultralytics->-r /packages/ml-object-detection-7jlsuh/requirements-base.txt (line 10))
+  Downloading python_dateutil-2.9.0.post0-py2.py3-none-any.whl.metadata (8.4 kB)
+Collecting polars-runtime-32==1.36.1 (from polars>=0.20.0->ultralytics->-r /packages/ml-object-detection-7jlsuh/requirements-base.txt (line 10))
+  Downloading polars_runtime_32-1.36.1-cp39-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (1.5 kB)
+Collecting charset_normalizer<4,>=2 (from requests<3.0.0,>=2.7.0->cloudant->-r /packages/ml-object-detection-7jlsuh/requirements-base.txt (line 7))
+  Downloading charset_normalizer-3.4.4-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (37 kB)
+Collecting idna<4,>=2.5 (from requests<3.0.0,>=2.7.0->cloudant->-r /packages/ml-object-detection-7jlsuh/requirements-base.txt (line 7))
+  Downloading idna-3.11-py3-none-any.whl.metadata (8.4 kB)
+Collecting mpmath<1.4,>=1.1.0 (from sympy>=1.13.3->torch->-r /packages/ml-object-detection-7jlsuh/requirements-torch.txt (line 3))
+  Downloading mpmath-1.3.0-py3-none-any.whl.metadata (8.6 kB)
+Collecting argon2-cffi-bindings (from argon2-cffi->minio->-r /packages/ml-object-detection-7jlsuh/requirements-base.txt (line 8))
+  Downloading argon2_cffi_bindings-25.1.0-cp39-abi3-manylinux_2_26_x86_64.manylinux_2_28_x86_64.whl.metadata (7.4 kB)
+Collecting six>=1.5 (from python-dateutil>=2.7->matplotlib>=3.3.0->ultralytics->-r /packages/ml-object-detection-7jlsuh/requirements-base.txt (line 10))
+  Downloading six-1.17.0-py2.py3-none-any.whl.metadata (1.7 kB)
+Collecting cffi>=1.0.1 (from argon2-cffi-bindings->argon2-cffi->minio->-r /packages/ml-object-detection-7jlsuh/requirements-base.txt (line 8))
+  Downloading cffi-2.0.0-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (2.6 kB)
+Collecting pycparser (from cffi>=1.0.1->argon2-cffi-bindings->argon2-cffi->minio->-r /packages/ml-object-detection-7jlsuh/requirements-base.txt (line 8))
+  Downloading pycparser-2.23-py3-none-any.whl.metadata (993 bytes)
+Downloading https://download.pytorch.org/whl/cpu/torch-2.9.1%2Bcpu-cp311-cp311-manylinux_2_28_x86_64.whl (184.5 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 184.5/184.5 MB 437.4 MB/s eta 0:00:00
+Downloading https://download.pytorch.org/whl/cpu/torchvision-0.24.1%2Bcpu-cp311-cp311-manylinux_2_28_x86_64.whl (1.9 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.9/1.9 MB 409.8 MB/s eta 0:00:00
+Downloading https://download.pytorch.org/whl/cpu/torchaudio-2.9.1%2Bcpu-cp311-cp311-manylinux_2_28_x86_64.whl (494 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 494.9/494.9 kB 425.4 MB/s eta 0:00:00
+Downloading gevent-25.9.1-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (2.1 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 2.1/2.1 MB 46.0 MB/s eta 0:00:00
+Downloading flask-3.1.2-py3-none-any.whl (103 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 103.3/103.3 kB 358.9 MB/s eta 0:00:00
+Downloading scikit_learn-1.8.0-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (9.1 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 9.1/9.1 MB 204.1 MB/s eta 0:00:00
+Downloading scipy-1.16.3-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (35.9 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 35.9/35.9 MB 205.1 MB/s eta 0:00:00
+Downloading pillow-12.0.0-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (7.0 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 7.0/7.0 MB 122.0 MB/s eta 0:00:00
+Downloading cloudant-2.15.0-py3-none-any.whl (80 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 80.5/80.5 kB 385.7 MB/s eta 0:00:00
+Downloading minio-7.2.20-py3-none-any.whl (93 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 93.8/93.8 kB 287.5 MB/s eta 0:00:00
+Downloading gunicorn-23.0.0-py3-none-any.whl (85 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 85.0/85.0 kB 326.2 MB/s eta 0:00:00
+Downloading ultralytics-8.3.237-py3-none-any.whl (1.2 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.2/1.2 MB 241.4 MB/s eta 0:00:00
+Downloading opencv_python_headless-4.12.0.88-cp37-abi3-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (54.0 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 54.0/54.0 MB 206.5 MB/s eta 0:00:00
+Downloading numpy-2.2.6-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (16.8 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 16.8/16.8 MB 194.7 MB/s eta 0:00:00
+Downloading blinker-1.9.0-py3-none-any.whl (8.5 kB)
+Downloading click-8.3.1-py3-none-any.whl (108 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 108.3/108.3 kB 241.6 MB/s eta 0:00:00
+Downloading fsspec-2025.12.0-py3-none-any.whl (201 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 201.4/201.4 kB 267.4 MB/s eta 0:00:00
+Downloading greenlet-3.3.0-cp311-cp311-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl (590 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 590.2/590.2 kB 277.3 MB/s eta 0:00:00
+Downloading itsdangerous-2.2.0-py3-none-any.whl (16 kB)
+Downloading https://download.pytorch.org/whl/jinja2-3.1.6-py3-none-any.whl (134 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 134.9/134.9 kB 220.4 MB/s eta 0:00:00
+Downloading joblib-1.5.2-py3-none-any.whl (308 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 308.4/308.4 kB 265.0 MB/s eta 0:00:00
+Downloading markupsafe-3.0.3-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (22 kB)
+Downloading matplotlib-3.10.8-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (8.7 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 8.7/8.7 MB 194.3 MB/s eta 0:00:00
+Downloading networkx-3.6.1-py3-none-any.whl (2.1 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 2.1/2.1 MB 275.7 MB/s eta 0:00:00
+Downloading opencv_python-4.12.0.88-cp37-abi3-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (67.0 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 67.0/67.0 MB 213.5 MB/s eta 0:00:00
+Downloading packaging-25.0-py3-none-any.whl (66 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 66.5/66.5 kB 236.6 MB/s eta 0:00:00
+Downloading polars-1.36.1-py3-none-any.whl (802 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 802.4/802.4 kB 303.5 MB/s eta 0:00:00
+Downloading polars_runtime_32-1.36.1-cp39-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (44.5 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 44.5/44.5 MB 93.1 MB/s eta 0:00:00
+Downloading psutil-7.1.3-cp36-abi3-manylinux2010_x86_64.manylinux_2_12_x86_64.manylinux_2_28_x86_64.whl (263 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 263.3/263.3 kB 220.9 MB/s eta 0:00:00
+Downloading pyyaml-6.0.3-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (806 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 806.6/806.6 kB 231.4 MB/s eta 0:00:00
+Downloading requests-2.32.5-py3-none-any.whl (64 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 64.7/64.7 kB 190.9 MB/s eta 0:00:00
+Downloading certifi-2025.11.12-py3-none-any.whl (159 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 159.4/159.4 kB 212.0 MB/s eta 0:00:00
+Downloading sympy-1.14.0-py3-none-any.whl (6.3 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 6.3/6.3 MB 174.5 MB/s eta 0:00:00
+Downloading threadpoolctl-3.6.0-py3-none-any.whl (18 kB)
+Downloading https://download.pytorch.org/whl/typing_extensions-4.15.0-py3-none-any.whl (44 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 44.6/44.6 kB 108.1 MB/s eta 0:00:00
+Downloading ultralytics_thop-2.0.18-py3-none-any.whl (28 kB)
+Downloading urllib3-2.6.2-py3-none-any.whl (131 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 131.2/131.2 kB 165.8 MB/s eta 0:00:00
+Downloading werkzeug-3.1.4-py3-none-any.whl (224 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 225.0/225.0 kB 176.8 MB/s eta 0:00:00
+Downloading argon2_cffi-25.1.0-py3-none-any.whl (14 kB)
+Downloading filelock-3.20.0-py3-none-any.whl (16 kB)
+Downloading pycryptodome-3.23.0-cp37-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (2.3 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 2.3/2.3 MB 184.2 MB/s eta 0:00:00
+Downloading zope_event-6.1-py3-none-any.whl (6.4 kB)
+Downloading zope_interface-8.1.1-cp311-cp311-manylinux1_x86_64.manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_5_x86_64.whl (259 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 259.9/259.9 kB 178.3 MB/s eta 0:00:00
+Downloading charset_normalizer-3.4.4-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (151 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 151.6/151.6 kB 170.3 MB/s eta 0:00:00
+Downloading contourpy-1.3.3-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (355 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 355.2/355.2 kB 338.6 MB/s eta 0:00:00
+Downloading cycler-0.12.1-py3-none-any.whl (8.3 kB)
+Downloading fonttools-4.61.1-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (5.0 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 5.0/5.0 MB 200.8 MB/s eta 0:00:00
+Downloading idna-3.11-py3-none-any.whl (71 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 71.0/71.0 kB 297.1 MB/s eta 0:00:00
+Downloading kiwisolver-1.4.9-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (1.4 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.4/1.4 MB 158.2 MB/s eta 0:00:00
+Downloading mpmath-1.3.0-py3-none-any.whl (536 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 536.2/536.2 kB 168.9 MB/s eta 0:00:00
+Downloading pyparsing-3.2.5-py3-none-any.whl (113 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 113.9/113.9 kB 149.5 MB/s eta 0:00:00
+Downloading python_dateutil-2.9.0.post0-py2.py3-none-any.whl (229 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 229.9/229.9 kB 160.9 MB/s eta 0:00:00
+Downloading argon2_cffi_bindings-25.1.0-cp39-abi3-manylinux_2_26_x86_64.manylinux_2_28_x86_64.whl (87 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 87.1/87.1 kB 144.1 MB/s eta 0:00:00
+Downloading cffi-2.0.0-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (215 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 215.6/215.6 kB 154.4 MB/s eta 0:00:00
+Downloading six-1.17.0-py2.py3-none-any.whl (11 kB)
+Downloading pycparser-2.23-py3-none-any.whl (118 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 118.1/118.1 kB 148.6 MB/s eta 0:00:00
+Installing collected packages: mpmath, zope.interface, zope.event, urllib3, typing-extensions, threadpoolctl, sympy, six, pyyaml, pyparsing, pycryptodome, pycparser, psutil, polars-runtime-32, Pillow, packaging, numpy, networkx, markupsafe, kiwisolver, joblib, itsdangerous, idna, greenlet, fsspec, fonttools, filelock, cycler, click, charset_normalizer, certifi, blinker, werkzeug, scipy, requests, python-dateutil, polars, opencv-python-headless, opencv-python, jinja2, gunicorn, gevent, contourpy, cffi, torch, scikit-learn, matplotlib, flask, cloudant, argon2-cffi-bindings, ultralytics-thop, torchvision, torchaudio, argon2-cffi, ultralytics, minio
+Successfully installed Pillow-12.0.0 argon2-cffi-25.1.0 argon2-cffi-bindings-25.1.0 blinker-1.9.0 certifi-2025.11.12 cffi-2.0.0 charset_normalizer-3.4.4 click-8.3.1 cloudant-2.15.0 contourpy-1.3.3 cycler-0.12.1 filelock-3.20.0 flask-3.1.2 fonttools-4.61.1 fsspec-2025.12.0 gevent-25.9.1 greenlet-3.3.0 gunicorn-23.0.0 idna-3.11 itsdangerous-2.2.0 jinja2-3.1.6 joblib-1.5.2 kiwisolver-1.4.9 markupsafe-3.0.3 matplotlib-3.10.8 minio-7.2.20 mpmath-1.3.0 networkx-3.6.1 numpy-2.2.6 opencv-python-4.12.0.88 opencv-python-headless-4.12.0.88 packaging-25.0 polars-1.36.1 polars-runtime-32-1.36.1 psutil-7.1.3 pycparser-2.23 pycryptodome-3.23.0 pyparsing-3.2.5 python-dateutil-2.9.0.post0 pyyaml-6.0.3 requests-2.32.5 scikit-learn-1.8.0 scipy-1.16.3 six-1.17.0 sympy-1.14.0 threadpoolctl-3.6.0 torch-2.9.1+cpu torchaudio-2.9.1+cpu torchvision-0.24.1+cpu typing-extensions-4.15.0 ultralytics-8.3.237 ultralytics-thop-2.0.18 urllib3-2.6.2 werkzeug-3.1.4 zope.event-6.1 zope.interface-8.1.1
+WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv
+
+[notice] A new release of pip is available: 24.0 -> 25.3
+[notice] To update, run: pip install --upgrade pip

@@ -84,7 +84,7 @@ kubectl -n monitoring patch svc prometheus-kube-prometheus-prometheus \
       ]
     }
   }'
-  
+
 
 # functions
 fission env create --name python --version 3 --poolsize 1 \
@@ -102,6 +102,10 @@ fission fn create --name hello \
 fission fn create --name hello --pkg demo --entrypoint "hello.main" \
   --env python --con 5 --idletimeout 5 --rpp 10
 
+fission fn create --name ml-image-processing --pkg ml-image-processing --entrypoint "ml_image_processing.main" --env python \
+  --mincpu 200 --maxcpu 500 --minmemory 256 --maxmemory 512 \
+  --con 10
+
 fission fn create --name hello --pkg demo --entrypoint "hello.main" --env python \
   --executortype newdeploy \--minscale 1 --maxscale 5 --mincpu 1000 \
   --maxcpu 2000 --minmemory 256 --maxmemory 512
@@ -110,15 +114,41 @@ fission route create --name hello-route \
   --function hello --url /hello --method POST
 
 
+# custom runtime image
+docker build -f Dockerfile-buster -t kevinjieuw114514/python-env-slim --build-arg PY_BASE_IMG=python:3.11-slim .
+docker push kevinjieuw114514/python-env-slim
+
+docker build -f Dockerfile-debian -t kevinjieuw114514/python-builder-slim .
+docker push kevinjieuw114514/python-builder-slim
+
+# v3 custom env
+fission environment create --name pytorch --image kevinjieuw114514/python-env-slim \
+  --builder kevinjieuw114514/python-builder-slim  --version 3 --poolsize 1
+
 # ml-image-processing
 zip -jr image-processing.zip ./image_processing
 fission pkg update --sourcearchive image-processing.zip \
   --env python --buildcmd "./build.sh" --name ml-image-processing
-fission pkg info --name ml-image-processing
+fission pkg info --name ml-image-processing > log.log
 fission fn delete --name ml-image-processing
 fission fn create --name ml-image-processing --pkg ml-image-processing --entrypoint "ml_image_processing.main" --env python \
-  --executortype newdeploy \--minscale 1 --maxscale 5 --mincpu 1000 \
-  --maxcpu 2000 --minmemory 256 --maxmemory 512
+  --executortype newdeploy \--minscale 5 --maxscale 15 --mincpu 1000 \
+  --maxcpu 1500 --minmemory 256 --maxmemory 512 --targetcpu 50
+fission route create --name ml-image-processing \
+  --function ml-image-processing --url /ml-image-processing --method POST
+
+# ml-object-detection
+zip -jr object-detection.zip ./object_detection
+fission pkg delete --name ml-object-detection
+fission pkg create --sourcearchive object-detection.zip \
+  --env pytorch --buildcmd "./build.sh" --name ml-object-detection
+fission pkg info --name ml-object-detection > log.log
+fission fn delete --name ml-object-detection
+fission fn create --name ml-object-detection --pkg ml-object-detection --entrypoint "ml_object_detection.main" --env pytorch \
+  --executortype newdeploy \--minscale 5 --maxscale 15 --mincpu 2000 \
+  --maxcpu 3500 --minmemory 256 --maxmemory 512 --targetcpu 50
+fission route create --name ml-object-detection \
+  --function ml-object-detection --url /ml-object-detection --method POST
 
 # patch for HPA behavior
 kubectl patch hpa newdeploy-ml-image-processing-default-9b09-b29e7fe83013 \
@@ -162,8 +192,17 @@ export MC_HOST_minio-local=http://$(kubectl get secret --namespace minio minio \
   --namespace minio minio -o jsonpath="{.data.rootPassword}" | \
   base64 --decode)@localhost:9000
 
+mc alias set myminio http://localhost:30900 minioadmin minioadmin123
+mc mb myminio/images
+mc ls myminio
+mc ls myminio/images
+mc rb myminio/processed-mages
+
 kubectl port-forward -n minio svc/minio-console 9001
 
+
+
+# service NodePort patching
 kubectl patch svc minio -n minio \
   -p '{"spec": {"type": "NodePort", "ports": [{"port": 9000, "targetPort": 9000, "nodePort": 30900}]}}'
 
@@ -182,14 +221,16 @@ kubectl -n monitoring patch svc prometheus-kube-prometheus-prometheus \
 kubectl patch svc minio-console -n minio \
   -p '{"spec": {"type": "NodePort", "ports": [{"port": 9001, "targetPort": 9001, "nodePort": 30901}]}}'
 
-mc alias set myminio http://localhost:30900 minioadmin minioadmin123
-mc mb myminio/images
-mc ls myminio
-mc ls myminio/images
-
+kubectl -n monitoring patch svc prometheus-grafana -p '{"spec":{"type":"NodePort"}}'
 
 kubectl patch svc minio -n minio \
   -p '{"spec": {"type": "NodePort", "ports": [{"port": 9000, "targetPort": 9000, "nodePort": 30900}]}}'
+
+
+# grafana password
+kubectl get secret --namespace monitoring prometheus-grafana -o jsonpath="{.data.admin-password}" | base64 --decode ; echo
+# 8DsiRxZUQkQgTGlVDU0UwbYAbzNNDc31UYy9694U
+
 
 ## image
 wget https://huggingface.co/datasets/poloclub/diffusiondb/resolve/main/images/part-000001.zip?download=true

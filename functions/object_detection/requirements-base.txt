@@ -1,0 +1,19 @@
+# Your app deps
+gevent
+flask
+scikit-learn
+scipy
+Pillow
+cloudant
+minio
+gunicorn
+
+# Ultralytics deps you must provide when using --no-deps
+numpy
+opencv-python-headless
+PyYAML
+requests
+matplotlib
+pandas
+tqdm
+psutil

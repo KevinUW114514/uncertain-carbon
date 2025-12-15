@@ -1,8 +1,0 @@
-provider:
-  registry: faas
-  name: faas
-
-function:
-  name: social-network-compose-post
-  runtime: python3.9
-  skip_build: true

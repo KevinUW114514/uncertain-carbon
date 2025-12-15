@@ -1,0 +1,8 @@
+{
+  "name": "ml_workflow",
+  "functions": [ "ml_image_processing", "ml_object_detection" ],
+  "params": {
+    
+  },
+  "qos": 100
+}

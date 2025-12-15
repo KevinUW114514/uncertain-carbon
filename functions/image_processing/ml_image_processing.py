@@ -75,7 +75,8 @@ def main():
     # timestamps["main_start_ms"] = os.times()
     access_key = "minioadmin"
     secret_key = "minioadmin123"
-    bucket_name = "images"
+    src_bucket_name = "images"
+    dst_bucket_name = "processed-images"
     if minio_client is None:
         minio_client = Minio(
             endpoint=endpoint,
@@ -90,7 +91,7 @@ def main():
     # -----------------------------------------------------------------------
     image = minio_get_image(
         minio_client=minio_client,
-        bucket_name=bucket_name,
+        bucket_name=src_bucket_name,
         image_name=image_name,
         timestamps=timestamps,
     )
@@ -108,7 +109,7 @@ def main():
     new_image_name = Path(image_name).stem + "_processed" + Path(image_name).suffix
     minio_put_image(
         minio_client=minio_client,
-        bucket_name=bucket_name,
+        bucket_name=dst_bucket_name,
         image_name=new_image_name,
         image=image,
         timestamps=timestamps,
