@@ -1,0 +1,5 @@
+openTelemetry:
+  otlpCollectorEndpoint: "otel-collector.opentelemetry-operator-system.svc:4317"
+  otlpInsecure: true
+  tracesSampler: parentbased_traceidratio
+  tracesSamplingRate: "1"

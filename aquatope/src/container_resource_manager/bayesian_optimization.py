@@ -24,7 +24,7 @@ from botorch.acquisition.objective import ConstrainedMCObjective
 from botorch.exceptions import BadInitialCandidatesWarning
 from botorch.models import FixedNoiseGP, ModelListGP, SingleTaskGP
 from botorch.optim import optimize_acqf
-from botorch.sampling.samplers import SobolQMCNormalSampler
+from botorch.sampling import SobolQMCNormalSampler
 from botorch.test_functions import Hartmann
 from gpytorch.mlls.sum_marginal_log_likelihood import SumMarginalLogLikelihood
 
@@ -44,8 +44,8 @@ from manager import WORKFLOW_CONFIG
 
 from utils.config import NUM_RESOURCES
 
-device = torch.device("cuda:3" if torch.cuda.is_available() else "cpu")
-dtype = torch.double
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+dtype = torch.float32
 warnings.filterwarnings("ignore", category=BadInitialCandidatesWarning)
 warnings.filterwarnings("ignore", category=RuntimeWarning)
 warnings.filterwarnings("ignore", category=UserWarning)
@@ -175,7 +175,7 @@ def bo_loop(
         fit_gpytorch_model(mll_nei)
 
         # define the qEI and qNEI acquisition modules using a QMC sampler
-        qmc_sampler = SobolQMCNormalSampler(num_samples=mc_samples)
+        qmc_sampler = SobolQMCNormalSampler(sample_shape=torch.Size([mc_samples]))
 
         # define a feasibility-weighted objective for optimization
         constrained_obj = ConstrainedMCObjective(

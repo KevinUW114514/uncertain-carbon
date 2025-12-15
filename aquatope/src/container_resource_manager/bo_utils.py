@@ -13,8 +13,7 @@ sys.path.append(str(PROJECT_DIR))
 sys.path.append(str(SCHED_DIR))
 from manager import WORKFLOW_CONFIG
 
-from owlib.action import update_action_limits
-from owlib.sequence import invoke_sequence
+from fissionlib.cli import update_fission_function_setting, invoke_fission_function_sequence
 from utils.config import (
     CPU_MAX,
     CPU_MIN,
@@ -57,7 +56,7 @@ def calc_cost(functions: list, resource_config: list, latencies: dict) -> float:
 def update_resource_config(functions: list, resource_config: list):
     for i, fn in enumerate(functions):
         cpu, memory = resource_config[i]
-        update_action_limits(action_name=fn, cpu=cpu, memory=memory)
+        update_fission_function_setting(function_name=fn, cpu=cpu, memory=memory)
 
 
 def sample_cost(x: torch.tensor):
@@ -67,7 +66,7 @@ def sample_cost(x: torch.tensor):
         update_resource_config(
             functions=WORKFLOW_CONFIG["functions"], resource_config=resource_config
         )
-        seq_activation, e2e_latency, latencies = invoke_sequence(
+        seq_activation, e2e_latency, latencies = invoke_fission_function_sequence(
             sequence_name=WORKFLOW_CONFIG["name"],
             params=WORKFLOW_CONFIG["params"],
         )

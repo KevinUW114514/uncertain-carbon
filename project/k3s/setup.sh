@@ -169,6 +169,21 @@ kubectl -n kube-system rollout restart deployment metrics-server
 kubectl -n kube-system rollout status deployment metrics-serve
 
 
+# OpenTelemety
+# cert-manager
+kubectl apply -f https://github.com/jetstack/cert-manager/releases/latest/download/cert-manager.yaml
+# open telemetry operator
+kubectl apply -f https://github.com/open-telemetry/opentelemetry-operator/releases/latest/download/opentelemetry-operator.yaml
+# OpenTelemetry deployment
+kubectl apply -f opentelemetry.yaml
+# Jaeger operator
+kubectl create namespace observability
+kubectl create -n observability -f https://github.com/jaegertracing/jaeger-operator/releases/download/v1.39.0/jaeger-operator.yaml
+# Jaeger instance
+kubectl apply -n observability -f jaeger.yaml
+helm upgrade fission fission-charts/fission-all --namespace fission -f fission-opentelemetry.yaml
+python -m pip install opentelemetry-sdk
+
 
 # minio
 helm repo add minio https://charts.min.io/
@@ -222,6 +237,7 @@ kubectl patch svc minio-console -n minio \
   -p '{"spec": {"type": "NodePort", "ports": [{"port": 9001, "targetPort": 9001, "nodePort": 30901}]}}'
 
 kubectl -n monitoring patch svc prometheus-grafana -p '{"spec":{"type":"NodePort"}}'
+kubectl -n observability patch svc jaeger-query -p '{"spec":{"type":"NodePort"}}'
 
 kubectl patch svc minio -n minio \
   -p '{"spec": {"type": "NodePort", "ports": [{"port": 9000, "targetPort": 9000, "nodePort": 30900}]}}'
