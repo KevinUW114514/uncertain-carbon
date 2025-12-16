@@ -1,0 +1,53 @@
+apiVersion: argoproj.io/v1alpha1
+kind: WorkflowTemplate
+metadata:
+  generateName: ml-pipeline-workflow-argo-
+  namespace: fission
+spec:
+  arguments:
+    parameters:
+    - name: image_name
+
+  templates:
+  - name: ml-pipeline-workflow
+    dag:
+      tasks:
+      - name: ml-image-processing
+        template: ml-image-processing
+        arguments: 
+          parameters:         
+            - name: image_name
+              value: '{{workflow.parameters.image_name}}'
+            - name: url
+              value: http://router.fission.svc.cluster.local/ml-image-processing #http://<service_name>.<namespace_of_fission>.svc.cluster.<cluster_name>/<httptrigger_url>
+      - name: ml-object-detection
+        template: ml-object-detection
+        dependencies: [ml-image-processing]
+        arguments:
+          parameters:         
+            - name: image_name
+              value: '{{workflow.parameters.image_name}}'
+            - name: url
+              value: http://router.fission.svc.cluster.local/ml-object-detection 
+
+  - name: ml-image-processing
+    inputs:
+      parameters:
+      - name: url
+      - name: image_name
+    http:
+      method: POST
+      url: "{{inputs.parameters.url}}"
+      body: '{"image_name":"{{inputs.parameters.image_name}}"}'
+
+  - name: ml-object-detection
+    inputs:
+      parameters:
+      - name: url
+      - name: image_name
+    http:
+      method: POST
+      url: "{{inputs.parameters.url}}"
+      body: '{"image_name":"{{inputs.parameters.image_name}}"}'
+
+    

@@ -11,6 +11,10 @@ from ultralytics import YOLO
 # from config import ACCESS_KEY, BUCKET, ENDPOINT, SECRET_KEY
 from minio import Minio
 
+import logging
+
+
+
 minio_client = None
 model = None
 
@@ -32,20 +36,24 @@ def get_timestamp_ms():
 endpoint = "minio.minio.svc.cluster.local:9000"
 
 def main():
+    start_time = time.monotonic()
     global minio_client
     global model
 
     req = request.get_json()
     result = dict()
+    
+    logging.debug("request: ", req)
+
     # -----------------------------------------------------------------------
     # Parse params
     # -----------------------------------------------------------------------
-    timestamps = {
-        "main_start_ms": 0.0,
-        "main_end_ms": 0.0,
-        "minio_get_ms": 0.0,
-        "minio_put_ms": 0.0,
-    }
+    # timestamps = {
+    #     "main_start_ms": 0.0,
+    #     "main_end_ms": 0.0,
+    #     "minio_get_ms": 0.0,
+    #     "minio_put_ms": 0.0,
+    # }
     access_key = "minioadmin"
     secret_key = "minioadmin123"
     bucket_name = "images"
@@ -71,14 +79,14 @@ def main():
     object_classes = []
     object_boxes = []
 
-    timestamps["main_start_ms"] = get_timestamp_ms()
+    # timestamps["main_start_ms"] = get_timestamp_ms()
 
     with tempfile.NamedTemporaryFile(suffix=".png") as fp:
-        image_get_start_ms = get_timestamp_ms()
+        # image_get_start_ms = get_timestamp_ms()
         minio_client.fget_object(bucket_name=bucket_name,
                                  object_name=image_name, file_path=fp.name)
-        image_get_end_ms = get_timestamp_ms()
-        timestamps['minio_get_ms'] += (image_get_end_ms - image_get_start_ms)
+        # image_get_end_ms = get_timestamp_ms()
+        # timestamps['minio_get_ms'] += (image_get_end_ms - image_get_start_ms)
 
         results = model(
             source=fp.name,
@@ -111,10 +119,10 @@ def main():
         # Return result
         # --------------------------------------------------------------------------
 
-    timestamps["main_end_ms"] = get_timestamp_ms()
+    # timestamps["main_end_ms"] = get_timestamp_ms()
     result['object_classes'] = object_classes
     result['object_boxes'] = object_boxes
-    result["timestamps"] = timestamps
+    result["duration"] = time.monotonic() - start_time
         
     return result
 

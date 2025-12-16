@@ -9,3 +9,4 @@ minio
 gunicorn
 pandas
 matplotlib
+redis

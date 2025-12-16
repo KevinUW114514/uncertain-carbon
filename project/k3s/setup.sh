@@ -139,6 +139,8 @@ fission route create --name ml-image-processing \
 
 # ml-object-detection
 zip -jr object-detection.zip ./object_detection
+fission pkg update --sourcearchive object-detection.zip \
+  --env pytorch --buildcmd "./build.sh" --name ml-object-detection
 fission pkg delete --name ml-object-detection
 fission pkg create --sourcearchive object-detection.zip \
   --env pytorch --buildcmd "./build.sh" --name ml-object-detection
@@ -169,6 +171,29 @@ kubectl -n kube-system rollout restart deployment metrics-server
 kubectl -n kube-system rollout status deployment metrics-serve
 
 
+# keda
+helm repo add kedacore https://kedacore.github.io/charts
+kubectl create namespace keda
+helm install keda kedacore/keda --namespace keda
+
+
+# topic trigger
+fission mqtrigger delete --name ml-image-processing
+fission mqtrigger create \
+  --name ml-image-processing \
+  --function ml-object-detection \
+  --mqtype redis \
+  --mqtkind keda \
+  --topic ml-image-processing \
+  --errortopic error-topic \
+  --maxretries 3 \
+  --metadata address=redis.ot-operators.svc.cluster.local:6379 \
+  --metadata listName=ml-image-processing \
+  --metadata listLength="10"
+
+
+
+
 # OpenTelemety
 # cert-manager
 kubectl apply -f https://github.com/jetstack/cert-manager/releases/latest/download/cert-manager.yaml
@@ -184,6 +209,16 @@ kubectl apply -n observability -f jaeger.yaml
 helm upgrade fission fission-charts/fission-all --namespace fission -f fission-opentelemetry.yaml
 python -m pip install opentelemetry-sdk
 
+# argo
+kubectl create namespace argo
+kubectl apply -n argo -f https://github.com/argoproj/argo-workflows/releases/download/v3.7.6/install.yaml
+
+# redis
+kubectl create namespace ot-operators
+helm repo add ot-helm https://ot-container-kit.github.io/helm-charts/
+helm upgrade redis-operator ot-helm/redis-operator \
+    --install --namespace ot-operators
+helm upgrade redis ot-helm/redis --install --namespace ot-operators
 
 # minio
 helm repo add minio https://charts.min.io/

@@ -6,12 +6,21 @@ from datetime import datetime, timezone
 from multiprocessing import Pool
 from pathlib import Path
 import time
+import json
 
 # from config import ACCESS_KEY, BUCKET, ENDPOINT, SECRET_KEY
 from minio import Minio
 from PIL import Image, ImageFilter
 
+import redis
+
 minio_client = None
+
+r = redis.Redis(
+    host="redis.ot-operators.svc.cluster.local",
+    port=6379,
+    decode_responses=True,
+)
 
 # app = Flask(__name__)
 
@@ -19,13 +28,18 @@ def get_timestamp_ms():
     # return int(round(datetime.now(timezone.utc).timestamp() * 1000))
     return time.time()
 
-def minio_get_image(minio_client, bucket_name, image_name, timestamps):
-    minio_get_start_ms = get_timestamp_ms()
+def minio_get_image(
+    minio_client, 
+    bucket_name, 
+    image_name, 
+    timestamps
+):
+    # minio_get_start_ms = get_timestamp_ms()
     recv = minio_client.get_object(
         bucket_name=bucket_name, object_name=image_name)
     bytes_data = recv.read()
-    minio_get_end_ms = get_timestamp_ms()
-    timestamps['minio_get_ms'] += (minio_get_end_ms - minio_get_start_ms)
+    # minio_get_end_ms = get_timestamp_ms()
+    # timestamps['minio_get_ms'] += (minio_get_end_ms - minio_get_start_ms)
     image = Image.open(io.BytesIO(bytes_data))
     return image
 
@@ -40,13 +54,13 @@ def minio_put_image(minio_client, bucket_name, image_name, image, timestamps):
             'Unsupported image format: {}.'.format(Path(image_name).suffix))
     image.save(fp=bytes_buffer, format=fmt)
     bytes_buffer.seek(0)
-    minio_put_start_ms = get_timestamp_ms()
+    # minio_put_start_ms = get_timestamp_ms()
     minio_client.put_object(bucket_name=bucket_name,
                             object_name=image_name,
                             data=bytes_buffer,
                             length=bytes_buffer.getbuffer().nbytes)
-    minio_put_end_ms = get_timestamp_ms()
-    timestamps['minio_put_ms'] += (minio_put_end_ms - minio_put_start_ms)
+    # minio_put_end_ms = get_timestamp_ms()
+    # timestamps['minio_put_ms'] += (minio_put_end_ms - minio_put_start_ms)
     return
 
 
@@ -65,14 +79,16 @@ def main():
     # -----------------------------------------------------------------------
     # Parse params
     # -----------------------------------------------------------------------
-    timestamps = {
-        "main_start_ms": 0,
-        "main_end_ms": 0,
-        "minio_get_ms": 0,
-        "minio_put_ms": 0,
-    }
-    timestamps["main_start_ms"] = get_timestamp_ms()
+    # timestamps = {
+    #     "main_start_ms": 0,
+    #     "main_end_ms": 0,
+    #     "minio_get_ms": 0,
+    #     "minio_put_ms": 0,
+    # }
+    # timestamps["main_start_ms"] = get_timestamp_ms()
     # timestamps["main_start_ms"] = os.times()
+    
+    start_time = time.monotonic()
     access_key = "minioadmin"
     secret_key = "minioadmin123"
     src_bucket_name = "images"
@@ -89,6 +105,7 @@ def main():
     # -----------------------------------------------------------------------
     # Action execution
     # -----------------------------------------------------------------------
+    timestamps = None
     image = minio_get_image(
         minio_client=minio_client,
         bucket_name=src_bucket_name,
@@ -118,9 +135,16 @@ def main():
     # -----------------------------------------------------------------------
     # Return results
     # -----------------------------------------------------------------------
-    timestamps["main_end_ms"] = get_timestamp_ms()
+    # timestamps["main_end_ms"] = get_timestamp_ms()
     # timestamps["main_end_ms"] = os.times()
-    result["timestamps"] = timestamps
+    result["duration"] = time.monotonic() - start_time
+
+    
+    r.lpush("ml-image-processing", json.dumps({
+        "image_name": image_name
+        })
+    )
+
     return jsonify(result), 200
 
 
