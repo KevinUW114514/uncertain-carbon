@@ -124,5 +124,5 @@ def main():
     result['object_boxes'] = object_boxes
     result["duration"] = time.monotonic() - start_time
         
-    return result
+    return jsonify(result), 200
 

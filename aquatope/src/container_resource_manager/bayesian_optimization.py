@@ -15,14 +15,14 @@ from pathlib import Path
 
 import scipy
 import torch
-from botorch import fit_gpytorch_model
+from botorch import fit_gpytorch_mll
 from botorch.acquisition.monte_carlo import (
-    qExpectedImprovement,
+    # qLogNoisyExpectedImprovement,
     qNoisyExpectedImprovement,
 )
 from botorch.acquisition.objective import ConstrainedMCObjective
 from botorch.exceptions import BadInitialCandidatesWarning
-from botorch.models import FixedNoiseGP, ModelListGP, SingleTaskGP
+from botorch.models import ModelListGP, SingleTaskGP
 from botorch.optim import optimize_acqf
 from botorch.sampling import SobolQMCNormalSampler
 from botorch.test_functions import Hartmann
@@ -45,7 +45,7 @@ from manager import WORKFLOW_CONFIG
 from utils.config import NUM_RESOURCES
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-dtype = torch.float32
+dtype = torch.double
 warnings.filterwarnings("ignore", category=BadInitialCandidatesWarning)
 warnings.filterwarnings("ignore", category=RuntimeWarning)
 warnings.filterwarnings("ignore", category=UserWarning)
@@ -69,11 +69,11 @@ def weighted_obj(X):
     return obj_function(X) + ((outcome_constraint(X) > 0) * (-100)).type_as(X)
 
 
-def obj_callable(Z):
+def obj_callable(Z, X=None):
     return Z[..., 0]
 
 
-def constraint_callable(Z):
+def constraint_callable(Z, X=None):
     return Z[..., 1]
 
 
@@ -132,6 +132,7 @@ def update_random_observations(best_random, batch_size):
 
 
 def bo_loop(
+    workflow_config,
     n_init=10,
     n_batch=20,
     mc_samples=32,
@@ -143,6 +144,9 @@ def bo_loop(
     confidence=0.95,
     verbose=True,
 ):
+    global WORKFLOW_CONFIG
+    WORKFLOW_CONFIG = workflow_config
+
     n_stages = len(WORKFLOW_CONFIG["functions"])
     bounds = torch.tensor(
         [[0.0] * NUM_RESOURCES * n_stages, [1.0] * NUM_RESOURCES * n_stages],
@@ -172,7 +176,7 @@ def bo_loop(
         t0 = time.monotonic()
 
         # fit the models
-        fit_gpytorch_model(mll_nei)
+        fit_gpytorch_mll(mll_nei)
 
         # define the qEI and qNEI acquisition modules using a QMC sampler
         qmc_sampler = SobolQMCNormalSampler(sample_shape=torch.Size([mc_samples]))

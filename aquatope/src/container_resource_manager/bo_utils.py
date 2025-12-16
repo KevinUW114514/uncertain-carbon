@@ -11,6 +11,7 @@ PROJECT_DIR = Path(__file__).resolve().parents[2]
 SCHED_DIR = Path(__file__).resolve().parents[0]
 sys.path.append(str(PROJECT_DIR))
 sys.path.append(str(SCHED_DIR))
+
 from manager import WORKFLOW_CONFIG
 
 from fissionlib.cli import update_fission_function_setting, invoke_fission_function_sequence
@@ -36,9 +37,9 @@ def from_x_to_resource_config(x: torch.tensor) -> dict:
     for i in range(int(len(x_list) / 2)):
         scaled_cpu = x_list[i * 2]
         scaled_memory = x_list[i * 2 + 1]
-        resource_config[i][0] = round(scaled_cpu * (CPU_MAX - CPU_MIN) + CPU_MIN, 1)
+        resource_config[i][0] = round(scaled_cpu * (CPU_MAX - CPU_MIN) + CPU_MIN)
         resource_config[i][1] = round(
-            scaled_memory * (MEMORY_MAX - MEMORY_MIN) + MEMORY_MIN, 0
+            scaled_memory * (MEMORY_MAX - MEMORY_MIN) + MEMORY_MIN
         )
     return resource_config
 
@@ -66,9 +67,8 @@ def sample_cost(x: torch.tensor):
         update_resource_config(
             functions=WORKFLOW_CONFIG["functions"], resource_config=resource_config
         )
-        seq_activation, e2e_latency, latencies = invoke_fission_function_sequence(
-            sequence_name=WORKFLOW_CONFIG["name"],
-            params=WORKFLOW_CONFIG["params"],
+        e2e_latency, latencies = invoke_fission_function_sequence(
+            functions=WORKFLOW_CONFIG["functions"],
         )
         cost = calc_cost(
             functions=WORKFLOW_CONFIG["functions"],
@@ -90,9 +90,8 @@ def sample_duration(x: torch.tensor):
         update_resource_config(
             functions=WORKFLOW_CONFIG["functions"], resource_config=resource_config
         )
-        seq_activation, e2e_latency, latencies = invoke_sequence(
-            sequence_name=WORKFLOW_CONFIG["name"],
-            params=WORKFLOW_CONFIG["params"],
+        e2e_latency, latencies = invoke_fission_function_sequence(
+            functions=WORKFLOW_CONFIG["functions"],
         )
         CACHE[hash_id] = dict()
         CACHE[hash_id]["cost"] = cost
@@ -102,23 +101,32 @@ def sample_duration(x: torch.tensor):
 
 
 def sample_cost_parallel(X: torch.tensor):
-    jobs = []
+    # jobs = []
+    # for x in X:
+    #     job = gevent.spawn(sample_cost, x=x)
+    #     jobs.append(job)
+    # gevent.joinall(jobs)
+    # res = torch.tensor([job.value for job in jobs], dtype=dtype)
+    # return res
+    
+    results = []
     for x in X:
-        job = gevent.spawn(sample_cost, x=x)
-        jobs.append(job)
-    gevent.joinall(jobs)
-    res = torch.tensor([job.value for job in jobs], dtype=dtype)
-    return res
+        results.append(sample_cost(x=x))
+    return torch.tensor(results, dtype=dtype)
 
 
 def sample_duration_parallel(X: torch.tensor):
-    jobs = []
+    # jobs = []
+    # for x in X:
+    #     job = gevent.spawn(sample_duration, x=x)
+    #     jobs.append(job)
+    # gevent.joinall(jobs)
+    # res = torch.tensor([job.value for job in jobs], dtype=dtype)
+    # return res
+    results = []
     for x in X:
-        job = gevent.spawn(sample_duration, x=x)
-        jobs.append(job)
-    gevent.joinall(jobs)
-    res = torch.tensor([job.value for job in jobs], dtype=dtype)
-    return res
+        results.append(sample_duration(x=x))
+    return torch.tensor(results, dtype=dtype)
 
 
 # n = 3

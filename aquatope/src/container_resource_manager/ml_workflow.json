@@ -1,8 +1,13 @@
 {
   "name": "ml_workflow",
-  "functions": [ "ml_image_processing", "ml_object_detection" ],
+  "functions": [ "ml-image-processing", "ml-object-detection" ],
   "params": {
-    
+    "ml-image-processing": {
+      "image_name": "000b7b74-0a22-4d0c-b717-e240fdc5d555.png"
+    },
+    "ml-object-detection": {
+      "image_name": "000b7b74-0a22-4d0c-b717-e240fdc5d555_processed.png"
+    }
   },
   "qos": 1.5
 }

@@ -8,11 +8,11 @@
 
 # Constants
 NUM_RESOURCES = 2
-CPU_MIN = 1
-CPU_MAX = 3
+CPU_MIN = 1000
+CPU_MAX = 3000
 MEMORY_MIN = 256
 MEMORY_MAX = 512
 CPU_UNIT_COST = 0.173  # Based on Azure Function
 MEMORY_UNIT_COST = 0.0123  # Based on Azure Function
 
-FISSION_HOST = "http://127.0.0.1:31314"
+FISSION_HOST = "http://localhost:31314"

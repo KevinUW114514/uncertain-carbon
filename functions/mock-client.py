@@ -10,7 +10,7 @@ import requests
 def send_request(url, payload):
     response = requests.post(url, json=payload)
     print("Status code:", response.status_code)
-    print("Response body:", response.text)
+    print("Response body:", response.json())
     
 
 if __name__ == "__main__":
@@ -25,5 +25,5 @@ if __name__ == "__main__":
     }
   }
   
-  # send_request(workflow["image_processing"]["url"], workflow["image_processing"]["payload"])
-  send_request(workflow["object_detection"]["url"], workflow["object_detection"]["payload"])
+  send_request(workflow["image_processing"]["url"], workflow["image_processing"]["payload"])
+  # send_request(workflow["object_detection"]["url"], workflow["object_detection"]["payload"])
