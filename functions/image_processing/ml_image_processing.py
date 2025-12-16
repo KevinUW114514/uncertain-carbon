@@ -141,9 +141,8 @@ def main():
 
     
     r.lpush("ml-image-processing", json.dumps({
-        "image_name": image_name
-        })
-    )
+        "image_name": image_name}
+    ))
 
     return jsonify(result), 200
 

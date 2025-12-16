@@ -26,4 +26,4 @@ if __name__ == "__main__":
   }
   
   send_request(workflow["image_processing"]["url"], workflow["image_processing"]["payload"])
-  # send_request(workflow["object_detection"]["url"], workflow["object_detection"]["payload"])
+  send_request(workflow["object_detection"]["url"], workflow["object_detection"]["payload"])

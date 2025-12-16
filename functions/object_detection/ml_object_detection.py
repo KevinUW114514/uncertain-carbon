@@ -43,7 +43,7 @@ def main():
     req = request.get_json()
     result = dict()
     
-    logging.debug("request: ", req)
+    # logging.debug("request: ", req)
 
     # -----------------------------------------------------------------------
     # Parse params

@@ -134,6 +134,10 @@ fission fn delete --name ml-image-processing
 fission fn create --name ml-image-processing --pkg ml-image-processing --entrypoint "ml_image_processing.main" --env python \
   --executortype newdeploy \--minscale 5 --maxscale 15 --mincpu 1000 \
   --maxcpu 1500 --minmemory 256 --maxmemory 512 --targetcpu 50
+fission fn update --name ml-image-processing  \
+  --minscale 1 --maxscale 10 --mincpu 1000 \
+  --maxcpu 1500 --minmemory 256 --maxmemory 512 --targetcpu 50 --retainpods 9
+
 fission route create --name ml-image-processing \
   --function ml-image-processing --url /ml-image-processing --method POST
 
