@@ -12,8 +12,16 @@ from ultralytics import YOLO
 from minio import Minio
 
 import logging
+import json
+import redis
+import uuid
 
-
+r = redis.Redis(
+    host="redis.ot-operators.svc.cluster.local",
+    port=6379,
+    decode_responses=True,
+)
+RESULT_TTL_SECONDS = 15
 
 minio_client = None
 model = None
@@ -35,13 +43,24 @@ def get_timestamp_ms():
 
 endpoint = "minio.minio.svc.cluster.local:9000"
 
+def write_final_result(req_id: str, result: dict) -> None:
+
+    # Atomic multi-write (status + result + optional notification)
+    pipe = r.pipeline(transaction=True)
+
+    pipe.set(req_id, json.dumps(result))
+    pipe.expire(req_id, RESULT_TTL_SECONDS)
+
+    pipe.execute()
+
+
 def main():
     start_time = time.monotonic()
     global minio_client
     global model
 
     req = request.get_json()
-    result = dict()
+    
     
     # logging.debug("request: ", req)
 
@@ -64,6 +83,8 @@ def main():
             secret_key=secret_key,
             secure=False,
         )
+    duration = req.get("duration", {})
+    req_id = req.get("req_id", str(uuid.uuid4()))
     image_name = req['image_name']
 
     if model is None:
@@ -120,9 +141,8 @@ def main():
         # --------------------------------------------------------------------------
 
     # timestamps["main_end_ms"] = get_timestamp_ms()
-    result['object_classes'] = object_classes
-    result['object_boxes'] = object_boxes
-    result["duration"] = time.monotonic() - start_time
+    duration["ml-object-detection"] = time.monotonic() - start_time
+    write_final_result(req_id, duration)
         
-    return jsonify(result), 200
+    return {"req_id": req_id}, 200
 

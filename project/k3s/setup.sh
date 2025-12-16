@@ -135,9 +135,7 @@ fission fn create --name ml-image-processing --pkg ml-image-processing --entrypo
   --executortype newdeploy \--minscale 5 --maxscale 15 --mincpu 1000 \
   --maxcpu 1500 --minmemory 256 --maxmemory 512 --targetcpu 50
 fission fn update --name ml-image-processing  \
-  --minscale 1 --maxscale 10 --mincpu 1000 \
-  --maxcpu 1500 --minmemory 256 --maxmemory 512 --targetcpu 50 --retainpods 9
-
+  --minscale 5 --maxscale 30
 fission route create --name ml-image-processing \
   --function ml-image-processing --url /ml-image-processing --method POST
 
@@ -153,6 +151,8 @@ fission fn delete --name ml-object-detection
 fission fn create --name ml-object-detection --pkg ml-object-detection --entrypoint "ml_object_detection.main" --env pytorch \
   --executortype newdeploy \--minscale 5 --maxscale 15 --mincpu 2000 \
   --maxcpu 3500 --minmemory 256 --maxmemory 512 --targetcpu 50
+fission fn update --name ml-object-detection \
+  --minscale 5 --maxscale 30 
 fission route create --name ml-object-detection \
   --function ml-object-detection --url /ml-object-detection --method POST
 
@@ -189,13 +189,22 @@ fission mqtrigger create \
   --mqtype redis \
   --mqtkind keda \
   --topic ml-image-processing \
-  --errortopic error-topic \
+  --errortopic ml-image-processing-error-topic \
   --maxretries 3 \
   --metadata address=redis.ot-operators.svc.cluster.local:6379 \
   --metadata listName=ml-image-processing \
-  --metadata listLength="10"
+  --metadata listLength="50"
 
-
+fission mqtrigger create \
+  --name ml-pipeline-result \
+  --mqtype redis \
+  --mqtkind keda \
+  --topic ml-pipeline-result \
+  --errortopic ml-pipeline-result-error-topic \
+  --maxretries 3 \
+  --metadata address=redis.ot-operators.svc.cluster.local:6379 \
+  --metadata listName=ml-pipeline-result \
+  --metadata listLength="50"
 
 
 # OpenTelemety
@@ -223,6 +232,8 @@ helm repo add ot-helm https://ot-container-kit.github.io/helm-charts/
 helm upgrade redis-operator ot-helm/redis-operator \
     --install --namespace ot-operators
 helm upgrade redis ot-helm/redis --install --namespace ot-operators
+ helm -n ot-operators upgrade redis ot-helm/redis   --reuse-values   --set externalService.enabled=true   --set 
+externalService.serviceType=NodePort   --set externalService.port=6379
 
 # minio
 helm repo add minio https://charts.min.io/
@@ -277,6 +288,7 @@ kubectl patch svc minio-console -n minio \
 
 kubectl -n monitoring patch svc prometheus-grafana -p '{"spec":{"type":"NodePort"}}'
 kubectl -n observability patch svc jaeger-query -p '{"spec":{"type":"NodePort"}}'
+kubectl -n ot-operators patch svc redis -p '{"spec":{"type":"NodePort"}}'
 
 kubectl patch svc minio -n minio \
   -p '{"spec": {"type": "NodePort", "ports": [{"port": 9000, "targetPort": 9000, "nodePort": 30900}]}}'

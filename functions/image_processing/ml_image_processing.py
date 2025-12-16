@@ -13,6 +13,7 @@ from minio import Minio
 from PIL import Image, ImageFilter
 
 import redis
+import uuid
 
 minio_client = None
 
@@ -75,7 +76,7 @@ endpoint = "minio.minio.svc.cluster.local:9000"
 def main():
     global minio_client
     req = request.get_json()
-    result = dict()
+    
     # -----------------------------------------------------------------------
     # Parse params
     # -----------------------------------------------------------------------
@@ -101,6 +102,7 @@ def main():
             secure=False,
         )
     image_name = req['image_name']
+    request_id = str(uuid.uuid4())
 
     # -----------------------------------------------------------------------
     # Action execution
@@ -137,14 +139,19 @@ def main():
     # -----------------------------------------------------------------------
     # timestamps["main_end_ms"] = get_timestamp_ms()
     # timestamps["main_end_ms"] = os.times()
-    result["duration"] = time.monotonic() - start_time
 
-    
-    r.lpush("ml-image-processing", json.dumps({
-        "image_name": image_name}
+    duration = {
+        "ml-image-processing": time.monotonic() - start_time
+    }
+    r.lpush("ml-image-processing", json.dumps(
+        {
+            "image_name": image_name,
+            "req_id": request_id,
+            "duration": duration,
+        }
     ))
 
-    return jsonify(result), 200
+    return {"req_id": request_id}, 200
 
 
 # if __name__ == "__main__":

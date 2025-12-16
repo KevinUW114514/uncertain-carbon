@@ -7,6 +7,7 @@ Pillow
 cloudant
 minio
 gunicorn
+redis
 
 # Ultralytics deps you must provide when using --no-deps
 numpy

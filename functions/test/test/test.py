@@ -43,30 +43,14 @@ class ServerlessUser(FastHttpUser):
     def wait_time(self):
         return random.expovariate(1.4)  # mean 0.7s
 
-    # @tag(ACTION_NAME)
-    # @task
-    # def test(self):
-
-    #     action_params = {"image_name": "000b7b74-0a22-4d0c-b717-e240fdc5d555.png"}
-    #     # url_params = {"blocking": "true", "result": "false"}
-    #     response = self.client.post(
-    #         url="/ml-image-processing",
-    #         # params=url_params,
-    #         json=action_params,
-    #         # auth=(USER_PASS[0], USER_PASS[1]),
-    #         name=ACTION_NAME,
-    #     )
-    #     data = response
-    #     print(data.content)
-        
-    @tag(ACTION_NAME)
+    @tag("ml-image-processing")
     @task
     def test(self):
 
-        action_params = {"image_name": "000b7b74-0a22-4d0c-b717-e240fdc5d555_processed.png"}
+        action_params = {"image_name": "000b7b74-0a22-4d0c-b717-e240fdc5d555.png"}
         # url_params = {"blocking": "true", "result": "false"}
         response = self.client.post(
-            url="/ml-object-detection",
+            url="/ml-image-processing",
             # params=url_params,
             json=action_params,
             # auth=(USER_PASS[0], USER_PASS[1]),
@@ -74,6 +58,22 @@ class ServerlessUser(FastHttpUser):
         )
         data = response
         print(data.content)
+        
+    # @tag("ml-object-detection")
+    # @task
+    # def test(self):
+
+    #     action_params = {"image_name": "000b7b74-0a22-4d0c-b717-e240fdc5d555_processed.png"}
+    #     # url_params = {"blocking": "true", "result": "false"}
+    #     response = self.client.post(
+    #         url="/ml-object-detection",
+    #         # params=url_params,
+    #         json=action_params,
+    #         # auth=(USER_PASS[0], USER_PASS[1]),
+    #         name=ACTION_NAME,
+    #     )
+    #     data = response
+    #     print(data.content)
 
 
 # class StagesShape(LoadTestShape):
