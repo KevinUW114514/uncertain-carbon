@@ -8,7 +8,7 @@ r = redis.Redis(
     port=32204,
     decode_responses=True,
 )
-RESULT_TTL_SECONDS = 15
+
 
 # url = "http://localhost:31314/ml-image-processing"
 # payload = {"image_name": "000b7b74-0a22-4d0c-b717-e240fdc5d555.png"}
@@ -42,7 +42,7 @@ def poll_result(
         if time.monotonic() >= deadline:
             raise TimeoutError(f"Timed out after {timeout_s:.1f}s waiting for {req_id}")
 
-        time.sleep(1)
+        time.sleep(0.5)
 
 
 if __name__ == "__main__":

@@ -581,3 +581,55 @@ helm install ow openwhisk/openwhisk -n openwhisk -f values.yaml
 helm uninstall ow -n openwhisk
 kubectl delete namespace openwhisk
 kubectl get pods -n openwhisk
+
+
+# 神秘小指令
+kubectl patch hpa newdeploy-ml-image-processing-default-9a0e-f899636d0d4a \
+  --type=merge \
+  -p '{
+    "spec": {
+      "minReplicas": 5,
+      "maxReplicas": 30,
+      "metrics": [
+        {
+          "type": "Resource",
+          "resource": {
+            "name": "cpu",
+            "target": {
+              "type": "Utilization",
+              "averageUtilization": 50
+            }
+          }
+        }
+      ]
+    }
+  }'
+
+kubectl scale deployment newdeploy-ml-image-processing-default-9a0e-f899636d0d4a --replicas=25
+
+kubectl patch hpa newdeploy-ml-object-detection-default-b995-7cfe76e42031 \
+  --type=merge \
+  -p '{
+    "spec": {
+      "minReplicas": 5,
+      "maxReplicas": 30,
+      "metrics": [
+        {
+          "type": "Resource",
+          "resource": {
+            "name": "cpu",
+            "target": {
+              "type": "Utilization",
+              "averageUtilization": 50
+            }
+          }
+        }
+      ]
+    }
+  }'
+
+kubectl scale deployment newdeploy-ml-object-detection-default-b995-7cfe76e42031 --replicas=25
+
+# metrics
+kubectl exec -it redis-0 -n ot-operators -- redis-cli --latency
+kubectl top pod -n ot-operators -l app=redis
