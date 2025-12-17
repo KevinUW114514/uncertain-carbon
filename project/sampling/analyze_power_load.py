@@ -18,6 +18,134 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 
+def make_dual_plot(df: pd.DataFrame, load_name: str, out_path: Path) -> None:
+    """
+    Creates a figure with two subplots:
+      (1) Power trend over time (10 bins) with 90% CI error bars
+      (2) Power vs CPU usage_pct (10 bins) with 90% CI error bars
+
+    Saves to out_path as PNG.
+    """
+    required = {"power_total_w"}
+    missing = required - set(df.columns)
+    if missing:
+        raise RuntimeError(f"CSV missing required columns: {sorted(missing)}")
+
+    # -----------------------------
+    # Subplot 1: Time -> Power
+    # -----------------------------
+    if "elapsed_s" in df.columns:
+        x_time = pd.to_numeric(df["elapsed_s"], errors="coerce")
+        x_time_label = "elapsed_s"
+    elif "sample_index" in df.columns:
+        x_time = pd.to_numeric(df["sample_index"], errors="coerce")
+        x_time_label = "sample_index"
+    else:
+        x_time = pd.Series(np.arange(len(df), dtype=float))
+        x_time_label = "index"
+
+    y_power = pd.to_numeric(df["power_total_w"], errors="coerce")
+
+    tdf = pd.DataFrame({"x": x_time, "y": y_power}).dropna()
+    if tdf.empty:
+        raise RuntimeError("No valid numeric samples found for plotting power_total_w over time.")
+
+    tdf = tdf.sort_values("x").reset_index(drop=True)
+    tdf["bin"] = pd.qcut(tdf.index, q=10, labels=False, duplicates="drop")
+
+    t_xs, t_means, t_lo, t_hi = [], [], [], []
+    for _, g in tdf.groupby("bin", as_index=False):
+        x_center = float(g["x"].mean())
+        vals = g["y"].to_numpy(dtype=float)
+        m, lo, hi = mean_ci_90(vals)
+        if np.isfinite(m) and np.isfinite(lo) and np.isfinite(hi):
+            t_xs.append(x_center); t_means.append(m); t_lo.append(lo); t_hi.append(hi)
+
+    if len(t_xs) < 2:
+        raise RuntimeError("Not enough valid time bins to plot (need at least 2).")
+
+    t_xs = np.array(t_xs, dtype=float)
+    t_means = np.array(t_means, dtype=float)
+    t_lo = np.array(t_lo, dtype=float)
+    t_hi = np.array(t_hi, dtype=float)
+
+    order = np.argsort(t_xs)
+    t_xs, t_means, t_lo, t_hi = t_xs[order], t_means[order], t_lo[order], t_hi[order]
+    t_yerr = np.vstack([t_means - t_lo, t_hi - t_means])
+
+    # -----------------------------
+    # Subplot 2: CPU% -> Power
+    # -----------------------------
+    if "cpu_usage_pct" not in df.columns:
+        raise RuntimeError("CSV missing required column for CPU->Power plot: cpu_usage_pct")
+
+    x_cpu = pd.to_numeric(df["cpu_usage_pct"], errors="coerce")
+    cdf = pd.DataFrame({"x": x_cpu, "y": y_power}).dropna()
+
+    # Filter invalid CPU ranges if any
+    cdf = cdf[(cdf["x"] >= 0) & (cdf["x"] <= 100)]
+    if cdf.empty:
+        raise RuntimeError("No valid numeric samples found for CPU->Power plot.")
+
+    # Bin by CPU value (equal-count bins across the observed CPU range)
+    # Note: if CPU values are constant (e.g., idle), qcut can collapse bins; duplicates="drop" handles it.
+    cdf["bin"] = pd.qcut(cdf["x"], q=10, labels=False, duplicates="drop")
+
+    c_xs, c_means, c_lo, c_hi = [], [], [], []
+    for _, g in cdf.groupby("bin", as_index=False):
+        x_center = float(g["x"].mean())
+        vals = g["y"].to_numpy(dtype=float)
+        m, lo, hi = mean_ci_90(vals)
+        if np.isfinite(m) and np.isfinite(lo) and np.isfinite(hi):
+            c_xs.append(x_center); c_means.append(m); c_lo.append(lo); c_hi.append(hi)
+
+    if len(c_xs) < 2:
+        # This can happen for very steady CPU (e.g., perfectly idle).
+        # We still plot a scatter so you get something useful.
+        c_xs = cdf["x"].to_numpy(dtype=float)
+        c_means = cdf["y"].to_numpy(dtype=float)
+        c_lo = None
+        c_hi = None
+
+    # If we have binned stats, order by CPU
+    if c_lo is not None:
+        c_xs = np.array(c_xs, dtype=float)
+        c_means = np.array(c_means, dtype=float)
+        c_lo = np.array(c_lo, dtype=float)
+        c_hi = np.array(c_hi, dtype=float)
+        order = np.argsort(c_xs)
+        c_xs, c_means, c_lo, c_hi = c_xs[order], c_means[order], c_lo[order], c_hi[order]
+        c_yerr = np.vstack([c_means - c_lo, c_hi - c_means])
+
+    # -----------------------------
+    # Render figure (two subplots)
+    # -----------------------------
+    fig, axes = plt.subplots(nrows=1, ncols=2, figsize=(12, 5), constrained_layout=True)
+
+    # Left: time trend with capped error bars (cleaner than default)
+    axes[0].errorbar(t_xs, t_means, yerr=t_yerr, fmt="-o", capsize=4, elinewidth=1, alpha=0.85)
+    axes[0].set_title(f"Power Trend (10 bins) - {load_name}")
+    axes[0].set_xlabel(x_time_label)
+    axes[0].set_ylabel("power_total_w (W)")
+    axes[0].grid(True, alpha=0.3)
+
+    # Right: CPU% -> Power with error bars (if available) and trend line
+    if c_lo is not None:
+        axes[1].errorbar(c_xs, c_means, yerr=c_yerr, fmt="-o", capsize=4, elinewidth=1, alpha=0.85)
+    else:
+        # fallback scatter only (e.g., CPU nearly constant)
+        axes[1].scatter(c_xs, c_means, s=15, alpha=0.6)
+
+    axes[1].set_title(f"Power vs CPU Usage (10 bins) - {load_name}")
+    axes[1].set_xlabel("cpu_usage_pct")
+    axes[1].set_ylabel("power_total_w (W)")
+    axes[1].grid(True, alpha=0.3)
+
+    fig.savefig(out_path, dpi=200)
+    plt.close(fig)
+
+
+
 
 def parse_args() -> argparse.Namespace:
     p = argparse.ArgumentParser(description="Analyze RAPL power profile CSV.")
@@ -260,7 +388,8 @@ def main() -> None:
     plot_path = out_dir / f"{stem}_trend.png"
 
     write_stats_log(log_path, load_name, stats_total, per_source)
-    make_binned_plot(df, load_name, plot_path)
+    # make_binned_plot(df, load_name, plot_path)
+    make_dual_plot(df, load_name, plot_path)
 
     print(f"Wrote stats log: {log_path}")
     print(f"Wrote plot image: {plot_path}")

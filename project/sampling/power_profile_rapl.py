@@ -16,12 +16,44 @@ from datetime import datetime
 from pathlib import Path
 import os
 import socket
+from typing import Tuple
 
 import pandas as pd
 from tqdm import tqdm
 
 
 RAPL_ROOT = Path("/sys/class/powercap")
+
+def read_proc_stat_cpu() -> Tuple[int, int]:
+    """
+    Read /proc/stat aggregate CPU counters.
+    Returns (idle_all, total) in jiffies.
+    """
+    line = Path("/proc/stat").read_text().splitlines()[0]  # "cpu  ..."
+    parts = line.split()
+    if parts[0] != "cpu":
+        raise RuntimeError("Unexpected /proc/stat format")
+
+    vals = list(map(int, parts[1:]))
+
+    # Fields: user nice system idle iowait irq softirq steal guest guest_nice
+    idle = vals[3]
+    iowait = vals[4] if len(vals) > 4 else 0
+    idle_all = idle + iowait
+    total = sum(vals)
+    return idle_all, total
+
+
+def cpu_util_pct_over_interval(prev_idle: int, prev_total: int, cur_idle: int, cur_total: int) -> float:
+    """
+    CPU utilization (%) over the interval between two /proc/stat reads.
+    """
+    delta_total = cur_total - prev_total
+    delta_idle = cur_idle - prev_idle
+    if delta_total <= 0:
+        return float("nan")
+    util = 100.0 * (1.0 - (delta_idle / delta_total))
+    return max(0.0, min(100.0, util))
 
 
 def discover_rapl_domains():
@@ -72,6 +104,8 @@ def main():
     prev_energy = read_energy(domains)
     prev_time = time.time()
     start_time = prev_time
+    prev_cpu_idle, prev_cpu_total = read_proc_stat_cpu()
+
 
     samples = int(args.duration / args.interval)
 
@@ -81,6 +115,10 @@ def main():
         now = time.time()
         cur_energy = read_energy(domains)
         dt = now - prev_time
+        cur_cpu_idle, cur_cpu_total = read_proc_stat_cpu()
+        cpu_usage_pct = cpu_util_pct_over_interval(prev_cpu_idle, prev_cpu_total, cur_cpu_idle, cur_cpu_total)
+
+
 
         row = {
             "timestamp": datetime.now().isoformat(timespec="seconds"),
@@ -88,6 +126,7 @@ def main():
             "sample_index": i,
             "elapsed_s": round(now - start_time, 6),
             "dt_s": round(dt, 6),
+            "cpu_usage_pct": cpu_usage_pct, 
         }
 
         total_power = 0.0
@@ -106,6 +145,7 @@ def main():
 
         prev_energy = cur_energy
         prev_time = now
+        prev_cpu_idle, prev_cpu_total = cur_cpu_idle, cur_cpu_total
 
     df = pd.DataFrame(rows)
 
