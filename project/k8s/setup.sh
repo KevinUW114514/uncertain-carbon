@@ -115,6 +115,12 @@ sudo firewall-cmd --reload
 
 sudo firewall-cmd --list-all-zones
 
+# mini conda installation
+wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
+bash Miniconda3-latest-Linux-x86_64.sh
+source ~/.bashrc
+rm Miniconda3-latest-Linux-x86_64.sh
+
 # On k8s-mgr
 sudo kubeadm reset -f
 sudo kubeadm init --pod-network-cidr=192.168.0.0/16
