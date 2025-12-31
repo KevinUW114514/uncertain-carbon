@@ -18,7 +18,7 @@ r = redis.Redis(
 # response = requests.post(url, json=payload)
 
 def send_request(url, payload):
-    response = requests.post(url, json=payload)
+    response = requests.post(url, json=payload, timeout=5)
     res_payload = response.json()
     # print(f"payload: {payload}")
     print("Status code:", response.status_code)
@@ -49,7 +49,9 @@ if __name__ == "__main__":
   workflow = {
     "image_processing": {
       "url": "http://localhost:31314/ml-image-processing",
-      "payload": {"image_name": "000b7b74-0a22-4d0c-b717-e240fdc5d555.png"}
+      "payload": {"image_name": "000b7b74-0a22-4d0c-b717-e240fdc5d555.png"} # s1
+      # "payload": {"image_name": "0d74cfde-b4d2-48dc-bf92-2234717025a8.png"}   # s2
+      # "payload": {"image_name": "f2d0ab0c-1298-4401-8cfe-27003c51de93.png"}  # s3
     },
     "object_detection": {
       "url": "http://localhost:31314/ml-object-detection",
@@ -59,6 +61,7 @@ if __name__ == "__main__":
   
   # send_request(workflow["image_processing"]["url"], workflow["image_processing"]["payload"])
   # send_request(workflow["object_detection"]["url"], workflow["object_detection"]["payload"])
+  # req_id = send_request(workflow["object_detection"]["url"], workflow["object_detection"]["payload"])
   req_id = send_request(workflow["image_processing"]["url"], workflow["image_processing"]["payload"])
   data = poll_result(req_id)
   print(data)

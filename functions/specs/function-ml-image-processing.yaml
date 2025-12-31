@@ -1,0 +1,39 @@
+apiVersion: fission.io/v1
+kind: Function
+metadata:
+  name: ml-image-processing
+spec:
+  InvokeStrategy:
+    ExecutionStrategy:
+      ExecutorType: newdeploy
+      MaxScale: 1
+      MinScale: 1
+      SpecializationTimeout: 120
+      TargetCPUPercent: 0
+      hpaMetrics:
+      - resource:
+          name: cpu
+          target:
+            averageUtilization: 70
+            type: Utilization
+        type: Resource
+    StrategyType: execution
+  concurrency: 500
+  environment:
+    name: ml-image-processing
+    namespace: ""
+  functionTimeout: 60
+  idletimeout: 120
+  package:
+    functionName: ml_image_processing.main
+    packageref:
+      name: ml-image-processing
+      namespace: ""
+  requestsPerPod: 1
+  resources:
+    limits:
+      cpu: 100m
+      memory: 50Mi
+    requests:
+      cpu: 100m
+      memory: 50Mi

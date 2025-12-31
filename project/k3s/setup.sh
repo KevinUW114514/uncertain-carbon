@@ -25,6 +25,7 @@ sudo apt-get install -y bash-completion
 echo 'source <(kubectl completion bash)' >>~/.bashrc
 source ~/.bashrc
 
+# manager and token
 curl -sfL https://get.k3s.io | sudo sh -
 sudo cat /var/lib/rancher/k3s/server/node-token
 
@@ -33,6 +34,9 @@ sudo chmod 777 /etc/rancher/k3s/k3s.yaml
 mkdir -p ~/.kube
 sudo cp /etc/rancher/k3s/k3s.yaml ~/.kube/config
 sudo chown $USER:$USER ~/.kube/config
+chmod 600 ~/.kube/config
+
+export KUBECONFIG=~/.kube/config
 
 sudo apt update
 sudo apt install -y bash-completion net-tools
@@ -43,10 +47,39 @@ kubectl get pods -A
 curl -sfL https://get.k3s.io | \
   sudo sh -s - agent \
     --server https://10.52.2.108:6443 \
-    --token "K103b0b11b947418327eba9e397c68e27255a864a55b07fffd7ff0edadf4eed1376::server:afbe48d958e93bb8edc34651414a0d24"
+    --token "K106c047a20d7c2585c93c2d6a3be1d27e5752c7b66af043d533303ef837a3ec876::server:01531294a3db10435cbfd8cb0bdfa7fb"
 
 sudo chmod 777 /etc/rancher/k3s/k3s.yaml
 kubectl get nodes
+
+# k3s cider setup
+sudo mkdir -p /etc/rancher/k3s
+sudo vim /etc/rancher/k3s/config.yaml
+sudo systemctl restart k3s
+sudo systemctl restart k3s-agent
+
+# content
+kubelet-arg:
+  - "max-pods=300"
+  - "cpu-manager-policy=static"
+  - "cpu-manager-policy-options=full-pcpus-only=true"
+  - "topology-manager-policy=restricted"
+  - "reserved-cpus=0,80,1,81"
+
+kubelet-arg:
+  - "max-pods=300"
+
+cluster-cidr: 10.42.0.0/16
+service-cidr: 10.43.0.0/16
+
+kubectl get nodes -o jsonpath='{range .items[*]}{.metadata.name}{"  "}{.spec.podCIDR}{"\n"}{end}'
+
+kubectl describe node | grep -A5 -i pods
+kubectl get pods -A -o wide | head -50
+
+# taints
+kubectl taint node intel-manager node-role.kubernetes.io/control-plane=true:NoSchedule
+kubectl describe node intel-manager | grep -i taints -A3
 
 # helm
 curl -sSLf https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash
@@ -54,10 +87,10 @@ curl -sSLf https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
 # fission
 export FISSION_NAMESPACE="fission"
 kubectl create namespace $FISSION_NAMESPACE
-kubectl create -k "github.com/fission/fission/crds/v1?ref=v1.21.0"
+kubectl create -k "github.com/fission/fission/crds/v1?ref=v1.22.0"
 helm repo add fission-charts https://fission.github.io/fission-charts/
 helm repo update
-helm install --version v1.21.0 --namespace $FISSION_NAMESPACE fission \
+helm install --version 1.22.1 --namespace $FISSION_NAMESPACE fission \
   --set serviceType=NodePort,routerServiceType=NodePort,logger.enableSecurityContext=true \
   fission-charts/fission-all
 
@@ -118,43 +151,252 @@ fission route create --name hello-route \
 docker build -f Dockerfile-buster -t kevinjieuw114514/python-env-slim --build-arg PY_BASE_IMG=python:3.11-slim .
 docker push kevinjieuw114514/python-env-slim
 
+# ml-image-processing runtime image 
+docker build -f Dockerfile-buster -t kevinjieuw114514/python-ml-image-processing --build-arg PY_BASE_IMG=python:3.11-slim .
+docker push kevinjieuw114514/python-ml-image-processing
+
+# builder
 docker build -f Dockerfile-debian -t kevinjieuw114514/python-builder-slim .
 docker push kevinjieuw114514/python-builder-slim
+
 
 # v3 custom env
 fission environment create --name pytorch --image kevinjieuw114514/python-env-slim \
   --builder kevinjieuw114514/python-builder-slim  --version 3 --poolsize 1
+# ml-detection pipeline yolo env
+fission environment create --name yolo --image kevinjieuw114514/python-torch-yolo \
+  --builder kevinjieuw114514/python-builder-slim  --version 3 --poolsize 1
+# ml-image-processing env
+fission environment create --name ml-image-processing --image kevinjieuw114514/python-ml-image-processing \
+  --builder kevinjieuw114514/python-builder-slim  --version 3 --poolsize 1
+
+# poolmgr type
+fission env delete --name ml-image-processing
+fission env delete --name yolo
+fission fn delete --name ml-image-processing
+fission fn delete --name ml-object-detection
+fission environment create --name ml-image-processing --image kevinjieuw114514/python-ml-image-processing \
+  --builder kevinjieuw114514/python-builder-slim  --version 3 --poolsize 1 --minmemory 256 --maxmemory 512 --mincpu 500 --maxcpu 800
+fission fn create --name ml-image-processing --pkg ml-image-processing --entrypoint "ml_image_processing.main" --env ml-image-processing --con 50 --requestsperpod 5
+fission fn update --name ml-image-processing --con 500 --requestsperpod 10
+fission environment update --name ml-image-processing --minmemory 100 --maxmemory 100 --mincpu 100 --maxcpu 100
+fission environment update --name ml-image-processing --minmemory 256 --maxmemory 512 --mincpu 2000 --maxcpu 8000
+#####################################################################
+fission environment create --name yolo --image kevinjieuw114514/python-torch-yolo \
+  --builder kevinjieuw114514/python-builder-slim  --version 3 --poolsize 6 --minmemory 256 --maxmemory 512 --mincpu 8000 --maxcpu 16000
+fission environment update --name yolo --poolsize 6 --mincpu 2000 --maxcpu 8000 --minmemory 256 --maxmemory 512
+fission fn create --name ml-object-detection --pkg ml-object-detection-yolo --entrypoint "ml_object_detection.main" --env yolo --con 500 --requestsperpod 5
+fission fn update --name ml-object-detection --con 500 --requestsperpod 12
+#####################################################################
+fission environment update --name ml-image-processing --poolsize 20
+fission environment update --name yolo --poolsize 10
+
+
+
+# debug
+kubectl get events --sort-by=.lastTimestamp -A | egrep -i 'evict|preempt|pressure|oom|killed|sandbox|cni|failed'
+kubectl describe node intel-worker1 | egrep -i 'Pressure|Evict|DiskPressure|MemoryPressure|PIDPressure'
+kubectl get pod -l environmentName=yolo -o wide
+
+
 
 # ml-image-processing
 zip -jr image-processing.zip ./image_processing
 fission pkg update --sourcearchive image-processing.zip \
-  --env python --buildcmd "./build.sh" --name ml-image-processing
+  --env ml-image-processing --buildcmd "./build.sh" --name ml-image-processing
+fission pkg delete --name ml-image-processing
+fission pkg create --sourcearchive image-processing.zip \
+  --env ml-image-processing --buildcmd "./build.sh" --name ml-image-processing
 fission pkg info --name ml-image-processing > log.log
 fission fn delete --name ml-image-processing
-fission fn create --name ml-image-processing --pkg ml-image-processing --entrypoint "ml_image_processing.main" --env python \
-  --executortype newdeploy \--minscale 5 --maxscale 15 --mincpu 1000 \
-  --maxcpu 1500 --minmemory 256 --maxmemory 512 --targetcpu 50
+sleep 2
+fission fn create --name ml-image-processing --pkg ml-image-processing --entrypoint "ml_image_processing.main" --env ml-image-processing \
+  --executortype newdeploy --minscale 1 --maxscale 50 --mincpu 500 \
+  --maxcpu 800 --minmemory 256 --maxmemory 512 --targetcpu 70
 fission fn update --name ml-image-processing  \
   --minscale 5 --maxscale 30
 fission route create --name ml-image-processing \
   --function ml-image-processing --url /ml-image-processing --method POST
 
-# ml-object-detection
-zip -jr object-detection.zip ./object_detection
-fission pkg update --sourcearchive object-detection.zip \
-  --env pytorch --buildcmd "./build.sh" --name ml-object-detection
-fission pkg delete --name ml-object-detection
-fission pkg create --sourcearchive object-detection.zip \
-  --env pytorch --buildcmd "./build.sh" --name ml-object-detection
-fission pkg info --name ml-object-detection > log.log
+fission fn update --name ml-image-processing  \
+  --mincpu 300 --maxcpu 300 --minmemory 60 --maxmemory 60
+
+# # ml-object-detection
+# zip -jr object-detection.zip ./object_detection
+# fission pkg update --sourcearchive object-detection.zip \
+#   --env pytorch --buildcmd "./build.sh" --name ml-object-detection
+# fission pkg delete --name ml-object-detection
+# fission pkg create --sourcearchive object-detection.zip \
+#   --env pytorch --buildcmd "./build.sh" --name ml-object-detection
+# fission pkg info --name ml-object-detection > log.log
+# fission fn delete --name ml-object-detection
+# fission fn create --name ml-object-detection --pkg ml-object-detection --entrypoint "ml_object_detection.main" --env pytorch \
+#   --executortype newdeploy \--minscale 5 --maxscale 150 --mincpu 2000 \
+#   --maxcpu 3500 --minmemory 256 --maxmemory 512 --targetcpu 50
+# fission fn update --name ml-object-detection \
+#   --minscale 5 --maxscale 30 
+# fission route create --name ml-object-detection \
+#   --function ml-object-detection --url /ml-object-detection --method POST
+
+
+# ml-object-detection-yolo
+zip -jr object-detection-yolo.zip ./object_detection
+fission pkg update --sourcearchive object-detection-yolo.zip \
+  --env yolo --buildcmd "./build.sh" --name ml-object-detection-yolo
+fission pkg delete --name ml-object-detection-yolo
+fission pkg create --sourcearchive object-detection-yolo.zip \
+  --env yolo --buildcmd "./build.sh" --name ml-object-detection-yolo
+fission pkg info --name ml-object-detection-yolo > log.log
 fission fn delete --name ml-object-detection
-fission fn create --name ml-object-detection --pkg ml-object-detection --entrypoint "ml_object_detection.main" --env pytorch \
-  --executortype newdeploy \--minscale 5 --maxscale 15 --mincpu 2000 \
-  --maxcpu 3500 --minmemory 256 --maxmemory 512 --targetcpu 50
+sleep 2.5
+fission fn create --name ml-object-detection --pkg ml-object-detection-yolo --entrypoint "ml_object_detection.main" --env yolo \
+  --executortype newdeploy --minscale 1 --maxscale 100 --mincpu 2000 \
+  --maxcpu 6000 --minmemory 256 --maxmemory 512 --targetcpu 70
 fission fn update --name ml-object-detection \
   --minscale 5 --maxscale 30 
+fission route delete --name ml-object-detection
 fission route create --name ml-object-detection \
   --function ml-object-detection --url /ml-object-detection --method POST
+
+# fast-creation
+fission fn delete --name ml-image-processing
+sleep 2.5
+fission fn create --name ml-image-processing --pkg ml-image-processing --entrypoint "ml_image_processing.main" --env ml-image-processing \
+  --executortype newdeploy --minscale 1 --maxscale 50 --mincpu 500 \
+  --maxcpu 800 --minmemory 50 --maxmemory 70 --targetcpu 70
+
+fission fn delete --name ml-object-detection
+sleep 2.5
+fission fn create --name ml-object-detection --pkg ml-object-detection-yolo --entrypoint "ml_object_detection.main" --env yolo \
+  --executortype newdeploy --minscale 1 --maxscale 100 --mincpu 2000 \
+  --maxcpu 6000 --minmemory 350 --maxmemory 512 --targetcpu 70
+
+# keda
+helm repo add kedacore https://kedacore.github.io/charts
+kubectl create namespace keda
+helm install keda kedacore/keda --namespace keda
+
+# topic trigger, (install keda first, search "keda" below)
+fission mqtrigger delete --name ml-image-processing
+sleep 2
+fission mqtrigger create \
+  --name ml-image-processing \
+  --function ml-object-detection \
+  --mqtype redis \
+  --mqtkind keda \
+  --topic ml-image-processing \
+  --errortopic ml-image-processing-error-topic \
+  --maxretries 3 \
+  --maxreplicacount 20 \
+  --minreplicacount 20 \
+  --metadata address=redis.ot-operators.svc.cluster.local:6379 \
+  --metadata listName=ml-image-processing \
+  --metadata listLength="10"
+
+
+# aquatope query/test workflow creation
+cd ~/uncertain-carbon/functions
+# create 10 functions (1 to 10) for parallelism testing
+fission fn create --name ml-image-processing-test1 --pkg ml-image-processing --entrypoint "ml_image_processing.main" --env ml-image-processing \
+  --executortype newdeploy --minscale 1 --maxscale 1 --mincpu 2000 \
+  --maxcpu 2000 --minmemory 256 --maxmemory 512 --targetcpu 70
+fission fn create --name ml-object-detection-test1 --pkg ml-object-detection-yolo --entrypoint "ml_object_detection.main" --env yolo \
+  --executortype newdeploy --minscale 1 --maxscale 1 --mincpu 2000 \
+  --maxcpu 2000 --minmemory 256 --maxmemory 512 --targetcpu 70
+
+
+# error topic inspection
+# 1. check
+kubectl -n ot-operators run -it --rm redistest \
+  --image=redis:7-alpine --restart=Never -- \
+  redis-cli -h redis.ot-operators.svc.cluster.local -p 6379 LRANGE ml-image-processing-error-topic 0 -1
+# 2. inspect
+kubectl -n ot-operators run -it --rm redistest \
+  --image=redis:7-alpine --restart=Never -- \
+  redis-cli -h redis.ot-operators.svc.cluster.local -p 6379 LRANGE ml-image-processing-error-topic 0 -1
+# 3. temp curl
+kubectl run -it --rm tmpcurl --image=curlimages/curl --restart=Never -n default -- \
+  curl -sS -i -X POST http://router.fission/fission-function/ml-object-detection \
+  -H 'Content-Type: application/json' \
+  -d '{"image_name":"000b7b74-0a22-4d0c-b717-e240fdc5d555.png","req_id":"6d0e7cc1-f981-4aad-9484-c6acfc6360cc","duration":{"ml-image-processing":0.14236813806928694}}'
+
+
+# ml-pipeline numa setting
+POD=$(kubectl -n default get pod -l app=newdeploy-ml-object-detection-default -o jsonpath='{.items[0].metadata.name}')
+kubectl -n default exec "$POD" -- printenv | egrep 'OMP_|GOMP_'
+
+kubectl get deployments.apps newdeploy-ml-object-detection-default-b469-01a8ab59b0c9 -o yaml > ml-object-detection.yaml
+kubectl get deployments.apps newdeploy-ml-object-detection-default-b469-01a8ab59b0c9 -o yaml > hu.yaml
+############################
+spec:
+      containers:
+      - env:
+        - name: RESOURCE_VERSION_COUNT
+          value: "0"
+        - name: OMP_NUM_THREADS
+          value: "8"
+        - name: OMP_PROC_BIND
+          value: "true"
+        - name: OMP_PLACES
+          value: "cores"
+        - name: GOMP_SPINCOUNT
+          value: "0"
+        image: kevinjieuw114514/python-torch-yolospec:
+      containers:
+      - env:
+        - name: RESOURCE_VERSION_COUNT
+          value: "0"
+        - name: OMP_NUM_THREADS
+          value: "8"
+        - name: OMP_PROC_BIND
+          value: "true"
+        - name: OMP_PLACES
+          value: "cores"
+        - name: GOMP_SPINCOUNT
+          value: "0"
+        image: kevinjieuw114514/python-torch-yolo
+env:
+  - name: OMP_NUM_THREADS
+    value: "2"
+  - name: OMP_PROC_BIND
+    value: "true"
+  - name: OMP_PLACES
+    value: "cores"
+  - name: OMP_WAIT_POLICY
+    value: "PASSIVE"
+  - name: MKL_NUM_THREADS
+    value: "2"
+  - name: OPENBLAS_NUM_THREADS
+    value: "2"
+  - name: NUMEXPR_MAX_THREADS
+    value: "2"
+  - name: OPENCV_NUM_THREADS
+    value: "0"   # OpenCV: 0 often means "disable internal threading" (depending on build)
+  - name: KMP_BLOCKTIME
+    value: "0"
+
+########################
+kubectl apply -f ml-object-detection.yaml
+kubectl rollout restart deployment newdeploy-ml-object-detection-default-b469-01a8ab59b0c9
+kubectl rollout status deployment newdeploy-ml-object-detection-default-b469-01a8ab59b0c9
+
+kubectl -n default patch deployment newdeploy-ml-object-detection-default \
+  --patch-file ml-object-detection.yaml
+
+sudo mkdir -p /etc/rancher/k3s
+sudo nano /etc/rancher/k3s/config.yaml
+kubelet-arg:
+  - "cpu-manager-policy=static"
+  - "cpu-manager-policy-options=full-pcpus-only=true"
+  - "topology-manager-policy=restricted"
+
+sudo systemctl restart k3s-agent
+sudo systemctl status k3s-agent --no-pager
+sudo journalctl -u k3s-agent -b --no-pager -n 200
+
+
+kubectl drain intel-worker1 --ignore-daemonsets --delete-emptydir-data --force
+
 
 # patch for HPA behavior
 kubectl patch hpa newdeploy-ml-image-processing-default-9b09-b29e7fe83013 \
@@ -175,26 +417,7 @@ kubectl -n kube-system rollout restart deployment metrics-server
 kubectl -n kube-system rollout status deployment metrics-serve
 
 
-# keda
-helm repo add kedacore https://kedacore.github.io/charts
-kubectl create namespace keda
-helm install keda kedacore/keda --namespace keda
-
-
-# topic trigger
 fission mqtrigger delete --name ml-image-processing
-fission mqtrigger create \
-  --name ml-image-processing \
-  --function ml-object-detection \
-  --mqtype redis \
-  --mqtkind keda \
-  --topic ml-image-processing \
-  --errortopic ml-image-processing-error-topic \
-  --maxretries 3 \
-  --metadata address=redis.ot-operators.svc.cluster.local:6379 \
-  --metadata listName=ml-image-processing \
-  --metadata listLength="50"
-
 fission mqtrigger create \
   --name ml-pipeline-result \
   --mqtype redis \
@@ -204,8 +427,14 @@ fission mqtrigger create \
   --maxretries 3 \
   --metadata address=redis.ot-operators.svc.cluster.local:6379 \
   --metadata listName=ml-pipeline-result \
-  --metadata listLength="50"
+  --metadata listLength="30"
 
+# check affinity
+kubectl exec -n default -it <pod> -- sh -c '
+echo "---- affinity-related env ----";
+env | egrep -i "^(OMP|KMP|GOMP|MKL|OPENBLAS|NUMEXPR|DNNL|ONEDNN|OMP_)" | sort || true
+'
+kubectl exec -n default -it newdeploy-ml-object-detection-default-884d-59d05a86d3a4-58ldksg -- sh -c ' echo "PID 1 affinity:"; taskset -pc 1 2>/dev/null || true echo; echo "Top threads by CPU:"; ps -L -p 1 -o pid,tid,psr,pcpu,comm --sort=-pcpu | head -20 echo; echo "Affinity per thread (first 20 tids):"; for t in /proc/1/task/*; do tid=$(basename "$t"); echo -n "$tid "; grep Cpus_allowed_list "$t/status" | awk "{print \$2}"; done | head -20 '
 
 # OpenTelemety
 # cert-manager
@@ -231,15 +460,18 @@ kubectl create namespace ot-operators
 helm repo add ot-helm https://ot-container-kit.github.io/helm-charts/
 helm upgrade redis-operator ot-helm/redis-operator \
     --install --namespace ot-operators
-helm upgrade redis ot-helm/redis --install --namespace ot-operators
- helm -n ot-operators upgrade redis ot-helm/redis   --reuse-values   --set externalService.enabled=true   --set 
-externalService.serviceType=NodePort   --set externalService.port=6379
+# helm upgrade redis ot-helm/redis --install --namespace ot-operators
+helm -n ot-operators upgrade redis ot-helm/redis   --reuse-values   --set externalService.enabled=true   --set \
+  externalService.serviceType=NodePort   --set externalService.port=6379
+kubectl -n ot-operators patch svc redis-external-service -p '{"spec":{"type":"NodePort", "ports":[{"port":6379,"targetPort":6379,"nodePort":32204}]}}'
 
 # minio
 helm repo add minio https://charts.min.io/
 helm repo update
 
 kubectl create namespace minio
+
+kubectl label node intel-manager minio-node=true --overwrite
 
 helm install minio minio/minio \
   --namespace minio \
@@ -252,24 +484,32 @@ sudo mv mc /usr/local/bin/mc
 
 export POD_NAME=$(kubectl get pods --namespace minio -l "release=minio" -o jsonpath="{.items[0].metadata.name}")
 kubectl port-forward $POD_NAME 9000 --namespace minio
-export MC_HOST_minio-local=http://$(kubectl get secret --namespace minio minio \
+export MC_HOST_minio_local=http://$(kubectl get secret --namespace minio minio \
   -o jsonpath="{.data.rootUser}" | base64 --decode):$(kubectl get secret \
   --namespace minio minio -o jsonpath="{.data.rootPassword}" | \
   base64 --decode)@localhost:9000
+
+kubectl port-forward -n minio svc/minio-console 9001
+# service NodePort patching
+kubectl patch svc minio -n minio \
+  -p '{"spec": {"type": "NodePort", "ports": [{"port": 9000, "targetPort": 9000, "nodePort": 30900}]}}'
 
 mc alias set myminio http://localhost:30900 minioadmin minioadmin123
 mc mb myminio/images
 mc ls myminio
 mc ls myminio/images
-mc rb myminio/processed-mages
+mc ls myminio/processed-images
+mc mb myminio/processed-images
+mc rb myminio/processed-images
+## image
+wget https://huggingface.co/datasets/poloclub/diffusiondb/resolve/main/images/part-000001.zip?download=true
+mkdir images
+unzip part-000001.zip?download=true -d images
+rm images/part-000001.json
 
-kubectl port-forward -n minio svc/minio-console 9001
+mc cp images/* myminio/images
 
 
-
-# service NodePort patching
-kubectl patch svc minio -n minio \
-  -p '{"spec": {"type": "NodePort", "ports": [{"port": 9000, "targetPort": 9000, "nodePort": 30900}]}}'
 
 kubectl -n monitoring patch svc prometheus-kube-prometheus-prometheus \
   --type='merge' \
@@ -286,9 +526,11 @@ kubectl -n monitoring patch svc prometheus-kube-prometheus-prometheus \
 kubectl patch svc minio-console -n minio \
   -p '{"spec": {"type": "NodePort", "ports": [{"port": 9001, "targetPort": 9001, "nodePort": 30901}]}}'
 
+
+
+# patch k8s services to NodePort
 kubectl -n monitoring patch svc prometheus-grafana -p '{"spec":{"type":"NodePort"}}'
 kubectl -n observability patch svc jaeger-query -p '{"spec":{"type":"NodePort"}}'
-kubectl -n ot-operators patch svc redis -p '{"spec":{"type":"NodePort"}}'
 
 kubectl patch svc minio -n minio \
   -p '{"spec": {"type": "NodePort", "ports": [{"port": 9000, "targetPort": 9000, "nodePort": 30900}]}}'
@@ -299,17 +541,9 @@ kubectl get secret --namespace monitoring prometheus-grafana -o jsonpath="{.data
 # 8DsiRxZUQkQgTGlVDU0UwbYAbzNNDc31UYy9694U
 
 
-## image
-wget https://huggingface.co/datasets/poloclub/diffusiondb/resolve/main/images/part-000001.zip?download=true
-mkdir images
-unzip part-000001.zip?download=true -d images
-rm images/part-000001.json
-
-mc cp images/* myminio/images
-
 
 # fission cli
-curl -Lo fission https://github.com/fission/fission/releases/download/v1.21.0/fission-v1.21.0-linux-amd64 \
+curl -Lo fission https://github.com/fission/fission/releases/download/v1.22.0/fission-v1.22.0-linux-amd64 \
     && chmod +x fission && sudo mv fission /usr/local/bin/
 fission version
 
@@ -582,14 +816,26 @@ helm uninstall ow -n openwhisk
 kubectl delete namespace openwhisk
 kubectl get pods -n openwhisk
 
+# uninstall
+sudo /usr/local/bin/k3s-uninstall.sh || true
+sudo /usr/local/bin/k3s-agent-uninstall.sh || true
+
+sudo rm -rf \
+  /var/lib/kubelet \
+  /var/lib/rancher \
+  /etc/rancher \
+  /run/k3s \
+  /run/flannel
+
 
 # 神秘小指令
-kubectl patch hpa newdeploy-ml-image-processing-default-9a0e-f899636d0d4a \
+kubectl patch hpa newdeploy-ml-image-processing-default-b931-31483219
+d708 \
   --type=merge \
   -p '{
     "spec": {
-      "minReplicas": 5,
-      "maxReplicas": 30,
+      "minReplicas": 1,
+      "maxReplicas": 1,
       "metrics": [
         {
           "type": "Resource",
@@ -597,22 +843,20 @@ kubectl patch hpa newdeploy-ml-image-processing-default-9a0e-f899636d0d4a \
             "name": "cpu",
             "target": {
               "type": "Utilization",
-              "averageUtilization": 50
+              "averageUtilization": 70
             }
           }
         }
       ]
     }
   }'
-
-kubectl scale deployment newdeploy-ml-image-processing-default-9a0e-f899636d0d4a --replicas=25
 
 kubectl patch hpa newdeploy-ml-object-detection-default-b995-7cfe76e42031 \
   --type=merge \
   -p '{
     "spec": {
-      "minReplicas": 5,
-      "maxReplicas": 30,
+      "minReplicas": 1,
+      "maxReplicas": 100,
       "metrics": [
         {
           "type": "Resource",
@@ -628,8 +872,17 @@ kubectl patch hpa newdeploy-ml-object-detection-default-b995-7cfe76e42031 \
     }
   }'
 
-kubectl scale deployment newdeploy-ml-object-detection-default-b995-7cfe76e42031 --replicas=25
+
+kubectl scale deployment newdeploy-ml-object-detection-default-aac7-4da75d82037c --replicas=60
+kubectl scale deployment newdeploy-ml-image-processing-default-9a0e-f899636d0d4a --replicas=6
 
 # metrics
 kubectl exec -it redis-0 -n ot-operators -- redis-cli --latency
 kubectl top pod -n ot-operators -l app=redis
+
+# throttle check
+kubectl -n default get pod newdeploy-ml-object-detection-default-a709-07b914aa9baa-68xt9gn   -o custom-columns=NAME:.metadata.name,CPU_REQ:.spec.containers[*].resources.requests.cpu,CPU_LIM:.spec.containers[*].resources.limits.cpu
+kubectl exec -n default -it newdeploy-ml-object-detection-default-a709-07b914aa9baa-68zvbnj -- sh -c '
+echo "cpu.max:"; cat /sys/fs/cgroup/cpu.max 2>/dev/null || true
+echo "cpu.stat:"; cat /sys/fs/cgroup/cpu.stat 2>/dev/null || true
+'

@@ -15,4 +15,4 @@ spec:
       policies:
         - type: Percent
           value: 10
-          periodSeconds: 10
+          periodSeconds: 15

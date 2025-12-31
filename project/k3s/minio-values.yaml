@@ -21,3 +21,12 @@ service:
 
 ingress:
   enabled: false     # set to true if you want Ingress
+
+tolerations:
+  - key: "node-role.kubernetes.io/control-plane"
+    operator: "Equal"
+    value: "true"
+    effect: "NoSchedule"
+
+nodeSelector:
+  minio-node: "true"

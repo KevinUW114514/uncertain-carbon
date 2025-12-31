@@ -1,0 +1,29 @@
+apiVersion: fission.io/v1
+kind: Environment
+metadata:
+  name: pytorch
+spec:
+  builder:
+    command: build
+    container:
+      name: builder
+      resources: {}
+    image: kevinjieuw114514/python-builder-slim
+    podspec:
+      containers:
+      - name: builder
+        resources: {}
+  imagepullsecret: ""
+  keeparchive: false
+  poolsize: 1
+  resources: {}
+  runtime:
+    container:
+      name: pytorch
+      resources: {}
+    image: kevinjieuw114514/python-env-slim
+    podspec:
+      containers:
+      - name: pytorch
+        resources: {}
+  version: 3

@@ -118,7 +118,8 @@ def generate_initial_data(n: int = 10):
     train_x = torch.rand(n, x_dim, device=device, dtype=dtype)
     train_obj, train_con = eval_obj_con(train_x)
 
-    best_obj, best_x, has_feasible = best_feasible(train_x, train_obj, train_con)
+    # best_obj, best_x, has_feasible = best_feasible(train_x, train_obj, train_con)
+    best_obj = None
     return train_x, train_obj, train_con, best_obj
 
 
@@ -214,11 +215,11 @@ def robust_outlier_filter_mad(
 def bo_loop(
     workflow_config,
     n_init: int = 10,
-    n_batch: int = 20,
-    mc_samples: int = 32,
+    n_batch: int = 5,
+    mc_samples: int = 64,
     batch_size: int = 3,
     num_restarts: int = 10,
-    raw_samples: int = 32,
+    raw_samples: int = 64,
     infeasible_cost: float | None = None,  # if None, computed automatically from data
     anomaly_detection: bool = True,
     confidence: float = 0.95,  # retained for API compatibility (not used by MAD filter)
@@ -295,7 +296,7 @@ def bo_loop(
                 train_x_nei, train_obj_nei, train_con_nei, z_cut=8.0
             )
 
-        best_random = update_random_observations(best_random, batch_size)
+        # best_random = update_random_observations(best_random, batch_size)
 
         best_obj, best_x, has_feasible = best_feasible(
             train_x_nei, train_obj_nei, train_con_nei
@@ -321,6 +322,7 @@ def bo_loop(
         best_con_val = float(outcome_constraint(best_x.unsqueeze(0)).item())
 
         if verbose:
+            print("=" * 80)
             print(
                 f"\nBatch {iteration:>2}: best_feasible_cost (random, qNEI) = "
                 f"({rand_best_cost if rand_best_cost is not None else 'NA'}, "
@@ -329,6 +331,7 @@ def bo_loop(
                 f"time = {t1 - t0:>4.2f}.",
                 end="",
             )
+            print("=" * 80)
         else:
             print(".", end="")
 

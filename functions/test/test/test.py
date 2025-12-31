@@ -4,6 +4,8 @@ import random
 
 import redis
 from locust import FastHttpUser, task, events
+import locust.stats
+locust.stats.CONSOLE_STATS_INTERVAL_SEC = 5
 
 # ---------------------------------------------------------------------------
 # Shared Redis client (one per Locust worker process)
@@ -14,25 +16,40 @@ r = redis.Redis(
     decode_responses=True,
 )
 
+SLO_MS = 6000           # QoS target: > 6s counts as failure
+POLL_TIMEOUT_S = 5.1   # "Did not complete" threshold (should be > SLO)
+POLL_INTERVAL_S = 0.5
 
-def poll_result(req_id: str, timeout_s: float = 5.0, poll_interval_s: float = 0.5):
+def poll_result(req_id: str, timeout_s: float, poll_interval_s: float):
     """
     Poll Redis for the given req_id until a value is found or timeout occurs.
-    Returns the parsed JSON value from Redis on success.
-    Raises TimeoutError on timeout.
+    Returns parsed JSON on success; raises TimeoutError on timeout.
     """
     deadline = time.monotonic() + timeout_s
 
     while True:
         val = r.get(req_id)
         if val is not None:
-            # Optional: r.delete(req_id) if you want to clean up
             return json.loads(val)
 
         if time.monotonic() >= deadline:
-            raise TimeoutError(f"Timed out after {timeout_s:.1f}s waiting for {req_id}")
+            raise TimeoutError()
 
         time.sleep(poll_interval_s)
+
+
+def fire_e2e(name: str, e2e_start: float, exception: Exception | None):
+    """
+    Record an E2E request result into Locust stats.
+    """
+    e2e_rt_ms = (time.monotonic() - e2e_start) * 1000.0
+    events.request.fire(
+        request_type="E2E",
+        name=name,
+        response_time=e2e_rt_ms,
+        response_length=0,
+        exception=exception,
+    )
 
 
 class ServerlessUser(FastHttpUser):
@@ -48,108 +65,75 @@ class ServerlessUser(FastHttpUser):
 
     # Same idea as your wait_time
     def wait_time(self):
-        return random.expovariate(1.4)  # mean 0.7s
+        return 1 # random.expovariate(1)  # mean 1s
 
     @task
     def ml_image_processing_e2e(self):
-        image_name = "000b7b74-0a22-4d0c-b717-e240fdc5d555.png"
+        # image_name = "000b7b74-0a22-4d0c-b717-e240fdc5d555_processed.png" # s1 object-detection
+        image_name = "000b7b74-0a22-4d0c-b717-e240fdc5d555.png" # s1 image-processing
+        # image_name = "0d74cfde-b4d2-48dc-bf92-2234717025a8.png"   # s2
+        # image_name = "2f36e9dd-b8c2-407d-bac9-f64fa23fd1a6.png"  # test-s3
+        # image_name = "e937afcb-aad7-4478-a3e8-59ff4e97262a.png"  # test-s4
         payload = {"image_name": image_name}
 
-        # Start E2E timer before sending the request
+        metric_name = "ml-image-processing-e2e"
         e2e_start = time.monotonic()
 
-        # -------------------------------------------------------------------
-        # Step 1: send async request (equivalent to your send_request)
-        # -------------------------------------------------------------------
+        # -----------------------------
+        # Step 1: create async request
+        # -----------------------------
         with self.client.post(
             "/ml-image-processing",
+            # "/ml-object-detection",
             json=payload,
             name="ml-image-processing-create",
             catch_response=True,
         ) as resp:
-            # Non-200 => mark HTTP request failed AND record a failed E2E event
             if resp.status_code != 200:
                 resp.failure(f"Unexpected status {resp.status_code}")
-
-                e2e_rt_ms = (time.monotonic() - e2e_start) * 1000
-                events.request.fire(
-                    request_type="E2E",
-                    name="ml-image-processing-e2e",
-                    response_time=e2e_rt_ms,
-                    response_length=0,
-                    exception=Exception(
-                        f"Create failed with status {resp.status_code}"
-                    ),
-                )
+                fire_e2e(metric_name, e2e_start, Exception(f"Create failed: HTTP {resp.status_code}"))
                 return
 
-            # Parse req_id from response JSON
             try:
                 res_payload = resp.json()
             except ValueError:
                 resp.failure("Invalid JSON in create response")
-
-                e2e_rt_ms = (time.monotonic() - e2e_start) * 1000
-                events.request.fire(
-                    request_type="E2E",
-                    name="ml-image-processing-e2e",
-                    response_time=e2e_rt_ms,
-                    response_length=0,
-                    exception=Exception("Invalid JSON in create response"),
-                )
+                fire_e2e(metric_name, e2e_start, Exception("Create failed: invalid JSON"))
                 return
 
             req_id = res_payload.get("req_id")
             if not req_id:
                 resp.failure("Missing req_id in create response")
-
-                e2e_rt_ms = (time.monotonic() - e2e_start) * 1000
-                events.request.fire(
-                    request_type="E2E",
-                    name="ml-image-processing-e2e",
-                    response_time=e2e_rt_ms,
-                    response_length=0,
-                    exception=Exception("Missing req_id in create response"),
-                )
+                fire_e2e(metric_name, e2e_start, Exception("Create failed: missing req_id"))
                 return
 
-            # If we reach here, the create call is considered successful
+            # Mark the HTTP create call as successful
             resp.success()
 
         # -------------------------------------------------------------------
         # Step 2: poll Redis for completion (equivalent to your poll_result)
         # -------------------------------------------------------------------
         try:
-            result = poll_result(req_id, timeout_s=5.1)
-            # Optionally log/inspect:
-            # print(result)
+            _ = poll_result(req_id, timeout_s=POLL_TIMEOUT_S, poll_interval_s=POLL_INTERVAL_S)
         except TimeoutError as exc:
-            # Poll loop timeout => record failed E2E event
-            e2e_rt_ms = (time.monotonic() - e2e_start) * 1000
-            events.request.fire(
-                request_type="E2E",
-                name="ml-image-processing-e2e",
-                response_time=e2e_rt_ms,
-                response_length=0,
-                exception=exc,
-            )
+            # Did not complete => failure
+            fire_e2e(metric_name, e2e_start, exc)
+            return
+        except Exception as exc:
+            # Any other polling/Redis error => failure
+            fire_e2e(metric_name, e2e_start, Exception())
             return
 
-        # -------------------------------------------------------------------
-        # Step 3: record successful E2E metric
-        # -------------------------------------------------------------------
-        e2e_rt_ms = (time.monotonic() - e2e_start) * 1000
-        # If you want to treat Redis completion as a “success” request:
-        events.request.fire(
-            request_type="E2E",
-            name="ml-image-processing-e2e",
-            response_time=e2e_rt_ms,
-            response_length=0,
-            exception=None,
-        )
-        # If you also want to see the result per request, you could attach it
-        # to logs, but avoid printing too much during large tests.
-        # print(f"E2E result for {req_id}: {result}")
+        # -----------------------------
+        # Step 3: enforce SLO and record
+        # -----------------------------
+        e2e_rt_ms = (time.monotonic() - e2e_start) * 1000.0
+        if e2e_rt_ms > SLO_MS:
+            # Completed but violated QoS => failure
+            fire_e2e(metric_name, e2e_start, Exception())
+        else:
+            # Completed within QoS => success
+            fire_e2e(metric_name, e2e_start, None)
 
 
 

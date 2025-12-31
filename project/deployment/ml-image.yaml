@@ -1,0 +1,300 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  annotations:
+    kubectl.kubernetes.io/restartedAt: "2025-12-30T23:37:21Z"
+  creationTimestamp: "2025-12-30T23:37:21Z"
+  generateName: newdeploy-ml-image-processing-default-a616-8254b24ce685-c74d7679d-
+  generation: 1
+  labels:
+    environmentName: ml-image-processing
+    environmentNamespace: default
+    environmentUid: 8dcaa936-04ed-49cf-8ddf-36cdc234cbfd
+    executorType: newdeploy
+    functionName: ml-image-processing
+    functionNamespace: default
+    functionUid: d8529cac-3c02-4647-a616-8254b24ce685
+    pod-template-hash: c74d7679d
+  name: newdeploy-ml-image-processing-default-a616-8254b24ce685-c7t4272
+  namespace: default
+  ownerReferences:
+  - apiVersion: apps/v1
+    blockOwnerDeletion: true
+    controller: true
+    kind: ReplicaSet
+    name: newdeploy-ml-image-processing-default-a616-8254b24ce685-c74d7679d
+    uid: 12d6af85-63f5-4c17-a386-89888ff93c3b
+  resourceVersion: "540580"
+  uid: df46a4af-a36b-47f7-9c36-6ac70fcb7414
+spec:
+  containers:
+  - env:
+    - name: RESOURCE_VERSION_COUNT
+      value: "0"
+    image: kevinjieuw114514/python-ml-image-processing
+    imagePullPolicy: IfNotPresent
+    lifecycle:
+      preStop:
+        exec:
+          command:
+          - /bin/sleep
+          - "0"
+    name: ml-image-processing
+    ports:
+    - containerPort: 8888
+      name: http-env
+      protocol: TCP
+    resources:
+      limits:
+        cpu: "2"
+        memory: 100Mi
+      requests:
+        cpu: 500m
+        memory: 100Mi
+    terminationMessagePath: /dev/termination-log
+    terminationMessagePolicy: File
+    volumeMounts:
+    - mountPath: /userfunc
+      name: userfunc
+    - mountPath: /secrets
+      name: secrets
+    - mountPath: /configs
+      name: configmaps
+    - mountPath: /etc/podinfo
+      name: podinfo
+    - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+      name: kube-api-access-5kxtk
+      readOnly: true
+  - command:
+    - /fetcher
+    - -secret-dir
+    - /secrets
+    - -cfgmap-dir
+    - /configs
+    - -specialize-on-startup
+    - -specialize-request
+    - '{"FetchReq":{"fetchType":1,"package":{"name":"ml-image-processing","namespace":"default","resourceVersion":"3685"},"url":"","storagesvcurl":"","filename":"deployarchive","secretList":null,"configMapList":null,"keeparchive":false},"LoadReq":{"filepath":"/userfunc/deployarchive","functionName":"ml_image_processing.main","url":"","FunctionMetadata":{"name":"ml-image-processing","namespace":"default","uid":"d8529cac-3c02-4647-a616-8254b24ce685","resourceVersion":"523620","generation":1,"creationTimestamp":"2025-12-30T21:22:25Z","managedFields":[{"manager":"fission","operation":"Update","apiVersion":"fission.io/v1","time":"2025-12-30T21:22:25Z","fieldsType":"FieldsV1","fieldsV1":{"f:spec":{".":{},"f:InvokeStrategy":{".":{},"f:ExecutionStrategy":{".":{},"f:ExecutorType":{},"f:MaxScale":{},"f:MinScale":{},"f:SpecializationTimeout":{},"f:TargetCPUPercent":{},"f:hpaMetrics":{}},"f:StrategyType":{}},"f:concurrency":{},"f:environment":{".":{},"f:name":{},"f:namespace":{}},"f:functionTimeout":{},"f:idletimeout":{},"f:package":{".":{},"f:functionName":{},"f:packageref":{".":{},"f:name":{},"f:namespace":{},"f:resourceversion":{}}},"f:requestsPerPod":{},"f:resources":{".":{},"f:limits":{".":{},"f:cpu":{},"f:memory":{}},"f:requests":{".":{},"f:cpu":{},"f:memory":{}}}}}}]},"envVersion":3}}'
+    - /userfunc
+    env:
+    - name: OTEL_TRACES_SAMPLER_ARG
+      value: "0.1"
+    - name: OTEL_PROPAGATORS
+      value: tracecontext,baggage
+    - name: OTEL_EXPORTER_OTLP_ENDPOINT
+    - name: OTEL_EXPORTER_OTLP_INSECURE
+      value: "true"
+    - name: OTEL_TRACES_SAMPLER
+      value: parentbased_traceidratio
+    image: ghcr.io/fission/fetcher:v1.22.0
+    imagePullPolicy: IfNotPresent
+    lifecycle:
+      preStop:
+        exec:
+          command:
+          - /bin/sleep
+          - "0"
+    livenessProbe:
+      failureThreshold: 3
+      httpGet:
+        path: /healthz
+        port: 8000
+        scheme: HTTP
+      initialDelaySeconds: 1
+      periodSeconds: 5
+      successThreshold: 1
+      timeoutSeconds: 1
+    name: fetcher
+    readinessProbe:
+      failureThreshold: 30
+      httpGet:
+        path: /readiness-healthz
+        port: 8000
+        scheme: HTTP
+      initialDelaySeconds: 1
+      periodSeconds: 1
+      successThreshold: 1
+      timeoutSeconds: 1
+    resources:
+      requests:
+        cpu: 10m
+        memory: 16Mi
+    terminationMessagePath: /dev/termination-log
+    terminationMessagePolicy: File
+    volumeMounts:
+    - mountPath: /userfunc
+      name: userfunc
+    - mountPath: /secrets
+      name: secrets
+    - mountPath: /configs
+      name: configmaps
+    - mountPath: /etc/podinfo
+      name: podinfo
+    - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+      name: kube-api-access-5kxtk
+      readOnly: true
+  dnsPolicy: ClusterFirst
+  enableServiceLinks: true
+  nodeName: intel-worker1
+  preemptionPolicy: PreemptLowerPriority
+  priority: 0
+  restartPolicy: Always
+  schedulerName: default-scheduler
+  securityContext: {}
+  serviceAccount: fission-fetcher
+  serviceAccountName: fission-fetcher
+  terminationGracePeriodSeconds: 0
+  tolerations:
+  - effect: NoExecute
+    key: node.kubernetes.io/not-ready
+    operator: Exists
+    tolerationSeconds: 300
+  - effect: NoExecute
+    key: node.kubernetes.io/unreachable
+    operator: Exists
+    tolerationSeconds: 300
+  volumes:
+  - emptyDir: {}
+    name: userfunc
+  - emptyDir: {}
+    name: secrets
+  - emptyDir: {}
+    name: configmaps
+  - downwardAPI:
+      defaultMode: 420
+      items:
+      - fieldRef:
+          apiVersion: v1
+          fieldPath: metadata.name
+        path: name
+      - fieldRef:
+          apiVersion: v1
+          fieldPath: metadata.namespace
+        path: namespace
+    name: podinfo
+  - name: kube-api-access-5kxtk
+    projected:
+      defaultMode: 420
+      sources:
+      - serviceAccountToken:
+          expirationSeconds: 3607
+          path: token
+      - configMap:
+          items:
+          - key: ca.crt
+            path: ca.crt
+          name: kube-root-ca.crt
+      - downwardAPI:
+          items:
+          - fieldRef:
+              apiVersion: v1
+              fieldPath: metadata.namespace
+            path: namespace
+status:
+  conditions:
+  - lastProbeTime: null
+    lastTransitionTime: "2025-12-30T23:37:22Z"
+    status: "True"
+    type: PodReadyToStartContainers
+  - lastProbeTime: null
+    lastTransitionTime: "2025-12-30T23:37:21Z"
+    status: "True"
+    type: Initialized
+  - lastProbeTime: null
+    lastTransitionTime: "2025-12-30T23:37:24Z"
+    status: "True"
+    type: Ready
+  - lastProbeTime: null
+    lastTransitionTime: "2025-12-30T23:37:24Z"
+    status: "True"
+    type: ContainersReady
+  - lastProbeTime: null
+    lastTransitionTime: "2025-12-30T23:37:21Z"
+    status: "True"
+    type: PodScheduled
+  containerStatuses:
+  - allocatedResources:
+      cpu: 10m
+      memory: 16Mi
+    containerID: containerd://a393129d470cc9460e1ab60b075eaa21cd46d1be5329565d95ca986471f7ce63
+    image: ghcr.io/fission/fetcher:v1.22.0
+    imageID: ghcr.io/fission/fetcher@sha256:16dc4c7c8f0b045c50549dad77b25dc75ae0b9ba8cc8f9ff070ecb907860f21a
+    lastState: {}
+    name: fetcher
+    ready: true
+    resources:
+      requests:
+        cpu: 10m
+        memory: 16Mi
+    restartCount: 0
+    started: true
+    state:
+      running:
+        startedAt: "2025-12-30T23:37:22Z"
+    user:
+      linux:
+        gid: 65532
+        supplementalGroups:
+        - 65532
+        uid: 65532
+    volumeMounts:
+    - mountPath: /userfunc
+      name: userfunc
+    - mountPath: /secrets
+      name: secrets
+    - mountPath: /configs
+      name: configmaps
+    - mountPath: /etc/podinfo
+      name: podinfo
+    - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+      name: kube-api-access-5kxtk
+      readOnly: true
+      recursiveReadOnly: Disabled
+  - allocatedResources:
+      cpu: 500m
+      memory: 100Mi
+    containerID: containerd://2e21bb0b6c3321c7f9b31102f31f93781ef20f14c824aae594bfc7c491d476bf
+    image: docker.io/kevinjieuw114514/python-ml-image-processing:latest
+    imageID: docker.io/kevinjieuw114514/python-ml-image-processing@sha256:54b0a52dfadff55a4f5d85a37b4a1d0c080a503b81931dc3411dec3ee4bd9fd9
+    lastState: {}
+    name: ml-image-processing
+    ready: true
+    resources:
+      limits:
+        cpu: "2"
+        memory: 100Mi
+      requests:
+        cpu: 500m
+        memory: 100Mi
+    restartCount: 0
+    started: true
+    state:
+      running:
+        startedAt: "2025-12-30T23:37:22Z"
+    user:
+      linux:
+        gid: 0
+        supplementalGroups:
+        - 0
+        uid: 0
+    volumeMounts:
+    - mountPath: /userfunc
+      name: userfunc
+    - mountPath: /secrets
+      name: secrets
+    - mountPath: /configs
+      name: configmaps
+    - mountPath: /etc/podinfo
+      name: podinfo
+    - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+      name: kube-api-access-5kxtk
+      readOnly: true
+      recursiveReadOnly: Disabled
+  hostIP: 10.52.2.205
+  hostIPs:
+  - ip: 10.52.2.205
+  phase: Running
+  podIP: 10.42.1.39
+  podIPs:
+  - ip: 10.42.1.39
+  qosClass: Burstable
+  startTime: "2025-12-30T23:37:21Z"

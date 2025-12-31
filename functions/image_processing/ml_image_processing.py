@@ -145,11 +145,12 @@ def main():
     }
     r.lpush("ml-image-processing", json.dumps(
         {
-            "image_name": image_name,
+            "image_name": new_image_name,
             "req_id": request_id,
             "duration": duration,
         }
     ))
+    r.expire("ml-image-processing", 30)
 
     return {"req_id": request_id}, 200
 

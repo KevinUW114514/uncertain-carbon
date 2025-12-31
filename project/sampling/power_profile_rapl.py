@@ -17,10 +17,19 @@ from pathlib import Path
 import os
 import socket
 from typing import Tuple
+import psutil
+import pwd
+import grp
+
+user = "cc"
+group = "cc"
+
+uid = pwd.getpwnam(user).pw_uid
+gid = grp.getgrnam(group).gr_gid
+
 
 import pandas as pd
 from tqdm import tqdm
-
 
 RAPL_ROOT = Path("/sys/class/powercap")
 
@@ -86,10 +95,12 @@ def read_energy(domains):
 
 def main():
     parser = argparse.ArgumentParser(description="Intel RAPL power profiler")
-    parser.add_argument("--load-name", required=True, help="Name of the workload")
     parser.add_argument("--duration", type=int, required=True, help="Profiling duration (seconds)")
     parser.add_argument("--interval", type=float, required=True, help="Sampling interval (seconds)")
     parser.add_argument("--out-dir", required=True, help="Output directory for CSV")
+    parser.add_argument("--rps", type=int, required=True, help="Load RPS for labeling")
+    parser.add_argument("--input-size", type=int, required=True, help="Input size for labeling")
+    parser.add_argument("--series", type=int, required=True, help="Series number for labeling")
     args = parser.parse_args()
 
     out_dir = Path(args.out_dir)
@@ -104,8 +115,8 @@ def main():
     prev_energy = read_energy(domains)
     prev_time = time.time()
     start_time = prev_time
-    prev_cpu_idle, prev_cpu_total = read_proc_stat_cpu()
-
+    # prev_cpu_idle, prev_cpu_total = read_proc_stat_cpu()
+    psutil.cpu_percent(interval=None) 
 
     samples = int(args.duration / args.interval)
 
@@ -115,23 +126,27 @@ def main():
         now = time.time()
         cur_energy = read_energy(domains)
         dt = now - prev_time
-        cur_cpu_idle, cur_cpu_total = read_proc_stat_cpu()
-        cpu_usage_pct = cpu_util_pct_over_interval(prev_cpu_idle, prev_cpu_total, cur_cpu_idle, cur_cpu_total)
-
-
+        # cur_cpu_idle, cur_cpu_total = read_proc_stat_cpu()
+        # cpu_usage_pct = cpu_util_pct_over_interval(prev_cpu_idle, prev_cpu_total, cur_cpu_idle, cur_cpu_total)
+        # cpu_usage_pct = psutil.cpu_percent(interval=None)
 
         row = {
+            "hostname": socket.gethostname(),
             "timestamp": datetime.now().isoformat(timespec="seconds"),
-            "load_name": args.load_name,
+            "rps": args.rps,
             "sample_index": i,
             "elapsed_s": round(now - start_time, 6),
             "dt_s": round(dt, 6),
-            "cpu_usage_pct": cpu_usage_pct, 
+            "input_size": args.input_size,
+            # "cpu_usage_pct": cpu_usage_pct, 
         }
 
         total_power = 0.0
 
         for d in domains:
+            if "dram" in d["key"]:
+                continue  # skip DRAM for now
+
             delta_uj = cur_energy[d["key"]] - prev_energy[d["key"]]
             power_w = (delta_uj / 1e6) / dt if delta_uj >= 0 else float("nan")
             col = f"rapl_{d['key']}_w"
@@ -145,16 +160,18 @@ def main():
 
         prev_energy = cur_energy
         prev_time = now
-        prev_cpu_idle, prev_cpu_total = cur_cpu_idle, cur_cpu_total
+        # prev_cpu_idle, prev_cpu_total = cur_cpu_idle, cur_cpu_total
 
     df = pd.DataFrame(rows)
 
     hostname = socket.gethostname()
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    out_file = out_dir / f"{hostname}_{args.load_name}_{timestamp}.csv"
+    out_file = out_dir / f"{hostname}_s{args.series}_rps{args.rps}_{timestamp}.csv"
     df.to_csv(out_file, index=False)
     
     # Ensure non-root users can read the CSV
+    
+    os.chown(out_file, uid, gid)
     os.chmod(out_file, 0o644)
 
     # Ensure output directory is traversable
@@ -168,9 +185,17 @@ if __name__ == "__main__":
 
 
 """
-sudo -E $(which python3) power_profile_rapl.py \
-  --load-name idle \
-  --duration 60 \
-  --interval 1 \
-  --out-dir ./power_logs
+stat /home/cc/uncertain-carbon/functions/source-images/images/0d74cfde-b4d2-48dc-bf92-2234717025a8.png
+
+sudo -E $(which python3) power_profile_rapl.py   \
+    --rps 150 \
+    --duration 60 \
+    --interval 1 \
+    --out-dir ./power_logs \
+    --input-size 563135 \
+    --series 7
+    
+python sum_by_index.py --in-csv ./power_logs/intel-manager_s7_rps150_20251229_065853.csv --out-csv summed_hu.csv
+
+python avg.py
 """

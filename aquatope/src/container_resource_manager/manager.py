@@ -22,6 +22,26 @@ import bayesian_optimization
 
 WORKFLOW_CONFIG = json.load(open("ml_workflow.json", "r"))
 
+def explain_resource_config(functions: list, resource_config: list):
+    lines = []
+    for i, fn in enumerate(functions):
+        scaled_cpu, scaled_mem = resource_config[i]
+
+        CPU_MAX = WORKFLOW_CONFIG["max_cpu"][fn]
+        CPU_MIN = WORKFLOW_CONFIG["min_cpu"][fn]
+        MEM_MAX = WORKFLOW_CONFIG["max_memory"][fn]
+        MEM_MIN = WORKFLOW_CONFIG["min_memory"][fn]
+
+        cpu_m = round(scaled_cpu * (CPU_MAX - CPU_MIN) + CPU_MIN)
+        mem_mi = round(scaled_mem * (MEM_MAX - MEM_MIN) + MEM_MIN)
+
+        lines.append(
+            f"{fn}: scaled(cpu={scaled_cpu:.3f}, mem={scaled_mem:.3f}) -> "
+            f"cpu={cpu_m}m (range {CPU_MIN}-{CPU_MAX}m), "
+            f"mem={mem_mi}Mi (range {MEM_MIN}-{MEM_MAX}Mi)"
+        )
+    return "\n".join(lines)
+
 
 def main():
     global WORKFLOW_CONFIG
@@ -56,6 +76,7 @@ def main():
         WORKFLOW_CONFIG = json.load(f)
         # print(WORKFLOW_CONFIG)
 
+    start_time = time.time()
     best_cost, resource_config = bayesian_optimization.bo_loop(
         workflow_config=WORKFLOW_CONFIG,
         # n_init=n_init,
@@ -69,6 +90,14 @@ def main():
         # confidence=confidence,
         # verbose=verbose,
     )
+    end_time = time.time()
+    print(f"BO loop time: {end_time - start_time:.2f} seconds")
+
+    # best_cost = 0.03552659365574232
+    # resource_config= [[0.8111610417730569, 0.7809624320991828], [0.26167575761264583, 0.14111209835747085]]
+    print(f"Best cost: {best_cost}")
+    print(f"Best resource configuration: {resource_config}")
+    print(explain_resource_config(WORKFLOW_CONFIG["functions"], resource_config))
 
 
 if __name__ == "__main__":

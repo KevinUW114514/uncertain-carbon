@@ -1,0 +1,11 @@
+{
+  "mae_w": 9.17527030710778,
+  "min_samples_per_point": 1,
+  "mode": "aggregated",
+  "model_kind": "linear",
+  "r2": 0.9905737398333008,
+  "random_state": 42,
+  "rmse_w": 9.185882526024113,
+  "test_size": 0.2,
+  "training_rows": 10
+}

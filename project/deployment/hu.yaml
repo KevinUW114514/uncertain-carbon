@@ -1,0 +1,207 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    deployment.kubernetes.io/revision: "2"
+    executorInstanceId: wljjnyxk
+    functionResourceVersion: "20565"
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"annotations":{"deployment.kubernetes.io/revision":"1","executorInstanceId":"wljjnyxk","functionResourceVersion":"20565"},"creationTimestamp":"2025-12-28T06:36:50Z","generation":5,"labels":{"environmentName":"yolo","environmentNamespace":"default","environmentUid":"69b820ac-4516-45dc-8de8-7eba6f41157a","executorType":"newdeploy","functionName":"ml-object-detection","functionNamespace":"default","functionUid":"2552fd41-df4f-43ff-a709-07b914aa9baa"},"name":"newdeploy-ml-object-detection-default-a709-07b914aa9baa","namespace":"default","ownerReferences":[{"apiVersion":"fission.io/v1","blockOwnerDeletion":true,"controller":true,"kind":"Function","name":"ml-object-detection","uid":"2552fd41-df4f-43ff-a709-07b914aa9baa"}],"resourceVersion":"22694","uid":"040fe04e-10e0-473c-ae5f-74f131d00d36"},"spec":{"progressDeadlineSeconds":600,"replicas":60,"revisionHistoryLimit":0,"selector":{"matchLabels":{"environmentName":"yolo","environmentNamespace":"default","environmentUid":"69b820ac-4516-45dc-8de8-7eba6f41157a","executorType":"newdeploy","functionName":"ml-object-detection","functionNamespace":"default","functionUid":"2552fd41-df4f-43ff-a709-07b914aa9baa"}},"strategy":{"rollingUpdate":{"maxSurge":"20%","maxUnavailable":"20%"},"type":"RollingUpdate"},"template":{"metadata":{"creationTimestamp":null,"labels":{"environmentName":"yolo","environmentNamespace":"default","environmentUid":"69b820ac-4516-45dc-8de8-7eba6f41157a","executorType":"newdeploy","functionName":"ml-object-detection","functionNamespace":"default","functionUid":"2552fd41-df4f-43ff-a709-07b914aa9baa"}},"spec":{"containers":[{"env":[{"name":"RESOURCE_VERSION_COUNT","value":"0"}],"image":"kevinjieuw114514/python-torch-yolo","imagePullPolicy":"IfNotPresent","lifecycle":{"preStop":{"exec":{"command":["/bin/sleep","0"]}}},"name":"yolo","ports":[{"containerPort":8888,"name":"http-env","protocol":"TCP"}],"resources":{"requests":{"cpu":"2","memory":"256Mi"}},"terminationMessagePath":"/dev/termination-log","terminationMessagePolicy":"File","volumeMounts":[{"mountPath":"/userfunc","name":"userfunc"},{"mountPath":"/secrets","name":"secrets"},{"mountPath":"/configs","name":"configmaps"},{"mountPath":"/etc/podinfo","name":"podinfo"}]},{"command":["/fetcher","-secret-dir","/secrets","-cfgmap-dir","/configs","-specialize-on-startup","-specialize-request","{\"FetchReq\":{\"fetchType\":1,\"package\":{\"name\":\"ml-object-detection-yolo\",\"namespace\":\"default\",\"resourceVersion\":\"18908\"},\"url\":\"\",\"storagesvcurl\":\"\",\"filename\":\"deployarchive\",\"secretList\":null,\"configMapList\":null,\"keeparchive\":false},\"LoadReq\":{\"filepath\":\"/userfunc/deployarchive\",\"functionName\":\"ml_object_detection.main\",\"url\":\"\",\"FunctionMetadata\":{\"name\":\"ml-object-detection\",\"namespace\":\"default\",\"uid\":\"2552fd41-df4f-43ff-a709-07b914aa9baa\",\"resourceVersion\":\"20565\",\"generation\":1,\"creationTimestamp\":\"2025-12-28T06:36:50Z\",\"managedFields\":[{\"manager\":\"fission\",\"operation\":\"Update\",\"apiVersion\":\"fission.io/v1\",\"time\":\"2025-12-28T06:36:50Z\",\"fieldsType\":\"FieldsV1\",\"fieldsV1\":{\"f:spec\":{\".\":{},\"f:InvokeStrategy\":{\".\":{},\"f:ExecutionStrategy\":{\".\":{},\"f:ExecutorType\":{},\"f:MaxScale\":{},\"f:MinScale\":{},\"f:SpecializationTimeout\":{},\"f:TargetCPUPercent\":{},\"f:hpaMetrics\":{}},\"f:StrategyType\":{}},\"f:concurrency\":{},\"f:environment\":{\".\":{},\"f:name\":{},\"f:namespace\":{}},\"f:functionTimeout\":{},\"f:idletimeout\":{},\"f:package\":{\".\":{},\"f:functionName\":{},\"f:packageref\":{\".\":{},\"f:name\":{},\"f:namespace\":{},\"f:resourceversion\":{}}},\"f:requestsPerPod\":{},\"f:resources\":{\".\":{},\"f:limits\":{\".\":{},\"f:cpu\":{},\"f:memory\":{}},\"f:requests\":{\".\":{},\"f:cpu\":{},\"f:memory\":{}}}}}}]},\"envVersion\":3}}","/userfunc"],"env":[{"name":"OTEL_EXPORTER_OTLP_ENDPOINT"},{"name":"OTEL_EXPORTER_OTLP_INSECURE","value":"true"},{"name":"OTEL_TRACES_SAMPLER","value":"parentbased_traceidratio"},{"name":"OTEL_TRACES_SAMPLER_ARG","value":"0.1"},{"name":"OTEL_PROPAGATORS","value":"tracecontext,baggage"}],"image":"ghcr.io/fission/fetcher:v1.22.0","imagePullPolicy":"IfNotPresent","lifecycle":{"preStop":{"exec":{"command":["/bin/sleep","0"]}}},"livenessProbe":{"failureThreshold":3,"httpGet":{"path":"/healthz","port":8000,"scheme":"HTTP"},"initialDelaySeconds":1,"periodSeconds":5,"successThreshold":1,"timeoutSeconds":1},"name":"fetcher","readinessProbe":{"failureThreshold":30,"httpGet":{"path":"/readiness-healthz","port":8000,"scheme":"HTTP"},"initialDelaySeconds":1,"periodSeconds":1,"successThreshold":1,"timeoutSeconds":1},"resources":{"requests":{"cpu":"10m","memory":"16Mi"}},"terminationMessagePath":"/dev/termination-log","terminationMessagePolicy":"File","volumeMounts":[{"mountPath":"/userfunc","name":"userfunc"},{"mountPath":"/secrets","name":"secrets"},{"mountPath":"/configs","name":"configmaps"},{"mountPath":"/etc/podinfo","name":"podinfo"}]}],"dnsPolicy":"ClusterFirst","restartPolicy":"Always","schedulerName":"default-scheduler","securityContext":{},"serviceAccount":"fission-fetcher","serviceAccountName":"fission-fetcher","terminationGracePeriodSeconds":0,"volumes":[{"emptyDir":{},"name":"userfunc"},{"emptyDir":{},"name":"secrets"},{"emptyDir":{},"name":"configmaps"},{"downwardAPI":{"defaultMode":420,"items":[{"fieldRef":{"apiVersion":"v1","fieldPath":"metadata.name"},"path":"name"},{"fieldRef":{"apiVersion":"v1","fieldPath":"metadata.namespace"},"path":"namespace"}]},"name":"podinfo"}]}}},"status":{"availableReplicas":60,"conditions":[{"lastTransitionTime":"2025-12-28T06:36:50Z","lastUpdateTime":"2025-12-28T06:36:53Z","message":"ReplicaSet \"newdeploy-ml-object-detection-default-a709-07b914aa9baa-68875f4cc5\" has successfully progressed.","reason":"NewReplicaSetAvailable","status":"True","type":"Progressing"},{"lastTransitionTime":"2025-12-28T06:37:53Z","lastUpdateTime":"2025-12-28T06:37:53Z","message":"Deployment has minimum availability.","reason":"MinimumReplicasAvailable","status":"True","type":"Available"}],"observedGeneration":5,"readyReplicas":60,"replicas":60,"updatedReplicas":60}}
+  creationTimestamp: "2025-12-28T06:36:50Z"
+  generation: 14
+  labels:
+    environmentName: yolo
+    environmentNamespace: default
+    environmentUid: 69b820ac-4516-45dc-8de8-7eba6f41157a
+    executorType: newdeploy
+    functionName: ml-object-detection
+    functionNamespace: default
+    functionUid: 2552fd41-df4f-43ff-a709-07b914aa9baa
+  name: newdeploy-ml-object-detection-default-a709-07b914aa9baa
+  namespace: default
+  ownerReferences:
+  - apiVersion: fission.io/v1
+    blockOwnerDeletion: true
+    controller: true
+    kind: Function
+    name: ml-object-detection
+    uid: 2552fd41-df4f-43ff-a709-07b914aa9baa
+  resourceVersion: "25719"
+  uid: 040fe04e-10e0-473c-ae5f-74f131d00d36
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 1
+  revisionHistoryLimit: 0
+  selector:
+    matchLabels:
+      environmentName: yolo
+      environmentNamespace: default
+      environmentUid: 69b820ac-4516-45dc-8de8-7eba6f41157a
+      executorType: newdeploy
+      functionName: ml-object-detection
+      functionNamespace: default
+      functionUid: 2552fd41-df4f-43ff-a709-07b914aa9baa
+  strategy:
+    rollingUpdate:
+      maxSurge: 20%
+      maxUnavailable: 20%
+    type: RollingUpdate
+  template:
+    metadata:
+      annotations:
+        kubectl.kubernetes.io/restartedAt: "2025-12-28T06:59:48Z"
+      creationTimestamp: null
+      labels:
+        environmentName: yolo
+        environmentNamespace: default
+        environmentUid: 69b820ac-4516-45dc-8de8-7eba6f41157a
+        executorType: newdeploy
+        functionName: ml-object-detection
+        functionNamespace: default
+        functionUid: 2552fd41-df4f-43ff-a709-07b914aa9baa
+    spec:
+      containers:
+      - env:
+        - name: RESOURCE_VERSION_COUNT
+          value: "0"
+        image: kevinjieuw114514/python-torch-yolo
+        imagePullPolicy: IfNotPresent
+        lifecycle:
+          preStop:
+            exec:
+              command:
+              - /bin/sleep
+              - "0"
+        name: yolo
+        ports:
+        - containerPort: 8888
+          name: http-env
+          protocol: TCP
+        resources:
+          limits:
+            cpu: "2"
+            memory: 512Mi
+          requests:
+            cpu: "2"
+            memory: 256Mi
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        volumeMounts:
+        - mountPath: /userfunc
+          name: userfunc
+        - mountPath: /secrets
+          name: secrets
+        - mountPath: /configs
+          name: configmaps
+        - mountPath: /etc/podinfo
+          name: podinfo
+      - command:
+        - /fetcher
+        - -secret-dir
+        - /secrets
+        - -cfgmap-dir
+        - /configs
+        - -specialize-on-startup
+        - -specialize-request
+        - '{"FetchReq":{"fetchType":1,"package":{"name":"ml-object-detection-yolo","namespace":"default","resourceVersion":"18908"},"url":"","storagesvcurl":"","filename":"deployarchive","secretList":null,"configMapList":null,"keeparchive":false},"LoadReq":{"filepath":"/userfunc/deployarchive","functionName":"ml_object_detection.main","url":"","FunctionMetadata":{"name":"ml-object-detection","namespace":"default","uid":"2552fd41-df4f-43ff-a709-07b914aa9baa","resourceVersion":"20565","generation":1,"creationTimestamp":"2025-12-28T06:36:50Z","managedFields":[{"manager":"fission","operation":"Update","apiVersion":"fission.io/v1","time":"2025-12-28T06:36:50Z","fieldsType":"FieldsV1","fieldsV1":{"f:spec":{".":{},"f:InvokeStrategy":{".":{},"f:ExecutionStrategy":{".":{},"f:ExecutorType":{},"f:MaxScale":{},"f:MinScale":{},"f:SpecializationTimeout":{},"f:TargetCPUPercent":{},"f:hpaMetrics":{}},"f:StrategyType":{}},"f:concurrency":{},"f:environment":{".":{},"f:name":{},"f:namespace":{}},"f:functionTimeout":{},"f:idletimeout":{},"f:package":{".":{},"f:functionName":{},"f:packageref":{".":{},"f:name":{},"f:namespace":{},"f:resourceversion":{}}},"f:requestsPerPod":{},"f:resources":{".":{},"f:limits":{".":{},"f:cpu":{},"f:memory":{}},"f:requests":{".":{},"f:cpu":{},"f:memory":{}}}}}}]},"envVersion":3}}'
+        - /userfunc
+        env:
+        - name: OTEL_EXPORTER_OTLP_ENDPOINT
+        - name: OTEL_EXPORTER_OTLP_INSECURE
+          value: "true"
+        - name: OTEL_TRACES_SAMPLER
+          value: parentbased_traceidratio
+        - name: OTEL_TRACES_SAMPLER_ARG
+          value: "0.1"
+        - name: OTEL_PROPAGATORS
+          value: tracecontext,baggage
+        image: ghcr.io/fission/fetcher:v1.22.0
+        imagePullPolicy: IfNotPresent
+        lifecycle:
+          preStop:
+            exec:
+              command:
+              - /bin/sleep
+              - "0"
+        livenessProbe:
+          failureThreshold: 3
+          httpGet:
+            path: /healthz
+            port: 8000
+            scheme: HTTP
+          initialDelaySeconds: 1
+          periodSeconds: 5
+          successThreshold: 1
+          timeoutSeconds: 1
+        name: fetcher
+        readinessProbe:
+          failureThreshold: 30
+          httpGet:
+            path: /readiness-healthz
+            port: 8000
+            scheme: HTTP
+          initialDelaySeconds: 1
+          periodSeconds: 1
+          successThreshold: 1
+          timeoutSeconds: 1
+        resources:
+          requests:
+            cpu: 10m
+            memory: 16Mi
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        volumeMounts:
+        - mountPath: /userfunc
+          name: userfunc
+        - mountPath: /secrets
+          name: secrets
+        - mountPath: /configs
+          name: configmaps
+        - mountPath: /etc/podinfo
+          name: podinfo
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      serviceAccount: fission-fetcher
+      serviceAccountName: fission-fetcher
+      terminationGracePeriodSeconds: 0
+      volumes:
+      - emptyDir: {}
+        name: userfunc
+      - emptyDir: {}
+        name: secrets
+      - emptyDir: {}
+        name: configmaps
+      - downwardAPI:
+          defaultMode: 420
+          items:
+          - fieldRef:
+              apiVersion: v1
+              fieldPath: metadata.name
+            path: name
+          - fieldRef:
+              apiVersion: v1
+              fieldPath: metadata.namespace
+            path: namespace
+        name: podinfo
+status:
+  availableReplicas: 1
+  conditions:
+  - lastTransitionTime: "2025-12-28T06:36:50Z"
+    lastUpdateTime: "2025-12-28T06:59:51Z"
+    message: ReplicaSet "newdeploy-ml-object-detection-default-a709-07b914aa9baa-6d9968b7dd"
+      has successfully progressed.
+    reason: NewReplicaSetAvailable
+    status: "True"
+    type: Progressing
+  - lastTransitionTime: "2025-12-28T07:00:05Z"
+    lastUpdateTime: "2025-12-28T07:00:05Z"
+    message: Deployment has minimum availability.
+    reason: MinimumReplicasAvailable
+    status: "True"
+    type: Available
+  observedGeneration: 14
+  readyReplicas: 1
+  replicas: 1
+  updatedReplicas: 1

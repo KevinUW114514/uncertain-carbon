@@ -1,6 +1,9 @@
 {
   "name": "ml_workflow",
-  "functions": [ "ml-image-processing", "ml-object-detection" ],
+  "functions": [
+    "ml-image-processing",
+    "ml-object-detection"
+  ],
   "params": {
     "ml-image-processing": {
       "image_name": "000b7b74-0a22-4d0c-b717-e240fdc5d555.png"
@@ -9,5 +12,29 @@
       "image_name": "000b7b74-0a22-4d0c-b717-e240fdc5d555_processed.png"
     }
   },
-  "qos": 3
+  "min_memory": {
+    "ml-image-processing": 50,
+    "ml-object-detection": 400
+  },
+  "max_memory": {
+    "ml-image-processing": 70,
+    "ml-object-detection": 512
+  },
+  "min_cpu": {
+    "ml-image-processing": 300,
+    "ml-object-detection": 1500
+  },
+  "max_cpu": {
+    "ml-image-processing": 800,
+    "ml-object-detection": 6000
+  },
+  "function_deployment_mapping": {
+    "ml-image-processing": "newdeploy-ml-image-processing-default-a616-8254b24ce685",
+    "ml-object-detection": "newdeploy-ml-object-detection-default-beef-7bcaa92aa890"
+  },
+  "container_name_mapping": {
+    "ml-image-processing": "ml-image-processing",
+    "ml-object-detection": "yolo"
+  },
+  "qos": 3.0
 }

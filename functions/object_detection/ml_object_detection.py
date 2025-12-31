@@ -6,6 +6,17 @@ from datetime import datetime, timezone
 import time
 from multiprocessing import Pool
 from pathlib import Path
+
+# os.environ.setdefault("OMP_NUM_THREADS", "8")
+# os.environ.setdefault("OMP_PROC_BIND", "true")
+# os.environ.setdefault("OMP_PLACES", "cores")
+# os.environ.setdefault("GOMP_SPINCOUNT", "0")
+# very early in app startup (before model load / first inference)
+# import torch
+# torch.set_num_threads(2)
+# torch.set_num_interop_threads(1)
+
+
 from ultralytics import YOLO
 
 # from config import ACCESS_KEY, BUCKET, ENDPOINT, SECRET_KEY
@@ -15,6 +26,10 @@ import logging
 import json
 import redis
 import uuid
+
+logging.basicConfig(level=logging.DEBUG)
+model_load_counter = 0
+minio_client_counter = 0
 
 r = redis.Redis(
     host="redis.ot-operators.svc.cluster.local",
@@ -58,6 +73,8 @@ def main():
     start_time = time.monotonic()
     global minio_client
     global model
+    global model_load_counter
+    global minio_client_counter
 
     req = request.get_json()
     
@@ -75,7 +92,7 @@ def main():
     # }
     access_key = "minioadmin"
     secret_key = "minioadmin123"
-    bucket_name = "images"
+    bucket_name = "processed-images"
     if minio_client is None:
         minio_client = Minio(
             endpoint=endpoint,
@@ -83,19 +100,18 @@ def main():
             secret_key=secret_key,
             secure=False,
         )
+        minio_client_counter += 1
+        logging.debug(f"MinIO client initialized {minio_client_counter} time(s)")
+
     duration = req.get("duration", {})
     req_id = req.get("req_id", str(uuid.uuid4()))
     image_name = req['image_name']
 
     if model is None:
-        model = YOLO('yolov8s.pt')
-    if minio_client is None:
-        minio_client = Minio(
-            endpoint=endpoint,
-            access_key=access_key,
-            secret_key=secret_key,
-            secure=False,
-        )
+        model = YOLO("/models/yolov8s.pt")
+        model_load_counter += 1
+        logging.debug(f"ML model loaded {model_load_counter} time(s)")
+        
 
     object_classes = []
     object_boxes = []

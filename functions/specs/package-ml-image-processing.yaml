@@ -1,0 +1,24 @@
+include:
+- image-processing.zip
+kind: ArchiveUploadSpec
+name: image-processing-zip-m259
+
+---
+apiVersion: fission.io/v1
+kind: Package
+metadata:
+  name: ml-image-processing
+spec:
+  buildcmd: ./build.sh
+  deployment:
+    checksum: {}
+  environment:
+    name: ml-image-processing
+    namespace: ""
+  source:
+    checksum: {}
+    type: url
+    url: archive://image-processing-zip-m259
+status:
+  buildstatus: pending
+  lastUpdateTimestamp: "2025-12-30T08:17:43Z"

@@ -388,8 +388,8 @@ def main() -> None:
     plot_path = out_dir / f"{stem}_trend.png"
 
     write_stats_log(log_path, load_name, stats_total, per_source)
-    # make_binned_plot(df, load_name, plot_path)
-    make_dual_plot(df, load_name, plot_path)
+    make_binned_plot(df, load_name, plot_path)
+    # make_dual_plot(df, load_name, plot_path)
 
     print(f"Wrote stats log: {log_path}")
     print(f"Wrote plot image: {plot_path}")

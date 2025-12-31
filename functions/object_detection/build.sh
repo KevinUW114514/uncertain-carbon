@@ -14,9 +14,9 @@
 # pip3 install --no-cache-dir -r "${SRC_PKG}/requirements-torch.txt" -t "${SRC_PKG}"
 # pip3 install --no-cache-dir -r "${SRC_PKG}/requirements-base.txt" -t "${SRC_PKG}"
 # pip3 install --no-cache-dir --no-deps ultralytics -t "${SRC_PKG}"
-pip3 install -r "${SRC_PKG}/requirements-torch.txt" -t "${SRC_PKG}"
-pip3 install -r "${SRC_PKG}/requirements-base.txt" -t "${SRC_PKG}"
-pip3 install --no-deps ultralytics -t "${SRC_PKG}"
+# pip3 install -r "${SRC_PKG}/requirements-torch.txt" -t "${SRC_PKG}"
+# pip3 install -r "${SRC_PKG}/requirements-base.txt" -t "${SRC_PKG}"
+# pip3 install --no-deps ultralytics -t "${SRC_PKG}"
 
-# 4) Copy built package to deploy package
+# # 4) Copy built package to deploy package
 cp -r "${SRC_PKG}" "${DEPLOY_PKG}"
