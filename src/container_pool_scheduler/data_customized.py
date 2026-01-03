@@ -18,28 +18,11 @@ class AzureFunctionDataset(Dataset):
                  key: str = 'train', pretraining: bool = True):
         # calculate normalisation parameters for columns `invocation_rate`
         # from training data
-        print(f"shape of samples['train']: {samples['train'].shape}")
-        input("debug")
         self.X_train = samples['train'][:, :n_input_steps, :].copy()
-
-        cols_to_normalise = [0]
-        self.train_mu, self.train_sigma = [], []
-        for c in cols_to_normalise:
-            self.train_mu.append(np.mean(np.hstack([self.X_train[:, 0, c],
-                                                    self.X_train[-1, 1:, c]])))
-            self.train_sigma.append(np.std(np.hstack([self.X_train[:, 0, c],
-                                                      self.X_train[-1, 1:, c]])))
-        print(f"train_mu: {self.train_mu}, train_sigma: {self.train_sigma}")
-        input("debug")
 
         # normalise dataset
         self.X = samples[key][:, :n_input_steps, :].copy()
         self.y = samples[key][:, n_input_steps:, :].copy()
-        for c, col in enumerate(cols_to_normalise):
-            self.X[:, :, col] = (self.X[:, :, col] -
-                                 self.train_mu[c]) / (self.train_sigma[c])
-            self.y[:, :, col] = (self.y[:, :, col] -
-                                 self.train_mu[c]) / (self.train_sigma[c])
 
         # provide external features for prediction network
         self.pretraining = pretraining
@@ -52,14 +35,15 @@ class AzureFunctionDataset(Dataset):
         invocation_idx = 0
         x = torch.Tensor(self.X[idx, :, :]).float()
         if self.pretraining:
-            y = torch.Tensor(self.y[idx, :, invocation_idx] -
-                             self.X[idx, 0, invocation_idx]).float()
+            y = torch.Tensor(self.y[idx, :, invocation_idx]).float()
         else:
-            y = self.y[idx, :, :].copy()
+            y = self.y[idx, :, invocation_idx].copy()
             y[:, invocation_idx] -= self.X[idx, 0, invocation_idx]
             y = torch.Tensor(
                 y[:, [invocation_idx] + self.prediction_cols]).float()
 
+        # print(f"x.shape: {x.shape}, y.shape: {y.shape}")
+        # input("debug")
         return x, y
 
 
@@ -94,6 +78,7 @@ def pipeline(n_input_steps: int, n_pred_steps: int,
     df = load_dataset(hash_function=hash_function, dataset_dir=dataset_dir,
                       num_days=num_days)
     split_dfs = split_dataframe(df)
+    split_dfs["train"].to_csv("train_samples.csv")
     samples = create_samples(split_dfs, n_input_steps, n_pred_steps)
 
     return df, split_dfs, samples
@@ -145,6 +130,11 @@ def load_dataset(hash_function: str,
     day_of_week_cos = np.cos(2 * np.pi * (df.index.isocalendar().day / 7))
     df['day_of_week_sin'] = day_of_week_sin
     df['day_of_week_cos'] = day_of_week_cos
+    
+    df.iloc[:10].to_csv("debug_loaded_dataset.csv")
+    print(df.columns)
+    input("debug")
+    
     return df
 
 

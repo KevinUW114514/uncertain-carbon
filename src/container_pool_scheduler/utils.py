@@ -52,12 +52,12 @@ def train_encoder_decoder(
     # Wrap epochs in a progress iterator, but DON'T overwrite num_epochs
     if use_tqdm:
         from tqdm.auto import tqdm
-        epoch_iter = tqdm(range(num_epochs), leave=True, disable=not use_tqdm)
+        epoch_iter = tqdm(range(num_epochs), leave=True, disable=not use_tqdm, dynamic_ncols=True)
     else:
         epoch_iter = range(num_epochs)
 
     total_train = len(dataloaders["train"].dataset)
-
+    x = dataloaders["train"].dataset[0]
     for epoch in epoch_iter:
         model.train()
 
@@ -67,7 +67,6 @@ def train_encoder_decoder(
         for i, (x, y) in enumerate(dataloaders["train"]):
             x, y = x.to(device), y.to(device)
             out = model(x)
-
             optimiser.zero_grad()
             loss = loss_fn(out, y)
             loss.backward()

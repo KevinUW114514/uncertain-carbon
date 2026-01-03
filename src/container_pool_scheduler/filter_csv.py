@@ -22,7 +22,8 @@ hash_sums = df.groupby('HashFunction')['total'].sum().sort_values(ascending=Fals
 # Step 4: save the results to a new CSV
 # hash_sums.to_csv("hashfunction_invocation_sums.csv", header=['TotalSum'])
 
-filtered = hash_sums[(hash_sums >= 80640) & (hash_sums <= 81000)]
+# filtered = hash_sums[(hash_sums >= 80640) & (hash_sums <= 81000)]
+filtered = hash_sums[(hash_sums >= 1_000_000) & (hash_sums <= 1_010_000)]
 print(filtered.head(5))
 
 # print(hash_sums.head(5))  # optional: preview top few

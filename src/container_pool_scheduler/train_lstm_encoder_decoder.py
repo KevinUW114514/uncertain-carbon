@@ -6,7 +6,7 @@ PROJECT_DIR = Path(__file__).resolve().parents[2]
 SCHED_DIR = Path(__file__).resolve().parents[0]
 sys.path.append(str(PROJECT_DIR))
 sys.path.append(str(SCHED_DIR))
-import data
+import data_customized as data
 from models.encoder_decoder_dropout import *
 
 import utils
@@ -49,9 +49,11 @@ def main():
         dataset_dir=dataset_dir,
         num_days=num_days,
     )
+
     datasets = data.get_datasets(
         samples=samples, n_input_steps=n_input_steps, pretraining=True
     )
+
     encoder_in_features = datasets["train"].X.shape[-1]  # 5
     device = utils.get_device()
 

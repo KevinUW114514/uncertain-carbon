@@ -79,7 +79,7 @@ def constraint_callable(Z):
 
 def generate_initial_data(n=10):
     # generate training data
-    x_dim = len(WORKFLOW_CONFIG["functions"]) * NUM_RESOURCES
+    x_dim = len(WORKFLOW_CONFIG["functions"]) * NUM_RESOURCES # num_of_stages * num_of_resources
     train_x = torch.rand(n, x_dim, device=device, dtype=dtype)
     train_obj = obj_function(train_x).unsqueeze(-1)  # add output dimension
     train_con = outcome_constraint(train_x).unsqueeze(-1)  # add output dimension
