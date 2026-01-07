@@ -1,0 +1,60 @@
+Starting fresh (no checkpoint at botorch_energy_model.pt).
+  initial_points = 10
+  running_batches = 10
+  initial_best_feasible_cost = 9122.990462979478
+  initial_best_resource_config = [{'cpu_m': 698, 'memory_mi': 58}, {'cpu_m': 5837, 'memory_mi': 448}]
+  time_taken_for_init = 846.74 seconds
+================================================================================
+
+Batch  1: best_feasible_cost (random, qNEI) = (9122.990462979478, 7782.87884617155), best_constraint =  -0.773 (<=0 feasible), time = 234.95.
+Best feasible resource configuration: [{'cpu_m': 375, 'memory_mi': 66}, {'cpu_m': 4578, 'memory_mi': 420}]
+
+================================================================================
+
+Batch  2: best_feasible_cost (random, qNEI) = (9122.990462979478, 7782.87884617155), best_constraint =  -0.773 (<=0 feasible), time = 262.34.
+Best feasible resource configuration: [{'cpu_m': 375, 'memory_mi': 66}, {'cpu_m': 4578, 'memory_mi': 420}]
+
+================================================================================
+
+Batch  3: best_feasible_cost (random, qNEI) = (9122.990462979478, 7782.87884617155), best_constraint =  -0.773 (<=0 feasible), time = 251.91.
+Best feasible resource configuration: [{'cpu_m': 375, 'memory_mi': 66}, {'cpu_m': 4578, 'memory_mi': 420}]
+
+================================================================================
+
+Batch  4: best_feasible_cost (random, qNEI) = (9122.990462979478, 7782.87884617155), best_constraint =  -0.773 (<=0 feasible), time = 243.87.
+Best feasible resource configuration: [{'cpu_m': 375, 'memory_mi': 66}, {'cpu_m': 4578, 'memory_mi': 420}]
+
+================================================================================
+
+Batch  5: best_feasible_cost (random, qNEI) = (9122.990462979478, 7782.87884617155), best_constraint =  -0.773 (<=0 feasible), time = 258.47.
+Best feasible resource configuration: [{'cpu_m': 375, 'memory_mi': 66}, {'cpu_m': 4578, 'memory_mi': 420}]
+
+================================================================================
+
+Batch  6: best_feasible_cost (random, qNEI) = (9122.990462979478, 7782.87884617155), best_constraint =  -0.773 (<=0 feasible), time = 244.20.
+Best feasible resource configuration: [{'cpu_m': 375, 'memory_mi': 66}, {'cpu_m': 4578, 'memory_mi': 420}]
+
+================================================================================
+
+Batch  7: best_feasible_cost (random, qNEI) = (9122.990462979478, 7392.290262628614), best_constraint =  -0.283 (<=0 feasible), time = 262.07.
+Best feasible resource configuration: [{'cpu_m': 371, 'memory_mi': 51}, {'cpu_m': 5417, 'memory_mi': 503}]
+
+================================================================================
+
+Batch  8: best_feasible_cost (random, qNEI) = (9122.990462979478, 7392.290262628614), best_constraint =  -0.283 (<=0 feasible), time = 245.83.
+Best feasible resource configuration: [{'cpu_m': 371, 'memory_mi': 51}, {'cpu_m': 5417, 'memory_mi': 503}]
+
+================================================================================
+
+Batch  9: best_feasible_cost (random, qNEI) = (9122.990462979478, 7125.658152383618), best_constraint =  -0.074 (<=0 feasible), time = 251.57.
+Best feasible resource configuration: [{'cpu_m': 359, 'memory_mi': 50}, {'cpu_m': 4974, 'memory_mi': 425}]
+
+================================================================================
+
+Batch 10: best_feasible_cost (random, qNEI) = (9122.990462979478, 7125.658152383618), best_constraint =  -0.074 (<=0 feasible), time = 259.24.
+Best feasible resource configuration: [{'cpu_m': 359, 'memory_mi': 50}, {'cpu_m': 4974, 'memory_mi': 425}]
+
+================================================================================
+BO loop time: 3361.22 seconds
+Best cost: 7125.658152383618
+Best resource configuration: [{'cpu_m': 359, 'memory_mi': 50}, {'cpu_m': 4974, 'memory_mi': 425}]

@@ -1,0 +1,24 @@
+[
+  {
+    "cost": 388.80435091571366,
+    "duration": 2.809305502101779,
+    "latencies": {
+      "ml-image-processing": 0.2952398809773678,
+      "ml-object-detection": 0.18176428182897242
+    },
+    "price_cost": 7308.213594349511,
+    "energy_cost": 388.80435091571366,
+    "objective_name": "energy",
+    "feasible": true,
+    "resource_config": [
+      {
+        "cpu_m": 300,
+        "memory_mi": 63
+      },
+      {
+        "cpu_m": 4540,
+        "memory_mi": 443
+      }
+    ]
+  }
+]

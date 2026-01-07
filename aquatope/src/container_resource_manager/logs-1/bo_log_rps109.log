@@ -1,0 +1,36 @@
+
+Batch  1: best_feasible_cost (random, qNEI) = (0.041496020224318975, 0.041496020224318975), best_constraint =  -0.702 (<=0 feasible), time = 179.90.
+================================================================================
+
+Batch  2: best_feasible_cost (random, qNEI) = (0.041496020224318975, 0.041496020224318975), best_constraint =  -0.702 (<=0 feasible), time = 171.39.
+================================================================================
+
+Batch  3: best_feasible_cost (random, qNEI) = (0.041496020224318975, 0.041496020224318975), best_constraint =  -0.702 (<=0 feasible), time = 171.10.
+================================================================================
+
+Batch  4: best_feasible_cost (random, qNEI) = (0.041496020224318975, 0.041496020224318975), best_constraint =  -0.702 (<=0 feasible), time = 187.59.
+================================================================================
+
+Batch  5: best_feasible_cost (random, qNEI) = (0.041496020224318975, 0.03797382314403431), best_constraint =  -0.086 (<=0 feasible), time = 144.44.
+================================================================================
+
+Batch  6: best_feasible_cost (random, qNEI) = (0.041496020224318975, 0.03797382314403431), best_constraint =  -0.086 (<=0 feasible), time = 206.08.
+================================================================================
+
+Batch  7: best_feasible_cost (random, qNEI) = (0.041496020224318975, 0.03797382314403431), best_constraint =  -0.086 (<=0 feasible), time = 211.22.
+================================================================================
+
+Batch  8: best_feasible_cost (random, qNEI) = (0.041496020224318975, 0.03797382314403431), best_constraint =  -0.086 (<=0 feasible), time = 196.09.
+================================================================================
+
+Batch  9: best_feasible_cost (random, qNEI) = (0.041496020224318975, 0.03797382314403431), best_constraint =  -0.086 (<=0 feasible), time = 186.09.
+================================================================================
+BO loop time: 0.02 seconds
+Best cost: 0.03797382314403431
+Best resource configuration: [[0.25161059000139413, 0.8040756909280332], [0.6191400270849674, 0.4240819497485338]]
+ml-image-processing: scaled(cpu=0.252, mem=0.804) -> cpu=426m (range 300-800m), mem=66Mi (range 50-70Mi)
+ml-object-detection: scaled(cpu=0.619, mem=0.424) -> cpu=4286m (range 1500-6000m), mem=447Mi (range 400-512Mi)
+
+BO loop time: 0.02 seconds
+Best cost: 0.03797382314403431
+Best resource configuration: [{'cpu_m': 426, 'memory_mi': 66}, {'cpu_m': 4286, 'memory_mi': 447}]

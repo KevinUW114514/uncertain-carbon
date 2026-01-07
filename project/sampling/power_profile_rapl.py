@@ -120,7 +120,7 @@ def main():
 
     samples = int(args.duration / args.interval)
 
-    for i in tqdm(range(samples), desc="Profiling power", unit="sample"):
+    for i in tqdm(range(samples), desc="Profiling power", unit="sample", dynamic_ncols=True):
         time.sleep(args.interval)
 
         now = time.time()
@@ -142,19 +142,34 @@ def main():
         }
 
         total_power = 0.0
+        cpu_power_total = 0.0
+        memory_power_total = 0.0
 
         for d in domains:
-            if "dram" in d["key"]:
-                continue  # skip DRAM for now
+            # if "dram" in d["key"]:
+            #     continue  # skip DRAM for now
 
             delta_uj = cur_energy[d["key"]] - prev_energy[d["key"]]
             power_w = (delta_uj / 1e6) / dt if delta_uj >= 0 else float("nan")
             col = f"rapl_{d['key']}_w"
             row[col] = power_w
 
-            if d["is_package"] and power_w == power_w:
-                total_power += power_w
+            # Only sum valid numbers (NaN check via power_w == power_w)
+            if power_w == power_w:
+                # CPU/package total
+                if d.get("is_package", False):
+                    cpu_power_total += power_w
 
+                # Memory/DRAM total (adapt predicate if your metadata differs)
+                # Common RAPL keys include "dram" for memory domains.
+                if "dram" in d["key"].lower():
+                    memory_power_total += power_w
+
+        # Keep your existing total (define it explicitly as cpu+mem if you want)
+        total_power = cpu_power_total + memory_power_total
+
+        row["cpu_power_total_w"] = cpu_power_total
+        row["memory_power_total_w"] = memory_power_total
         row["power_total_w"] = total_power
         rows.append(row)
 
@@ -188,12 +203,12 @@ if __name__ == "__main__":
 stat /home/cc/uncertain-carbon/functions/source-images/images/0d74cfde-b4d2-48dc-bf92-2234717025a8.png
 
 sudo -E $(which python3) power_profile_rapl.py   \
-    --rps 150 \
+    --rps 124 \
     --duration 60 \
     --interval 1 \
     --out-dir ./power_logs \
     --input-size 563135 \
-    --series 7
+    --series 11
     
 python sum_by_index.py --in-csv ./power_logs/intel-manager_s7_rps150_20251229_065853.csv --out-csv summed_hu.csv
 

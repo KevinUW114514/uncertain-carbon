@@ -452,7 +452,12 @@ def update_kube_deployment(
 
     # Read deployment once to capture current replicas + selector for verification
     dep_before = apps.read_namespaced_deployment(name=deployment_name, namespace=namespace)
-    original_replicas = int(dep_before.spec.replicas or 0)
+    # original_replicas = int(dep_before.spec.replicas or 0)
+    if container_name == "ml-image-processing":
+        original_replicas = 17
+    else:
+        original_replicas = 49
+        
     label_selector = _deployment_label_selector(dep_before)
     print(f"[info] Original replicas={original_replicas}, selector='{label_selector}'")
 
@@ -559,8 +564,11 @@ def test():
     DEPLOYMENT = "newdeploy-ml-image-processing-default-a616-8254b24ce685"
     CONTAINER = "ml-image-processing"
 
+    # REQUESTS = {"cpu": "300m", "memory": "50Mi"}
+    # LIMITS   = {"cpu": "400m",    "memory": "54Mi"}
+
     REQUESTS = {"cpu": "300m", "memory": "50Mi"}
-    LIMITS   = {"cpu": "400m",    "memory": "54Mi"}
+    LIMITS   = {"cpu": "426m",    "memory": "66Mi"}
 
     TIMEOUT_S = 600
     POLL_S = 2.0
@@ -579,8 +587,11 @@ def test():
     DEPLOYMENT = "newdeploy-ml-object-detection-default-beef-7bcaa92aa890"
     CONTAINER = "yolo"
 
+    # REQUESTS = {"cpu": "1500m", "memory": "400Mi"}
+    # LIMITS   = {"cpu": "3800m",    "memory": "467Mi"}
+
     REQUESTS = {"cpu": "1500m", "memory": "400Mi"}
-    LIMITS   = {"cpu": "3800m",    "memory": "467Mi"}
+    LIMITS   = {"cpu": "4286m",    "memory": "447Mi"}
 
     TIMEOUT_S = 600
     POLL_S = 2.0

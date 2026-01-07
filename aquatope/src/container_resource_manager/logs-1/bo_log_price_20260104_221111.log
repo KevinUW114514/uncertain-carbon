@@ -1,0 +1,184 @@
+stage[0] fn=ml-object-detection cpu=5819m memory=447Mi
+stage[1] fn=ml-image-processing cpu=463m memory=54Mi
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+stage[0] fn=ml-image-processing cpu=478m memory=64Mi
+stage[1] fn=ml-object-detection cpu=5116m memory=443Mi
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+stage[0] fn=ml-image-processing cpu=744m memory=62Mi
+stage[1] fn=ml-object-detection cpu=5929m memory=429Mi
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+stage[0] fn=ml-image-processing cpu=690m memory=70Mi
+stage[1] fn=ml-object-detection cpu=5470m memory=495Mi
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+stage[0] fn=ml-object-detection cpu=3302m memory=505Mi
+stage[1] fn=ml-image-processing cpu=472m memory=52Mi
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+stage[0] fn=ml-image-processing cpu=463m memory=66Mi
+stage[1] fn=ml-object-detection cpu=2018m memory=451Mi
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+stage[0] fn=ml-image-processing cpu=509m memory=65Mi
+stage[1] fn=ml-object-detection cpu=3735m memory=403Mi
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+stage[0] fn=ml-image-processing cpu=697m memory=59Mi
+stage[1] fn=ml-object-detection cpu=5938m memory=443Mi
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+stage[0] fn=ml-image-processing cpu=446m memory=60Mi
+stage[1] fn=ml-object-detection cpu=3397m memory=426Mi
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+stage[0] fn=ml-image-processing cpu=312m memory=60Mi
+stage[1] fn=ml-object-detection cpu=1893m memory=476Mi
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Starting fresh (no checkpoint at bo_model_default_20260104_221111.pt).
+  initial_points = 10
+  running_batches = 10
+  initial_best_feasible_cost = 8117.895399229093
+  initial_best_resource_config = [{'cpu_m': 463, 'memory_mi': 54}, {'cpu_m': 5819, 'memory_mi': 447}]
+  time_taken_for_init = 835.97 seconds
+================================================================================
+stage[0] fn=ml-image-processing cpu=300m memory=50Mi
+stage[1] fn=ml-object-detection cpu=6000m memory=432Mi
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+stage[0] fn=ml-image-processing cpu=300m memory=50Mi
+stage[1] fn=ml-object-detection cpu=6000m memory=402Mi
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+stage[0] fn=ml-image-processing cpu=626m memory=50Mi
+stage[1] fn=ml-object-detection cpu=5999m memory=403Mi
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Batch  1: best_feasible_cost (random, qNEI) = (8117.895399229093, 8117.895399229093), best_constraint =  -1.488 (<=0 feasible), time = 251.73.
+Best feasible resource configuration: [{'cpu_m': 463, 'memory_mi': 54}, {'cpu_m': 5819, 'memory_mi': 447}]
+
+================================================================================
+stage[0] fn=ml-image-processing cpu=800m memory=70Mi
+stage[1] fn=ml-object-detection cpu=1764m memory=400Mi
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+stage[0] fn=ml-image-processing cpu=800m memory=70Mi
+stage[1] fn=ml-object-detection cpu=6000m memory=400Mi
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+stage[0] fn=ml-image-processing cpu=368m memory=50Mi
+stage[1] fn=ml-object-detection cpu=5703m memory=400Mi
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Batch  2: best_feasible_cost (random, qNEI) = (8117.895399229093, 7579.722281387993), best_constraint =  -0.900 (<=0 feasible), time = 257.04.
+Best feasible resource configuration: [{'cpu_m': 368, 'memory_mi': 50}, {'cpu_m': 5703, 'memory_mi': 400}]
+
+================================================================================
+stage[0] fn=ml-image-processing cpu=300m memory=52Mi
+stage[1] fn=ml-object-detection cpu=5672m memory=400Mi
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+stage[0] fn=ml-image-processing cpu=480m memory=50Mi
+stage[1] fn=ml-object-detection cpu=6000m memory=488Mi
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+stage[0] fn=ml-image-processing cpu=558m memory=62Mi
+stage[1] fn=ml-object-detection cpu=4734m memory=451Mi
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Batch  3: best_feasible_cost (random, qNEI) = (8117.895399229093, 7579.722281387993), best_constraint =  -0.900 (<=0 feasible), time = 252.17.
+Best feasible resource configuration: [{'cpu_m': 368, 'memory_mi': 50}, {'cpu_m': 5703, 'memory_mi': 400}]
+
+================================================================================
+stage[0] fn=ml-image-processing cpu=479m memory=61Mi
+stage[1] fn=ml-object-detection cpu=3591m memory=431Mi
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+stage[0] fn=ml-image-processing cpu=300m memory=52Mi
+stage[1] fn=ml-object-detection cpu=4392m memory=400Mi
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+stage[0] fn=ml-image-processing cpu=380m memory=61Mi
+stage[1] fn=ml-object-detection cpu=2379m memory=488Mi
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Batch  4: best_feasible_cost (random, qNEI) = (8117.895399229093, 7553.257111682971), best_constraint =  -0.098 (<=0 feasible), time = 260.63.
+Best feasible resource configuration: [{'cpu_m': 300, 'memory_mi': 52}, {'cpu_m': 4392, 'memory_mi': 400}]
+
+================================================================================
+stage[0] fn=ml-object-detection cpu=4480m memory=400Mi
+stage[1] fn=ml-image-processing cpu=300m memory=60Mi
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+stage[0] fn=ml-image-processing cpu=800m memory=50Mi
+stage[1] fn=ml-object-detection cpu=5852m memory=406Mi
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+stage[0] fn=ml-image-processing cpu=597m memory=51Mi
+stage[1] fn=ml-object-detection cpu=4366m memory=431Mi
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Batch  5: best_feasible_cost (random, qNEI) = (8117.895399229093, 7553.257111682971), best_constraint =  -0.098 (<=0 feasible), time = 255.99.
+Best feasible resource configuration: [{'cpu_m': 300, 'memory_mi': 52}, {'cpu_m': 4392, 'memory_mi': 400}]
+
+================================================================================
+stage[0] fn=ml-image-processing cpu=548m memory=63Mi
+stage[1] fn=ml-object-detection cpu=5125m memory=401Mi
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+stage[0] fn=ml-image-processing cpu=367m memory=57Mi
+stage[1] fn=ml-object-detection cpu=5908m memory=400Mi
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+stage[0] fn=ml-image-processing cpu=390m memory=57Mi
+stage[1] fn=ml-object-detection cpu=5619m memory=400Mi
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Batch  6: best_feasible_cost (random, qNEI) = (8117.895399229093, 7553.257111682971), best_constraint =  -0.098 (<=0 feasible), time = 256.80.
+Best feasible resource configuration: [{'cpu_m': 300, 'memory_mi': 52}, {'cpu_m': 4392, 'memory_mi': 400}]
+
+================================================================================
+stage[0] fn=ml-object-detection cpu=4355m memory=400Mi
+stage[1] fn=ml-image-processing cpu=300m memory=59Mi
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+stage[0] fn=ml-object-detection cpu=3823m memory=424Mi
+stage[1] fn=ml-image-processing cpu=305m memory=69Mi
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+stage[0] fn=ml-image-processing cpu=569m memory=54Mi
+stage[1] fn=ml-object-detection cpu=5346m memory=417Mi
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Batch  7: best_feasible_cost (random, qNEI) = (8117.895399229093, 7553.257111682971), best_constraint =  -0.098 (<=0 feasible), time = 255.59.
+Best feasible resource configuration: [{'cpu_m': 300, 'memory_mi': 52}, {'cpu_m': 4392, 'memory_mi': 400}]
+
+================================================================================
+stage[0] fn=ml-image-processing cpu=333m memory=55Mi
+stage[1] fn=ml-object-detection cpu=5302m memory=400Mi
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+stage[0] fn=ml-image-processing cpu=355m memory=70Mi
+stage[1] fn=ml-object-detection cpu=5410m memory=512Mi
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+stage[0] fn=ml-image-processing cpu=462m memory=60Mi
+stage[1] fn=ml-object-detection cpu=1667m memory=508Mi
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Batch  8: best_feasible_cost (random, qNEI) = (8117.895399229093, 7353.153574123148), best_constraint =  -0.638 (<=0 feasible), time = 253.93.
+Best feasible resource configuration: [{'cpu_m': 355, 'memory_mi': 70}, {'cpu_m': 5410, 'memory_mi': 512}]
+
+================================================================================
+stage[0] fn=ml-image-processing cpu=300m memory=70Mi
+stage[1] fn=ml-object-detection cpu=6000m memory=512Mi
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+stage[0] fn=ml-object-detection cpu=6000m memory=512Mi
+stage[1] fn=ml-image-processing cpu=315m memory=70Mi
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+stage[0] fn=ml-image-processing cpu=337m memory=55Mi
+stage[1] fn=ml-object-detection cpu=2054m memory=492Mi
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Batch  9: best_feasible_cost (random, qNEI) = (8117.895399229093, 7353.153574123148), best_constraint =  -0.638 (<=0 feasible), time = 256.64.
+Best feasible resource configuration: [{'cpu_m': 355, 'memory_mi': 70}, {'cpu_m': 5410, 'memory_mi': 512}]
+
+================================================================================
+stage[0] fn=ml-image-processing cpu=576m memory=70Mi
+stage[1] fn=ml-object-detection cpu=5230m memory=489Mi
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+stage[0] fn=ml-image-processing cpu=396m memory=62Mi
+stage[1] fn=ml-object-detection cpu=6000m memory=512Mi
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+stage[0] fn=ml-image-processing cpu=305m memory=70Mi
+stage[1] fn=ml-object-detection cpu=4629m memory=512Mi
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Batch 10: best_feasible_cost (random, qNEI) = (8117.895399229093, 7353.153574123148), best_constraint =  -0.638 (<=0 feasible), time = 254.31.
+Best feasible resource configuration: [{'cpu_m': 355, 'memory_mi': 70}, {'cpu_m': 5410, 'memory_mi': 512}]
+
+================================================================================
+
+================================================================================
+FINAL SORTED SAMPLES (LOWEST COST FIRST)
+================================================================================
+
+--------------------------------------------------------------------------------
+[RANK 01]  cost=7353.153574  feasible=yes  constraint=-0.638  iteration=8

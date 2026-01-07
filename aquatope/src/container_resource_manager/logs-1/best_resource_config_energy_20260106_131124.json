@@ -1,0 +1,14 @@
+{
+  "objective": "energy",
+  "best_cost": 417.1943213625498,
+  "resource_config": [
+    {
+      "cpu_m": 356,
+      "memory_mi": 70
+    },
+    {
+      "cpu_m": 5032,
+      "memory_mi": 400
+    }
+  ]
+}

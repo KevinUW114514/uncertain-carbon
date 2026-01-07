@@ -19,36 +19,24 @@ sys.path.append(str(PROJECT_DIR))
 sys.path.append(str(SCHED_DIR))
 
 import bayesian_optimization
+from config import CONFIG
+import os
+
+IS_ENERGY = os.getenv("IS_ENERGY", "0")
+if IS_ENERGY == "1":
+    IS_ENERGY = True
+else:
+    IS_ENERGY = False
 
 WORKFLOW_CONFIG = json.load(open("ml_workflow.json", "r"))
 
-def explain_resource_config(functions: list, resource_config: list):
-    lines = []
-    for i, fn in enumerate(functions):
-        scaled_cpu, scaled_mem = resource_config[i]
-
-        CPU_MAX = WORKFLOW_CONFIG["max_cpu"][fn]
-        CPU_MIN = WORKFLOW_CONFIG["min_cpu"][fn]
-        MEM_MAX = WORKFLOW_CONFIG["max_memory"][fn]
-        MEM_MIN = WORKFLOW_CONFIG["min_memory"][fn]
-
-        cpu_m = round(scaled_cpu * (CPU_MAX - CPU_MIN) + CPU_MIN)
-        mem_mi = round(scaled_mem * (MEM_MAX - MEM_MIN) + MEM_MIN)
-
-        lines.append(
-            f"{fn}: scaled(cpu={scaled_cpu:.3f}, mem={scaled_mem:.3f}) -> "
-            f"cpu={cpu_m}m (range {CPU_MIN}-{CPU_MAX}m), "
-            f"mem={mem_mi}Mi (range {MEM_MIN}-{MEM_MAX}Mi)"
-        )
-    return "\n".join(lines)
-
-
 def main():
     global WORKFLOW_CONFIG
+    global IS_ENERGY
 
     parser = argparse.ArgumentParser(description="Container pool scheduler")
     parser.add_argument("--n_init", action="store", type=int)
-    parser.add_argument("--n_batch", action="store", type=int)
+    parser.add_argument("--n_batch", action="store", type=int, default=10)
     parser.add_argument("--mc_samples", action="store", type=int)
     parser.add_argument("--batch_size", action="store", type=int)
     parser.add_argument("--num_restarts", action="store", type=int)
@@ -58,10 +46,12 @@ def main():
     parser.add_argument("--confidence", action="store", type=float)
     parser.add_argument("--verbose", action="store_true")
     parser.add_argument("--workflow_config", action="store", type=str, default="ml_workflow.json")
+    parser.add_argument("--is_energy", action="store_true")
+    parser.add_argument("--model_path", action="store", type=str, default="")
 
     args = parser.parse_args()
     # n_init = args.n_init
-    # n_batch = args.n_batch
+    n_batch = args.n_batch
     # mc_samples = args.mc_samples
     # batch_size = args.batch_size
     # num_restarts = args.num_restarts
@@ -72,15 +62,35 @@ def main():
     # verbose = args.verbose
     workflow_config_path = args.workflow_config
 
+    print(f"IS_ENERGY: {IS_ENERGY}")
+
     with open(workflow_config_path, "r") as f:
         WORKFLOW_CONFIG = json.load(f)
         # print(WORKFLOW_CONFIG)
 
+    ts = f"{time.strftime('%Y%m%d_%H%M%S')}"
+    suffix = f"{'energy' if IS_ENERGY else 'price'}_{ts}"
+    
+    if args.model_path == "":
+        log_path = f"bo_log_{suffix}.log"
+        model_path = f"bo_model_{suffix}_resume.pt"
+        CONFIG.set_log_path(log_path)
+        CONFIG.set_json_path(f"bo_results_{suffix}.json")
+        CONFIG.set_sample_path(f"bo_samples_{suffix}.json")
+    else:
+        model_id = Path(args.model_path).stem[-15:]
+        model_path = args.model_path
+        log_path = f"resume_bo_log_{model_id}_{suffix}.log"
+        CONFIG.set_log_path(log_path)
+        CONFIG.set_json_path(f"resume_bo_results_{model_id}_{suffix}.json")
+        CONFIG.set_sample_path(f"resume_bo_samples_{model_id}_{suffix}.json")
+
     start_time = time.time()
     best_cost, resource_config = bayesian_optimization.bo_loop(
         workflow_config=WORKFLOW_CONFIG,
+        suffix=suffix,
         # n_init=n_init,
-        # n_batch=n_batch,
+        n_batch=n_batch,
         # mc_samples=mc_samples,
         # batch_size=batch_size,
         # num_restarts=num_restarts,
@@ -89,15 +99,25 @@ def main():
         # anomaly_detection=anomaly_detection,
         # confidence=confidence,
         # verbose=verbose,
+        log_path=log_path,
+        save_path=model_path
     )
     end_time = time.time()
-    print(f"BO loop time: {end_time - start_time:.2f} seconds")
+    s = f"BO loop time: {end_time - start_time:.2f} seconds\n" + \
+        f"Best cost: {best_cost}\n" + \
+        f"Best resource configuration: {resource_config}\n"
 
-    # best_cost = 0.03552659365574232
-    # resource_config= [[0.8111610417730569, 0.7809624320991828], [0.26167575761264583, 0.14111209835747085]]
-    print(f"Best cost: {best_cost}")
-    print(f"Best resource configuration: {resource_config}")
-    print(explain_resource_config(WORKFLOW_CONFIG["functions"], resource_config))
+    result = dict()
+    result["objective"] = "energy" if IS_ENERGY else "price"
+    result["best_cost"] = best_cost
+    result["resource_config"] = resource_config
+    
+    print(s)
+    with open(log_path, "a") as f:
+        f.write(s)
+
+    with open(f"best_resource_config_{suffix}.json", "w") as f:
+        json.dump(result, f, indent=2)
 
 
 if __name__ == "__main__":

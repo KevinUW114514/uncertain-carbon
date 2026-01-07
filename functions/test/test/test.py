@@ -16,8 +16,8 @@ r = redis.Redis(
     decode_responses=True,
 )
 
-SLO_MS = 6000           # QoS target: > 6s counts as failure
-POLL_TIMEOUT_S = 5.1   # "Did not complete" threshold (should be > SLO)
+SLO_MS = 3000           # QoS target: > 3s counts as failure
+POLL_TIMEOUT_S = 3.1   # "Did not complete" threshold (should be > SLO)
 POLL_INTERVAL_S = 0.5
 
 def poll_result(req_id: str, timeout_s: float, poll_interval_s: float):
@@ -88,6 +88,7 @@ class ServerlessUser(FastHttpUser):
             json=payload,
             name="ml-image-processing-create",
             catch_response=True,
+            timeout=1,
         ) as resp:
             if resp.status_code != 200:
                 resp.failure(f"Unexpected status {resp.status_code}")

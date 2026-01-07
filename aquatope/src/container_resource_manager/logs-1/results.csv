@@ -1,0 +1,7 @@
+timestamp,group,config_name,run_id,latency_p99,energy_cost,money_cost,elapsed_s,path
+2026-01-05T01:07:12.949202+00:00,default,best_resource_config_default_1,best_resource_config_default_1__rep0,1.4875002591870725,220.59738353403992,12158.028861485504,46.58773946762085,best_resource_config_default_1.json
+2026-01-05T01:08:11.446039+00:00,default,best_resource_config_default_2,best_resource_config_default_2__rep0,1.6964535992592573,218.47557227842188,11833.076591929828,58.48669123649597,best_resource_config_default_2.json
+2026-01-05T01:09:09.128748+00:00,default,best_resource_config_default_3,best_resource_config_default_3__rep0,1.737092399969697,212.27037958474114,11771.009224352614,57.67971920967102,best_resource_config_default_3.json
+2026-01-05T01:10:03.246552+00:00,energy,best_resource_config_energy_1,best_resource_config_energy_1__rep0,1.5853683189488947,213.49113666693364,11932.594589614006,54.11291265487671,best_resource_config_energy_1.json
+2026-01-05T01:11:02.240316+00:00,energy,best_resource_config_energy_2,best_resource_config_energy_2__rep0,1.6437157918699086,213.1901880042744,13758.069088887998,58.986703395843506,best_resource_config_energy_2.json
+2026-01-05T01:11:53.318838+00:00,energy,best_resource_config_energy_3,best_resource_config_energy_3__rep0,1.8665764890611172,228.51717741372167,13941.091406001824,51.076212882995605,best_resource_config_energy_3.json

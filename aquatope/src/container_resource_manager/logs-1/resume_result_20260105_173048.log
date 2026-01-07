@@ -1,0 +1,15 @@
+Run 3
+========================================
+========================================
+Default
+  File "/home/cc/uncertain-carbon/aquatope/src/container_resource_manager/manager.py", line 91
+    suffix=suffix
+           ^^^^^^
+SyntaxError: invalid syntax. Perhaps you forgot a comma?
+========================================
+Energy
+  File "/home/cc/uncertain-carbon/aquatope/src/container_resource_manager/manager.py", line 91
+    suffix=suffix
+           ^^^^^^
+SyntaxError: invalid syntax. Perhaps you forgot a comma?
+========================================

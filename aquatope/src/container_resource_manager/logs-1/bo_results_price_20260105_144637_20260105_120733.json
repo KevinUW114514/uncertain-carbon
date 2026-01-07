@@ -1,0 +1,486 @@
+[
+  {
+    "cost": 7252.868347371118,
+    "duration": 2.7520395666360855,
+    "latencies": {
+      "ml-image-processing": 0.2918979132449941,
+      "ml-object-detection": 0.16746241507823006
+    },
+    "price_cost": 7252.868347371118,
+    "energy_cost": 391.49111966047474,
+    "objective_name": "price",
+    "feasible": true,
+    "resource_config": [
+      {
+        "cpu_m": 305,
+        "memory_mi": 70
+      },
+      {
+        "cpu_m": 4891,
+        "memory_mi": 432
+      }
+    ]
+  },
+  {
+    "cost": 7402.362604961991,
+    "duration": 2.718408463988453,
+    "latencies": {
+      "ml-image-processing": 0.22921404948283453,
+      "ml-object-detection": 0.14566999591625063
+    },
+    "price_cost": 7402.362604961991,
+    "energy_cost": 406.7632769517637,
+    "objective_name": "price",
+    "feasible": true,
+    "resource_config": [
+      {
+        "cpu_m": 359,
+        "memory_mi": 69
+      },
+      {
+        "cpu_m": 5761,
+        "memory_mi": 491
+      }
+    ]
+  },
+  {
+    "cost": 7456.337763762442,
+    "duration": 2.734178808052093,
+    "latencies": {
+      "ml-image-processing": 0.2649877339503483,
+      "ml-object-detection": 0.1466888331628421
+    },
+    "price_cost": 7456.337763762442,
+    "energy_cost": 398.82017431893803,
+    "objective_name": "price",
+    "feasible": true,
+    "resource_config": [
+      {
+        "cpu_m": 317,
+        "memory_mi": 50
+      },
+      {
+        "cpu_m": 5767,
+        "memory_mi": 400
+      }
+    ]
+  },
+  {
+    "cost": 7483.153041939479,
+    "duration": 2.800984205212444,
+    "latencies": {
+      "ml-image-processing": 0.2614583833837661,
+      "ml-object-detection": 0.1488251468182494
+    },
+    "price_cost": 7483.153041939479,
+    "energy_cost": 400.9338299786935,
+    "objective_name": "price",
+    "feasible": true,
+    "resource_config": [
+      {
+        "cpu_m": 327,
+        "memory_mi": 64
+      },
+      {
+        "cpu_m": 5701,
+        "memory_mi": 400
+      }
+    ]
+  },
+  {
+    "cost": 7518.71587271859,
+    "duration": 2.274583325255662,
+    "latencies": {
+      "ml-image-processing": 0.2427003123467007,
+      "ml-object-detection": 0.16036273509023652
+    },
+    "price_cost": 7518.71587271859,
+    "energy_cost": 412.9579231161076,
+    "objective_name": "price",
+    "feasible": true,
+    "resource_config": [
+      {
+        "cpu_m": 354,
+        "memory_mi": 70
+      },
+      {
+        "cpu_m": 5314,
+        "memory_mi": 400
+      }
+    ]
+  },
+  {
+    "cost": 7589.184217726706,
+    "duration": 2.900154181290418,
+    "latencies": {
+      "ml-image-processing": 0.2724981927811833,
+      "ml-object-detection": 0.1771054357689406
+    },
+    "price_cost": 7589.184217726706,
+    "energy_cost": 406.8055735910061,
+    "objective_name": "price",
+    "feasible": true,
+    "resource_config": [
+      {
+        "cpu_m": 337,
+        "memory_mi": 61
+      },
+      {
+        "cpu_m": 4843,
+        "memory_mi": 419
+      }
+    ]
+  },
+  {
+    "cost": 7946.879205546932,
+    "duration": 2.514402745757252,
+    "latencies": {
+      "ml-image-processing": 0.25780928309732043,
+      "ml-object-detection": 0.1546607978229762
+    },
+    "price_cost": 7946.879205546932,
+    "energy_cost": 406.58427898712415,
+    "objective_name": "price",
+    "feasible": true,
+    "resource_config": [
+      {
+        "cpu_m": 340,
+        "memory_mi": 58
+      },
+      {
+        "cpu_m": 5826,
+        "memory_mi": 512
+      }
+    ]
+  },
+  {
+    "cost": 7996.819106988958,
+    "duration": 2.671241625677794,
+    "latencies": {
+      "ml-image-processing": 0.22583830593863413,
+      "ml-object-detection": 0.20264091232555018
+    },
+    "price_cost": 7996.819106988958,
+    "energy_cost": 425.9088312346151,
+    "objective_name": "price",
+    "feasible": true,
+    "resource_config": [
+      {
+        "cpu_m": 405,
+        "memory_mi": 62
+      },
+      {
+        "cpu_m": 4467,
+        "memory_mi": 422
+      }
+    ]
+  },
+  {
+    "cost": 8085.534330955533,
+    "duration": 2.6580944499000907,
+    "latencies": {
+      "ml-image-processing": 0.2752204451324611,
+      "ml-object-detection": 0.15863590754953952
+    },
+    "price_cost": 8085.534330955533,
+    "energy_cost": 398.5762536110093,
+    "objective_name": "price",
+    "feasible": true,
+    "resource_config": [
+      {
+        "cpu_m": 325,
+        "memory_mi": 62
+      },
+      {
+        "cpu_m": 5785,
+        "memory_mi": 413
+      }
+    ]
+  },
+  {
+    "cost": 8194.214304043253,
+    "duration": 1.5646832040511072,
+    "latencies": {
+      "ml-image-processing": 0.16180421593664607,
+      "ml-object-detection": 0.1698705627136982
+    },
+    "price_cost": 8194.214304043253,
+    "energy_cost": 450.27129190726436,
+    "objective_name": "price",
+    "feasible": true,
+    "resource_config": [
+      {
+        "cpu_m": 519,
+        "memory_mi": 58
+      },
+      {
+        "cpu_m": 5489,
+        "memory_mi": 402
+      }
+    ]
+  },
+  {
+    "cost": 8298.926649752706,
+    "duration": 2.8113529779948294,
+    "latencies": {
+      "ml-image-processing": 0.23109250433654302,
+      "ml-object-detection": 0.21041772830935698
+    },
+    "price_cost": 8298.926649752706,
+    "energy_cost": 424.38839226574834,
+    "objective_name": "price",
+    "feasible": true,
+    "resource_config": [
+      {
+        "cpu_m": 404,
+        "memory_mi": 62
+      },
+      {
+        "cpu_m": 4467,
+        "memory_mi": 422
+      }
+    ]
+  },
+  {
+    "cost": 8461.161736173122,
+    "duration": 2.289624721277505,
+    "latencies": {
+      "ml-image-processing": 0.19019142171511283,
+      "ml-object-detection": 0.1760547576400523
+    },
+    "price_cost": 8461.161736173122,
+    "energy_cost": 435.01311973375334,
+    "objective_name": "price",
+    "feasible": true,
+    "resource_config": [
+      {
+        "cpu_m": 456,
+        "memory_mi": 68
+      },
+      {
+        "cpu_m": 5467,
+        "memory_mi": 418
+      }
+    ]
+  },
+  {
+    "cost": 8592.201466160532,
+    "duration": 1.63251231610775,
+    "latencies": {
+      "ml-image-processing": 0.174601750994992,
+      "ml-object-detection": 0.1805300654951429
+    },
+    "price_cost": 8592.201466160532,
+    "energy_cost": 452.50450311705015,
+    "objective_name": "price",
+    "feasible": true,
+    "resource_config": [
+      {
+        "cpu_m": 524,
+        "memory_mi": 54
+      },
+      {
+        "cpu_m": 5402,
+        "memory_mi": 498
+      }
+    ]
+  },
+  {
+    "cost": 8756.515605616658,
+    "duration": 1.3561664535664022,
+    "latencies": {
+      "ml-image-processing": 0.14774757526548846,
+      "ml-object-detection": 0.17082612787240317
+    },
+    "price_cost": 8756.515605616658,
+    "energy_cost": 458.3645330609011,
+    "objective_name": "price",
+    "feasible": true,
+    "resource_config": [
+      {
+        "cpu_m": 589,
+        "memory_mi": 56
+      },
+      {
+        "cpu_m": 5837,
+        "memory_mi": 450
+      }
+    ]
+  },
+  {
+    "cost": 8763.016422066568,
+    "duration": 1.3017993867397308,
+    "latencies": {
+      "ml-image-processing": 0.11081826480819959,
+      "ml-object-detection": 0.18064972902456783
+    },
+    "price_cost": 8763.016422066568,
+    "energy_cost": 471.52310042646644,
+    "objective_name": "price",
+    "feasible": true,
+    "resource_config": [
+      {
+        "cpu_m": 779,
+        "memory_mi": 52
+      },
+      {
+        "cpu_m": 5521,
+        "memory_mi": 489
+      }
+    ]
+  },
+  {
+    "cost": 8815.505025836519,
+    "duration": 1.6937128119170666,
+    "latencies": {
+      "ml-image-processing": 0.15456691544709933,
+      "ml-object-detection": 0.17986768742169565
+    },
+    "price_cost": 8815.505025836519,
+    "energy_cost": 455.576062596039,
+    "objective_name": "price",
+    "feasible": true,
+    "resource_config": [
+      {
+        "cpu_m": 576,
+        "memory_mi": 51
+      },
+      {
+        "cpu_m": 5575,
+        "memory_mi": 476
+      }
+    ]
+  },
+  {
+    "cost": 8884.350939253283,
+    "duration": 1.647961065173149,
+    "latencies": {
+      "ml-image-processing": 0.1261714147597862,
+      "ml-object-detection": 0.18621223313837415
+    },
+    "price_cost": 8884.350939253283,
+    "energy_cost": 464.3370934711942,
+    "objective_name": "price",
+    "feasible": true,
+    "resource_config": [
+      {
+        "cpu_m": 677,
+        "memory_mi": 56
+      },
+      {
+        "cpu_m": 5433,
+        "memory_mi": 495
+      }
+    ]
+  },
+  {
+    "cost": 8905.18561299517,
+    "duration": 2.6282221330329776,
+    "latencies": {
+      "ml-image-processing": 0.12837157741800617,
+      "ml-object-detection": 0.26099824251384657
+    },
+    "price_cost": 8905.18561299517,
+    "energy_cost": 433.35964503006505,
+    "objective_name": "price",
+    "feasible": true,
+    "resource_config": [
+      {
+        "cpu_m": 596,
+        "memory_mi": 64
+      },
+      {
+        "cpu_m": 3891,
+        "memory_mi": 443
+      }
+    ]
+  },
+  {
+    "cost": 8949.845167707088,
+    "duration": 1.929143148008734,
+    "latencies": {
+      "ml-image-processing": 0.13633880630621445,
+      "ml-object-detection": 0.24179119333975774
+    },
+    "price_cost": 8949.845167707088,
+    "energy_cost": 457.0212660272541,
+    "objective_name": "price",
+    "feasible": true,
+    "resource_config": [
+      {
+        "cpu_m": 606,
+        "memory_mi": 58
+      },
+      {
+        "cpu_m": 4215,
+        "memory_mi": 452
+      }
+    ]
+  },
+  {
+    "cost": 9000.007812701877,
+    "duration": 2.0899215936660767,
+    "latencies": {
+      "ml-image-processing": 0.1508859427207533,
+      "ml-object-detection": 0.25751582976868925
+    },
+    "price_cost": 9000.007812701877,
+    "energy_cost": 442.12386116201225,
+    "objective_name": "price",
+    "feasible": true,
+    "resource_config": [
+      {
+        "cpu_m": 536,
+        "memory_mi": 53
+      },
+      {
+        "cpu_m": 3977,
+        "memory_mi": 508
+      }
+    ]
+  },
+  {
+    "cost": 9097.283870383755,
+    "duration": 1.17380573740229,
+    "latencies": {
+      "ml-image-processing": 0.11508191695126395,
+      "ml-object-detection": 0.20674472868106225
+    },
+    "price_cost": 9097.283870383755,
+    "energy_cost": 469.4105015183042,
+    "objective_name": "price",
+    "feasible": true,
+    "resource_config": [
+      {
+        "cpu_m": 743,
+        "memory_mi": 67
+      },
+      {
+        "cpu_m": 5010,
+        "memory_mi": 512
+      }
+    ]
+  },
+  {
+    "cost": 9494.991226145312,
+    "duration": 2.109264759812504,
+    "latencies": {
+      "ml-image-processing": 0.11492969013883599,
+      "ml-object-detection": 0.23450443872383664
+    },
+    "price_cost": 9494.991226145312,
+    "energy_cost": 462.9822262679425,
+    "objective_name": "price",
+    "feasible": true,
+    "resource_config": [
+      {
+        "cpu_m": 782,
+        "memory_mi": 62
+      },
+      {
+        "cpu_m": 4607,
+        "memory_mi": 502
+      }
+    ]
+  }
+]

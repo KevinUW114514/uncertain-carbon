@@ -29,12 +29,16 @@
     "ml-object-detection": 6000
   },
   "function_deployment_mapping": {
-    "ml-image-processing": "newdeploy-ml-image-processing-default-a616-8254b24ce685",
-    "ml-object-detection": "newdeploy-ml-object-detection-default-beef-7bcaa92aa890"
+    "ml-image-processing": "newdeploy-ml-image-processing-default-8b22-c7f0f2d6d72b",
+    "ml-object-detection": "newdeploy-ml-object-detection-default-9ecd-2fb10570ca05"
   },
   "container_name_mapping": {
     "ml-image-processing": "ml-image-processing",
     "ml-object-detection": "yolo"
   },
-  "qos": 3.0
+  "qos": 3.0,
+  "function_pods_mapping": {
+    "ml-image-processing": 17,
+    "ml-object-detection": 49
+  }
 }

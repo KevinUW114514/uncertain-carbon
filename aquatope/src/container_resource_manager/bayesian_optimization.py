@@ -15,6 +15,8 @@ from datetime import datetime
 from pathlib import Path
 
 import scipy
+import pickle
+from collections.abc import Mapping
 import torch
 from botorch import fit_gpytorch_mll
 from botorch.acquisition.monte_carlo import qNoisyExpectedImprovement
@@ -35,9 +37,12 @@ from bo_utils import (  # noqa: E402
     from_x_to_resource_config,
     sample_cost_parallel,
     sample_duration_parallel,
+    sample_cost_duration,
 )
 from manager import WORKFLOW_CONFIG  # noqa: E402
 from utils.config import NUM_RESOURCES  # noqa: E402
+
+from config import CONFIG  # noqa: E402
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 dtype = torch.double
@@ -47,6 +52,50 @@ warnings.filterwarnings("ignore", category=RuntimeWarning)
 warnings.filterwarnings("ignore", category=UserWarning)
 
 neg_hartmann6 = Hartmann(negate=True)
+
+def log_sorted_samples(
+    samples,
+    log_path,
+    feasible_only=True,
+):
+    """
+    Log sorted samples to disk in a deterministic, human-readable format.
+
+    This function is intentionally schema-agnostic: it does not assume
+    any specific keys in the sample records and only formats what it receives.
+
+    Args:
+        samples (Iterable[Any]): Iterable of sample records (dict-like preferred).
+        log_path (str | Path): File path to write logs to.
+        feasible_only (bool): Whether the logged samples are feasibility-filtered.
+    """
+    log_path = Path(log_path)
+    log_path.parent.mkdir(parents=True, exist_ok=True)
+
+    header = {
+        "timestamp": datetime.utcnow().isoformat(),
+        "num_samples": len(samples),
+        "feasible_only": feasible_only,
+    }
+
+    with log_path.open("a", encoding="utf-8") as f:
+        f.write("=" * 80 + "\n")
+        f.write("SORTED SAMPLE LOG\n")
+        f.write(json.dumps(header, indent=2, sort_keys=True) + "\n")
+        f.write("-" * 80 + "\n")
+
+        for idx, sample in enumerate(samples):
+            if isinstance(sample, Mapping):
+                record = dict(sample)
+            else:
+                # Fallback: best-effort serialization for non-dict samples
+                record = {"value": sample}
+
+            # Always inject rank, but do not otherwise reshape the record
+            record = {"rank": idx, **record}
+
+            f.write(json.dumps(record, indent=2, sort_keys=True, default=str) + "\n")
+            f.write("-" * 80 + "\n")
 
 
 def obj_function(X: torch.Tensor) -> torch.Tensor:
@@ -75,10 +124,13 @@ def constraint_callable(Z: torch.Tensor, X: torch.Tensor | None = None) -> torch
 def eval_obj_con(X: torch.Tensor) -> tuple[torch.Tensor, torch.Tensor]:
     """Evaluate objective and constraint with no gradients; return shape (n, 1) tensors."""
     with torch.no_grad():
-        obj = obj_function(X).unsqueeze(-1)
-        con = outcome_constraint(X).unsqueeze(-1)
-    return obj, con
-
+        # obj = obj_function(X).unsqueeze(-1)
+        # con = outcome_constraint(X).unsqueeze(-1)
+        obj, con, sample_data = sample_cost_duration(X=X)
+        obj = obj * (-1.0)
+        con = con - WORKFLOW_CONFIG["qos"]
+        
+    return obj, con, sample_data
 
 def best_feasible(
     train_x: torch.Tensor,
@@ -116,11 +168,11 @@ def compute_infeasible_cost_shift(train_obj: torch.Tensor) -> float:
 def generate_initial_data(n: int = 10):
     x_dim = len(WORKFLOW_CONFIG["functions"]) * NUM_RESOURCES
     train_x = torch.rand(n, x_dim, device=device, dtype=dtype)
-    train_obj, train_con = eval_obj_con(train_x)
+    train_obj, train_con, sample_data = eval_obj_con(train_x)
 
     # best_obj, best_x, has_feasible = best_feasible(train_x, train_obj, train_con)
     best_obj = None
-    return train_x, train_obj, train_con, best_obj
+    return train_x, train_obj, train_con, best_obj, sample_data
 
 
 def initialize_model(
@@ -155,8 +207,8 @@ def optimize_acqf_and_get_observation(
         options={"batch_limit": 5, "maxiter": 200},
     )
     new_x = candidates.detach()
-    new_obj, new_con = eval_obj_con(new_x)
-    return new_x, new_obj, new_con
+    new_obj, new_con, sample_data = eval_obj_con(new_x)
+    return new_x, new_obj, new_con, sample_data
 
 
 def update_random_observations(best_random: list[float], batch_size: int):
@@ -165,7 +217,7 @@ def update_random_observations(best_random: list[float], batch_size: int):
     """
     x_dim = len(WORKFLOW_CONFIG["functions"]) * NUM_RESOURCES
     rand_x = torch.rand(batch_size, x_dim, device=device, dtype=dtype)
-    rand_obj, rand_con = eval_obj_con(rand_x)
+    rand_obj, rand_con, sample_data = eval_obj_con(rand_x)
 
     batch_best_obj, _, has_feasible = best_feasible(rand_x, rand_obj, rand_con)
     prev = best_random[-1]
@@ -173,7 +225,7 @@ def update_random_observations(best_random: list[float], batch_size: int):
         best_random.append(prev)
     else:
         best_random.append(max(prev, batch_best_obj))
-    return best_random
+    return best_random, sample_data
 
 
 def robust_outlier_filter_mad(
@@ -214,46 +266,153 @@ def robust_outlier_filter_mad(
 
 def bo_loop(
     workflow_config,
+    suffix: str = "",
     n_init: int = 10,
-    n_batch: int = 5,
+    n_batch: int = 10,
     mc_samples: int = 64,
     batch_size: int = 3,
     num_restarts: int = 10,
-    raw_samples: int = 64,
+    raw_samples: int = 100,
     infeasible_cost: float | None = None,  # if None, computed automatically from data
     anomaly_detection: bool = True,
     confidence: float = 0.95,  # retained for API compatibility (not used by MAD filter)
     verbose: bool = True,
+    log_path: str = "bo_energy_log.log",
+    *,
+    # Checkpoint / resume controls
+    save_model: bool = True,
+    save_path: str = "botorch_energy_model.pt",
+    resume_if_exists: bool = True,
 ):
     global WORKFLOW_CONFIG
     WORKFLOW_CONFIG = workflow_config
 
     n_stages = len(WORKFLOW_CONFIG["functions"])
+    x_dim_expected = NUM_RESOURCES * n_stages
+
     bounds = torch.tensor(
-        [[0.0] * NUM_RESOURCES * n_stages, [1.0] * NUM_RESOURCES * n_stages],
+        [[0.0] * x_dim_expected, [1.0] * x_dim_expected],
         device=device,
         dtype=dtype,
     )
 
-    best_observed_nei: list[float] = []
-    best_random: list[float] = []
+    samples: list[dict] = []
 
-    train_x_nei, train_obj_nei, train_con_nei, init_best_obj = generate_initial_data(
-        n=n_init
-    )
+    # ----------------------------
+    # Resume from checkpoint if any
+    # ----------------------------
+    ckpt = None
+    if resume_if_exists and os.path.exists(save_path):
+        print("Resuming from existing checkpoint...")
+        ckpt = torch.load(save_path, map_location="cpu")
 
-    # Track best FEASIBLE objective; -inf if none feasible yet.
-    best_obj, best_x, has_feasible = best_feasible(
-        train_x_nei, train_obj_nei, train_con_nei
-    )
-    best_observed_nei.append(best_obj)
+        # Load training data
+        train_x_nei = ckpt["train_x"].to(device=device, dtype=dtype)
+        train_obj_nei = ckpt["train_obj"].to(device=device, dtype=dtype)
+        train_con_nei = ckpt["train_con"].to(device=device, dtype=dtype)
 
-    # Random baseline starts at same initial budget; best feasible among initial points
-    best_random.append(best_obj)
+        # Basic safety check: dimensionality must match current workflow
+        if train_x_nei.shape[-1] != x_dim_expected:
+            raise ValueError(
+                f"Checkpoint x_dim={train_x_nei.shape[-1]} does not match "
+                f"current expected x_dim={x_dim_expected}. "
+                "This usually means WORKFLOW_CONFIG['functions'] or NUM_RESOURCES changed."
+            )
 
-    mll_nei, model_nei = initialize_model(train_x_nei, train_obj_nei, train_con_nei)
+        # Restore histories if present (optional)
+        best_observed_nei: list[float] = ckpt.get("best_observed_nei", [])
+        best_random: list[float] = ckpt.get("best_random", [])
 
-    for iteration in range(1, n_batch + 1):
+        completed_batches: int = int(ckpt.get("completed_batches", 0))
+
+        # Rebuild model and load state dict
+        mll_nei, model_nei = initialize_model(train_x_nei, train_obj_nei, train_con_nei)
+        if "model_state_dict" in ckpt:
+            model_nei.load_state_dict(ckpt["model_state_dict"])
+
+        if verbose:
+            print(
+                f"Resumed from checkpoint: {save_path}\n"
+                f"  training_points = {train_x_nei.shape[0]}\n"
+                f"  completed_batches = {completed_batches}\n"
+                f"  continuing for additional_batches = {n_batch}"
+            )
+
+        start_iteration = completed_batches + 1
+        end_iteration = completed_batches + n_batch
+
+        # Ensure histories are initialized sensibly if missing/empty
+        if not best_observed_nei:
+            best_obj, _, _ = best_feasible(train_x_nei, train_obj_nei, train_con_nei)
+            best_observed_nei = [best_obj]
+        if not best_random:
+            # You disabled update_random_observations in your loop anyway.
+            best_random = [best_observed_nei[-1]]
+            
+        save_path = f"resume_{save_path}_{suffix}"
+        
+        # samples = 
+
+    else:
+        print("No checkpoint found, starting fresh BO run.")
+        # ----------------------------
+        # Fresh start: random initialization
+        # ----------------------------
+        best_observed_nei: list[float] = []
+        best_random: list[float] = []
+        completed_batches = 0
+        
+        start_time = time.time()
+
+        train_x_nei, train_obj_nei, train_con_nei, _, sample_data = generate_initial_data(n=n_init)
+
+        best_obj, best_x, has_feasible = best_feasible(
+            train_x_nei, train_obj_nei, train_con_nei
+        )
+        best_observed_nei.append(best_obj)
+        best_random.append(best_obj)
+
+        mll_nei, model_nei = initialize_model(train_x_nei, train_obj_nei, train_con_nei)
+
+        start_iteration = 1
+        end_iteration = n_batch
+        total_time = time.time() - start_time
+
+        # for x, obj, con in zip(train_x_nei, train_obj_nei, train_con_nei):
+        #     samples.append(
+        #         {
+        #             "cost": -float(obj.item()),
+        #             "feasible": float(con.item()) <= 0.0,
+        #             "constraint": float(con.item()),
+        #             "resource_config": from_x_to_resource_config(x=x),
+        #             "iteration": 0,
+        #             # "timestamp": datetime.now().isoformat(),
+        #         }
+        #     )
+        samples.extend(sample_data)
+
+
+        s = f"Starting fresh (no checkpoint at {save_path}).\n" + \
+            f"  initial_points = {n_init}\n" + \
+            f"  running_batches = {n_batch}\n" + \
+            f"  initial_best_feasible_cost = {-best_obj if has_feasible else 'NA'}\n" + \
+            f"  initial_best_constraint = " + \
+            (f"{float(outcome_constraint(best_x.unsqueeze(0)).item()):.3f}" if has_feasible else "NA") + "\n" + \
+            f"  initial_best_resource_config = " + \
+            (str(from_x_to_resource_config(x=best_x)) if has_feasible else "NA") + "\n" + \
+            f"  time_taken_for_init = {total_time:.2f} seconds"
+            
+        if verbose:
+            print(s)
+        
+        with open(log_path, "a") as f:
+            f.write(s + "\n")
+            f.write("=" * 80 + "\n")
+
+    # ----------------------------
+    # BO loop
+    # ----------------------------
+    for iteration in range(start_iteration, end_iteration + 1):
         t0 = time.monotonic()
 
         fit_gpytorch_mll(mll_nei)
@@ -279,7 +438,7 @@ def bo_loop(
             objective=constrained_obj,
         )
 
-        new_x_nei, new_obj_nei, new_con_nei = optimize_acqf_and_get_observation(
+        new_x_nei, new_obj_nei, new_con_nei, sample_data = optimize_acqf_and_get_observation(
             acq_func=qNEI,
             bounds=bounds,
             batch_size=batch_size,
@@ -291,19 +450,36 @@ def bo_loop(
         train_obj_nei = torch.cat([train_obj_nei, new_obj_nei])
         train_con_nei = torch.cat([train_con_nei, new_con_nei])
 
+        # Record newly evaluated samples
+        # for x, obj, con in zip(new_x_nei, new_obj_nei, new_con_nei):
+        #     cost = -float(obj.item())          # objective = -cost
+        #     constraint = float(con.item())
+        #     feasible = constraint <= 0.0
+
+        #     samples.append(
+        #         {
+        #             "cost": cost,
+        #             "feasible": feasible,
+        #             "constraint": constraint,
+        #             "resource_config": from_x_to_resource_config(x=x),
+        #             "iteration": iteration,
+        #             # "timestamp": datetime.now().isoformat(),
+        #         }
+        #     )
+        samples.extend(sample_data)
+
+
         if anomaly_detection:
             train_x_nei, train_obj_nei, train_con_nei = robust_outlier_filter_mad(
                 train_x_nei, train_obj_nei, train_con_nei, z_cut=8.0
             )
-
-        # best_random = update_random_observations(best_random, batch_size)
 
         best_obj, best_x, has_feasible = best_feasible(
             train_x_nei, train_obj_nei, train_con_nei
         )
         best_observed_nei.append(best_obj)
 
-        # Reinitialize with warm-start state dict
+        # Warm-start reinit
         mll_nei, model_nei = initialize_model(
             train_x_nei,
             train_obj_nei,
@@ -313,29 +489,68 @@ def bo_loop(
 
         t1 = time.monotonic()
 
-        # Report best feasible costs (if any)
-        rand_best_obj = best_random[-1]
+        # Reporting
+        rand_best_obj = best_random[-1] if best_random else float("-inf")
         rand_best_cost = None if rand_best_obj == float("-inf") else -rand_best_obj
         nei_best_cost = None if best_obj == float("-inf") else -best_obj
-
-        # Also report feasibility of the current best_x we are tracking
         best_con_val = float(outcome_constraint(best_x.unsqueeze(0)).item())
+
+        s = (
+            f"\nBatch {iteration:>2}: best_feasible_cost (random, qNEI) = "
+            f"({rand_best_cost if rand_best_cost is not None else 'NA'}, "
+            f"{nei_best_cost if nei_best_cost is not None else 'NA'}), "
+            f"best_constraint = {best_con_val:>7.3f} (<=0 feasible), "
+            f"time = {t1 - t0:>4.2f}.\n"
+        )
+        
+        if has_feasible:
+            s += "Best feasible resource configuration: "
+            s += str(from_x_to_resource_config(x=best_x))
+            s += "\n"
+        else:
+            s += "No feasible solution found yet.\n"
+            
+
+        with open(log_path, "a") as f:
+            f.write(s + "\n")
+            f.write("=" * 80 + "\n")
 
         if verbose:
             print("=" * 80)
-            print(
-                f"\nBatch {iteration:>2}: best_feasible_cost (random, qNEI) = "
-                f"({rand_best_cost if rand_best_cost is not None else 'NA'}, "
-                f"{nei_best_cost if nei_best_cost is not None else 'NA'}), "
-                f"best_constraint = {best_con_val:>7.3f} (<=0 feasible), "
-                f"time = {t1 - t0:>4.2f}.",
-                end="",
-            )
+            print(s)
             print("=" * 80)
         else:
             print(".", end="")
 
-    # Final selection: prefer best feasible; if none feasible, return least-violating point.
+        # ----------------------------
+        # Save checkpoint after each batch (robust resume)
+        # ----------------------------
+        completed_batches = iteration
+        if save_model:
+            torch.save(
+                {
+                    "model_state_dict": model_nei.state_dict(),
+                    "train_x": train_x_nei.detach().cpu(),
+                    "train_obj": train_obj_nei.detach().cpu(),
+                    "train_con": train_con_nei.detach().cpu(),
+                    "best_observed_nei": best_observed_nei,
+                    "best_random": best_random,
+                    "completed_batches": completed_batches,
+                    "dtype": str(dtype),
+                    "device": str(device),
+                    "num_resources": NUM_RESOURCES,
+                    "functions": WORKFLOW_CONFIG.get("functions"),
+                    "qos": WORKFLOW_CONFIG.get("qos"),
+                    "workflow_config": WORKFLOW_CONFIG,  # remove if non-serializable
+                    "saved_at": datetime.now().isoformat(),
+                },
+                save_path,
+            )
+            json.dump(samples, open(CONFIG.sample_path, "w"), indent=2)
+
+    # ----------------------------
+    # Final selection: same as your original logic
+    # ----------------------------
     final_best_obj, final_best_x, final_has_feasible = best_feasible(
         train_x_nei, train_obj_nei, train_con_nei
     )
@@ -343,7 +558,6 @@ def bo_loop(
     if final_has_feasible:
         best_cost = -final_best_obj
     else:
-        # Fallback: least violating point
         vio = train_con_nei.squeeze(-1).clamp_min(0.0)
         i = torch.argmin(vio).item()
         best_cost = -float(train_obj_nei[i].item())
@@ -355,4 +569,20 @@ def bo_loop(
             )
 
     resource_config = from_x_to_resource_config(x=final_best_x)
+
+    # Keep only feasible samples (recommended)
+    feasible_samples = [s for s in samples if s["feasible"]]
+
+    # Sort by cost ascending
+    feasible_samples_sorted = sorted(feasible_samples, key=lambda s: s["cost"])
+    log_sorted_samples(
+        feasible_samples_sorted,
+        log_path,
+        feasible_only=True,
+    )
+    
+    json.dump(samples, open(CONFIG.sample_path, "w"), indent=2)
+    json.dump(feasible_samples_sorted, open(CONFIG.json_path, "w"), indent=2)
+
     return best_cost, resource_config
+

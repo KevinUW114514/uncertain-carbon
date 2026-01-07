@@ -194,6 +194,12 @@ def wait_for_deployment_rollout(apps: client.AppsV1Api, namespace: str, name: st
     start = time.time()
     while True:
         dep = apps.read_namespaced_deployment(name=name, namespace=namespace)
+        
+        delete_hpa_for_deployment(
+            autoscaling=client.AutoscalingV1Api(),
+            namespace=namespace,
+            deployment_name=dep.metadata.name,
+        )
 
         desired = dep.spec.replicas or 0
         status = dep.status
@@ -220,10 +226,10 @@ def wait_for_deployment_rollout(apps: client.AppsV1Api, namespace: str, name: st
             and unavailable == 0
         )
 
-        print(
-            f"[rollout] desired={desired} updated={updated} available={available} "
-            f"unavailable={unavailable} gen={current_gen} observedGen={observed_gen}"
-        )
+        # print(
+        #     f"[rollout] desired={desired} updated={updated} available={available} "
+        #     f"unavailable={unavailable} gen={current_gen} observedGen={observed_gen}"
+        # )
 
         if done:
             return
@@ -452,7 +458,13 @@ def update_kube_deployment(
 
     # Read deployment once to capture current replicas + selector for verification
     dep_before = apps.read_namespaced_deployment(name=deployment_name, namespace=namespace)
-    original_replicas = int(dep_before.spec.replicas or 0)
+    # original_replicas = int(dep_before.spec.replicas or 0)
+    if container_name == "ml-image-processing":
+        # original_replicas = 17
+        original_replicas = 24
+    else:
+        # original_replicas = 49
+        original_replicas = 73
     label_selector = _deployment_label_selector(dep_before)
     print(f"[info] Original replicas={original_replicas}, selector='{label_selector}'")
 
