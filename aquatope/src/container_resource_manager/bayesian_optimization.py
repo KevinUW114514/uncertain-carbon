@@ -38,6 +38,7 @@ from bo_utils import (  # noqa: E402
     sample_cost_parallel,
     sample_duration_parallel,
     sample_cost_duration,
+    to_jsonable
 )
 from manager import WORKFLOW_CONFIG  # noqa: E402
 from utils.config import NUM_RESOURCES  # noqa: E402
@@ -52,6 +53,8 @@ warnings.filterwarnings("ignore", category=RuntimeWarning)
 warnings.filterwarnings("ignore", category=UserWarning)
 
 neg_hartmann6 = Hartmann(negate=True)
+
+
 
 def log_sorted_samples(
     samples,
@@ -283,7 +286,10 @@ def bo_loop(
     save_model: bool = True,
     save_path: str = "botorch_energy_model.pt",
     resume_if_exists: bool = True,
+    sample_path: str = None,
 ):
+    print(f"[info] batch_size: {batch_size}, initial_points: {n_init}, n_batch: {n_batch}")
+
     global WORKFLOW_CONFIG
     WORKFLOW_CONFIG = workflow_config
 
@@ -330,16 +336,8 @@ def bo_loop(
         if "model_state_dict" in ckpt:
             model_nei.load_state_dict(ckpt["model_state_dict"])
 
-        if verbose:
-            print(
-                f"Resumed from checkpoint: {save_path}\n"
-                f"  training_points = {train_x_nei.shape[0]}\n"
-                f"  completed_batches = {completed_batches}\n"
-                f"  continuing for additional_batches = {n_batch}"
-            )
-
         start_iteration = completed_batches + 1
-        end_iteration = completed_batches + n_batch
+        end_iteration = n_batch - completed_batches
 
         # Ensure histories are initialized sensibly if missing/empty
         if not best_observed_nei:
@@ -350,6 +348,14 @@ def bo_loop(
             best_random = [best_observed_nei[-1]]
             
         save_path = f"resume_{save_path}_{suffix}"
+        
+        if verbose:
+            print(
+                f"Resumed from checkpoint: {save_path}\n"
+                f"  training_points = {train_x_nei.shape[0]}\n"
+                f"  completed_batches = {completed_batches}\n"
+                f"  {end_iteration} more rounds to go"
+            )
         
         # samples = 
 
@@ -408,6 +414,28 @@ def bo_loop(
         with open(log_path, "a") as f:
             f.write(s + "\n")
             f.write("=" * 80 + "\n")
+
+        if save_model:
+            torch.save(
+                {
+                    "model_state_dict": model_nei.state_dict(),
+                    "train_x": train_x_nei.detach().cpu(),
+                    "train_obj": train_obj_nei.detach().cpu(),
+                    "train_con": train_con_nei.detach().cpu(),
+                    "best_observed_nei": best_observed_nei,
+                    "best_random": best_random,
+                    "completed_batches": completed_batches,
+                    "dtype": str(dtype),
+                    "device": str(device),
+                    "num_resources": NUM_RESOURCES,
+                    "functions": WORKFLOW_CONFIG.get("functions"),
+                    "qos": WORKFLOW_CONFIG.get("qos"),
+                    "workflow_config": WORKFLOW_CONFIG,  # remove if non-serializable
+                    "saved_at": datetime.now().isoformat(),
+                },
+                save_path,
+            )
+            json.dump(to_jsonable(samples), open(CONFIG.sample_path, "w"), indent=2)
 
     # ----------------------------
     # BO loop
@@ -546,7 +574,7 @@ def bo_loop(
                 },
                 save_path,
             )
-            json.dump(samples, open(CONFIG.sample_path, "w"), indent=2)
+            json.dump(to_jsonable(samples), open(CONFIG.sample_path, "w"), indent=2)
 
     # ----------------------------
     # Final selection: same as your original logic
@@ -581,8 +609,8 @@ def bo_loop(
         feasible_only=True,
     )
     
-    json.dump(samples, open(CONFIG.sample_path, "w"), indent=2)
-    json.dump(feasible_samples_sorted, open(CONFIG.json_path, "w"), indent=2)
+    json.dump(to_jsonable(samples), open(CONFIG.sample_path, "w"), indent=2)
+    json.dump(to_jsonable(feasible_samples_sorted), open(CONFIG.json_path, "w"), indent=2)
 
     return best_cost, resource_config
 

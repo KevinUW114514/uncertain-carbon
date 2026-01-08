@@ -1,3 +1,3 @@
 Method,Name,Error,Occurrences
-E2E,ml-image-processing-e2e,TimeoutError(),20
-E2E,ml-image-processing-e2e,Exception(),43
+E2E,ml-image-processing-e2e,TimeoutError(),9
+E2E,ml-image-processing-e2e,Exception(),24

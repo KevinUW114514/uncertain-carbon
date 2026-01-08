@@ -21,6 +21,7 @@ sys.path.append(str(SCHED_DIR))
 import bayesian_optimization
 from config import CONFIG
 import os
+from bo_utils import to_jsonable
 
 IS_ENERGY = os.getenv("IS_ENERGY", "0")
 if IS_ENERGY == "1":
@@ -48,6 +49,7 @@ def main():
     parser.add_argument("--workflow_config", action="store", type=str, default="ml_workflow.json")
     parser.add_argument("--is_energy", action="store_true")
     parser.add_argument("--model_path", action="store", type=str, default="")
+    parser.add_argument("--sample_path", action="store", type=str, default="")
 
     args = parser.parse_args()
     # n_init = args.n_init
@@ -73,7 +75,7 @@ def main():
     
     if args.model_path == "":
         log_path = f"bo_log_{suffix}.log"
-        model_path = f"bo_model_{suffix}_resume.pt"
+        model_path = f"bo_model_{suffix}.pt"
         CONFIG.set_log_path(log_path)
         CONFIG.set_json_path(f"bo_results_{suffix}.json")
         CONFIG.set_sample_path(f"bo_samples_{suffix}.json")
@@ -100,7 +102,8 @@ def main():
         # confidence=confidence,
         # verbose=verbose,
         log_path=log_path,
-        save_path=model_path
+        save_path=model_path,
+        sample_path=args.sample_path
     )
     end_time = time.time()
     s = f"BO loop time: {end_time - start_time:.2f} seconds\n" + \
@@ -117,7 +120,7 @@ def main():
         f.write(s)
 
     with open(f"best_resource_config_{suffix}.json", "w") as f:
-        json.dump(result, f, indent=2)
+        json.dump(to_jsonable(result), f, indent=2)
 
 
 if __name__ == "__main__":

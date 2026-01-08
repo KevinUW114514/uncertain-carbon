@@ -1,6 +1,6 @@
-for i in {1..8}; do
+for i in {1..1}; do
     ts=$(date +"%Y%m%d_%H%M%S")
-    log="result_${ts}.log"
+    log="re_result_${ts}.log"
 
     pkill -9 -f locust
 
@@ -9,9 +9,9 @@ for i in {1..8}; do
     # echo "resume"
     # echo "========================================" | tee -a "$log"
 
-    echo "========================================" | tee -a "$log" || true
-    echo "Default" | tee -a "$log"
-    IS_ENERGY=0 python -u manager.py --n_batch 10  2>&1 | tee -a "$log"
+    # echo "========================================" | tee -a "$log" || true
+    # echo "Default" | tee -a "$log"
+    # IS_ENERGY=0 python -u manager.py --n_batch 10  2>&1 | tee -a "$log"
 
     echo "========================================" | tee -a "$log" || true
     echo "Energy" | tee -a "$log"

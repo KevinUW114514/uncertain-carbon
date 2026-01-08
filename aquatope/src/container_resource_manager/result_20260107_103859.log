@@ -1,0 +1,2419 @@
+Run 2
+========================================
+Default
+drwxrwxr-x 2 cc cc   4096 Jan  7 08:14 __pycache__
+-rw-rw-r-- 1 cc cc  21718 Jan  7 08:07 bayesian_optimization.py
+drwxrwxr-x 2 cc cc   4096 Jan  5 15:43 bo_outputs_copy
+-rw-rw-r-- 1 cc cc  18261 Jan  7 08:14 bo_utils.py
+-rw-rw-r-- 1 cc cc  12286 Jan  5 01:06 check_result.py
+-rw-rw-r-- 1 cc cc   7349 Jan  5 15:31 compute_stat.py
+-rw-rw-r-- 1 cc cc   6640 Jan  5 15:43 compute_trade_off.py
+-rw-rw-r-- 1 cc cc   1438 Jan  5 14:32 config.py
+-rw-rw-r-- 1 cc cc   4253 Jan  7 07:48 manager.py
+-rw-rw-r-- 1 cc cc   9045 Dec 16 05:41 original-bayesian_optimization.py
+-rw-rw-r-- 1 cc cc  11668 Jan  5 15:23 original_bo_results_price_20260105_051239 copy.json
+-rw-rw-r-- 1 cc cc   2423 Jan  3 19:23 pods_mapping.py
+-rw-rw-r-- 1 cc cc  21769 Jan  7 06:31 power_service.py
+-rw-rw-r-- 1 cc cc   1736 Jan  7 00:16 temp.py
+
+IS_ENERGY: False
+[info] batch_size: 3, initial_points: 10, n_batch: 10
+No checkpoint found, starting fresh BO run.
+[info] Started Locust with PID 3873633
+Updating function ml-image-processing to cpu: 407m, memory: 69Mi
+Updating Deployment resource configuration...
+
+Updating function ml-object-detection to cpu: 4836m, memory: 505Mi
+Updating Deployment resource configuration...
+
+[info] Original replicas=73, selector='environmentName=yolo,environmentNamespace=default,environmentUid=ced8af41-455b-4081-99aa-1700c0092126,executorType=newdeploy,functionName=ml-object-detection,functionNamespace=default,functionUid=182005a6-ad76-40e9-9ecd-2fb10570ca05'
+[info] Original replicas=24, selector='environmentName=ml-image-processing,environmentNamespace=default,environmentUid=2449fff4-7632-422c-aa00-519fcb194e26,executorType=newdeploy,functionName=ml-image-processing,functionNamespace=default,functionUid=58487e4a-0036-4ccd-8b22-c7f0f2d6d72b'
+[ok] Patched Deployment resources
+[ok] Patched Deployment resources
+[ok] Verified Deployment template resources: requests={'cpu': '300m', 'memory': '50Mi'} limits={'cpu': '407m', 'memory': '69Mi'}
+[info] Scaling deployment to 0 replicas to force full pod replacement
+[ok] Verified Deployment template resources: requests={'cpu': '1500m', 'memory': '400Mi'} limits={'cpu': '4836m', 'memory': '505Mi'}
+[info] Scaling deployment to 0 replicas to force full pod replacement
+[ok] All pods terminated (replicas=0)
+[info] Scaling deployment back to 24 replicas
+[ok] All pods terminated (replicas=0)
+[info] Scaling deployment back to 73 replicas
+[ok] Deleted HPA newdeploy-ml-image-processing-default-8b22-c7f0f2d6d72b
+[ok] Deleted HPA newdeploy-ml-object-detection-default-9ecd-2fb10570ca05
+[ok] Rollout completed after scale-to-zero
+[verify] newest RS=newdeploy-ml-image-processing-default-8b22-c7f0f2d6d72b-6bfc5ff7b7 pods=24 ready=24
+[ok] Verified newest ReplicaSet template resources match expected
+[ok] Rollout completed after scale-to-zero
+[verify] newest RS=newdeploy-ml-object-detection-default-9ecd-2fb10570ca05-d6d6c5fcf pods=73 ready=73
+[ok] Verified newest ReplicaSet template resources match expected
+[info] Locust stopped
+[info] Started Locust with PID 3881642
+[info] start sleep for 20s
+[info] sleep done
+\Start sampling in parallel...
+Workflow e2e p99 latency (65 completed in 17.4s, parallel, 8 workers): 2.200s
+Average stage latencies:
+  - ml-image-processing: 0.230s
+  - ml-object-detection: 0.209s
+[info] poll_locust_row: failed to load, try again
+[info] total_requests: 1187
+[info] e2e_latency (p99): 2.200 s
+[info] energy_j: 8330.303691 J
+[info] served_rps: 66.10 req/s
+[info]: start_time: 1767782425.0017154, end_time: 1767782442.3997257, duration_s: 17.40 s
+[info] energy_cost: 7.017948 J/request
+[info] average power: 478.807839 W
+[info] Locust stopped
+================================================================================
+objective      : price
+resource_config: [{'cpu_m': 407, 'memory_mi': 69}, {'cpu_m': 4836, 'memory_mi': 505}], latencies: {'ml-image-processing': 0.22959972052620006, 'ml-object-detection': 0.20940388309267852}, price_cost: 8926.339865, energy_cost: 7.017948, latency_p99 : 2.200000, feasible: True, total_requests: 1187, served_rps: 66.10, total_energy_j: 8330.303691 J, profiling_duration_s: 17.398010s, average_power: 478.807839 W
+wall_time_s    : 104.656
+================================================================================
+
+[info] Started Locust with PID 3883425
+Updating function ml-image-processing to cpu: 586m, memory: 66Mi
+Updating Deployment resource configuration...
+
+Updating function ml-object-detection to cpu: 5955m, memory: 444Mi
+Updating Deployment resource configuration...
+
+[info] Original replicas=73, selector='environmentName=yolo,environmentNamespace=default,environmentUid=ced8af41-455b-4081-99aa-1700c0092126,executorType=newdeploy,functionName=ml-object-detection,functionNamespace=default,functionUid=182005a6-ad76-40e9-9ecd-2fb10570ca05'
+[info] Original replicas=24, selector='environmentName=ml-image-processing,environmentNamespace=default,environmentUid=2449fff4-7632-422c-aa00-519fcb194e26,executorType=newdeploy,functionName=ml-image-processing,functionNamespace=default,functionUid=58487e4a-0036-4ccd-8b22-c7f0f2d6d72b'
+[ok] Patched Deployment resources
+[ok] Patched Deployment resources
+[ok] Verified Deployment template resources: requests={'cpu': '1500m', 'memory': '400Mi'} limits={'cpu': '5955m', 'memory': '444Mi'}
+[info] Scaling deployment to 0 replicas to force full pod replacement
+[ok] Verified Deployment template resources: requests={'cpu': '300m', 'memory': '50Mi'} limits={'cpu': '586m', 'memory': '66Mi'}
+[info] Scaling deployment to 0 replicas to force full pod replacement
+[ok] All pods terminated (replicas=0)
+[info] Scaling deployment back to 24 replicas
+[ok] All pods terminated (replicas=0)
+[info] Scaling deployment back to 73 replicas
+[ok] Deleted HPA newdeploy-ml-image-processing-default-8b22-c7f0f2d6d72b
+[ok] Deleted HPA newdeploy-ml-object-detection-default-9ecd-2fb10570ca05
+[ok] Rollout completed after scale-to-zero
+[verify] newest RS=newdeploy-ml-image-processing-default-8b22-c7f0f2d6d72b-54c8897c5 pods=24 ready=24
+[ok] Verified newest ReplicaSet template resources match expected
+[ok] Rollout completed after scale-to-zero
+[verify] newest RS=newdeploy-ml-object-detection-default-9ecd-2fb10570ca05-679bcb6bf pods=73 ready=73
+[ok] Verified newest ReplicaSet template resources match expected
+[info] Locust stopped
+[info] Started Locust with PID 3891449
+[info] start sleep for 20s
+[info] sleep done
+\Start sampling in parallel...
+Workflow e2e p99 latency (71 completed in 16.7s, parallel, 8 workers): 1.586s
+Average stage latencies:
+  - ml-image-processing: 0.156s
+  - ml-object-detection: 0.194s
+[info] poll_locust_row: failed to load, try again
+[info] poll_locust_row: failed to load, try again
+[info] total_requests: 1340
+[info] e2e_latency (p99): 1.400 s
+[info] energy_j: 8455.124679 J
+[info] served_rps: 74.40 req/s
+[info]: start_time: 1767782530.608922, end_time: 1767782547.2694008, duration_s: 16.66 s
+[info] energy_cost: 6.309795 J/request
+[info] average power: 507.495899 W
+[info] Locust stopped
+================================================================================
+objective      : price
+resource_config: [{'cpu_m': 586, 'memory_mi': 66}, {'cpu_m': 5955, 'memory_mi': 444}], latencies: {'ml-image-processing': 0.15629733618821057, 'ml-object-detection': 0.19382274959524962}, price_cost: 10107.666720, energy_cost: 6.309795, latency_p99 : 1.400000, feasible: True, total_requests: 1340, served_rps: 74.40, total_energy_j: 8455.124679 J, profiling_duration_s: 16.660479s, average_power: 507.495899 W
+wall_time_s    : 105.376
+================================================================================
+
+[info] Started Locust with PID 3893165
+Updating function ml-image-processing to cpu: 322m, memory: 57Mi
+Updating Deployment resource configuration...
+
+Updating function ml-object-detection to cpu: 2159m, memory: 456Mi
+Updating Deployment resource configuration...
+
+[info] Original replicas=24, selector='environmentName=ml-image-processing,environmentNamespace=default,environmentUid=2449fff4-7632-422c-aa00-519fcb194e26,executorType=newdeploy,functionName=ml-image-processing,functionNamespace=default,functionUid=58487e4a-0036-4ccd-8b22-c7f0f2d6d72b'
+[info] Original replicas=73, selector='environmentName=yolo,environmentNamespace=default,environmentUid=ced8af41-455b-4081-99aa-1700c0092126,executorType=newdeploy,functionName=ml-object-detection,functionNamespace=default,functionUid=182005a6-ad76-40e9-9ecd-2fb10570ca05'
+[ok] Patched Deployment resources
+[ok] Patched Deployment resources
+[ok] Verified Deployment template resources: requests={'cpu': '300m', 'memory': '50Mi'} limits={'cpu': '322m', 'memory': '57Mi'}
+[info] Scaling deployment to 0 replicas to force full pod replacement
+[ok] Verified Deployment template resources: requests={'cpu': '1500m', 'memory': '400Mi'} limits={'cpu': '2159m', 'memory': '456Mi'}
+[info] Scaling deployment to 0 replicas to force full pod replacement
+[ok] All pods terminated (replicas=0)
+[info] Scaling deployment back to 24 replicas
+[ok] All pods terminated (replicas=0)
+[info] Scaling deployment back to 73 replicas
+[ok] Deleted HPA newdeploy-ml-image-processing-default-8b22-c7f0f2d6d72b
+[ok] Rollout completed after scale-to-zero
+[verify] newest RS=newdeploy-ml-image-processing-default-8b22-c7f0f2d6d72b-cf687b4ff pods=24 ready=24
+[ok] Verified newest ReplicaSet template resources match expected
+[ok] Rollout completed after scale-to-zero
+[verify] newest RS=newdeploy-ml-object-detection-default-9ecd-2fb10570ca05-5bb5b7bcd9 pods=73 ready=73
+[ok] Verified newest ReplicaSet template resources match expected
+[info] Locust stopped
+[info] Started Locust with PID 3901025
+[info] start sleep for 20s
+[info] sleep done
+\Start sampling in parallel...
+Workflow e2e p99 latency (32 completed in 22.0s, parallel, 8 workers): 9.000s
+Average stage latencies:
+  - ml-image-processing: 0.261s
+  - ml-object-detection: 0.519s
+[info] poll_locust_row: failed to load, try again
+[info] poll_locust_row: failed to load, try again
+[info] total_requests: 1020
+[info] e2e_latency (p99): 4.700 s
+[info] energy_j: 7660.198980 J
+[info] served_rps: 40.70 req/s
+[info]: start_time: 1767782632.260789, end_time: 1767782654.2417493, duration_s: 21.98 s
+[info] energy_cost: 7.509999 J/request
+[info] average power: 348.492461 W
+[info] Locust stopped
+================================================================================
+objective      : price
+resource_config: [{'cpu_m': 322, 'memory_mi': 57}, {'cpu_m': 2159, 'memory_mi': 456}], latencies: {'ml-image-processing': 0.2613270007269947, 'ml-object-detection': 0.5190997990828595}, price_cost: 9893.739715, energy_cost: 7.509999, latency_p99 : 4.700000, feasible: False, total_requests: 1020, served_rps: 40.70, total_energy_j: 7660.198980 J, profiling_duration_s: 21.980960s, average_power: 348.492461 W
+wall_time_s    : 106.986
+================================================================================
+
+[info] Started Locust with PID 3902993
+Updating function ml-image-processing to cpu: 735m, memory: 59Mi
+Updating Deployment resource configuration...
+
+Updating function ml-object-detection to cpu: 2994m, memory: 469Mi
+Updating Deployment resource configuration...
+
+[info] Original replicas=24, selector='environmentName=ml-image-processing,environmentNamespace=default,environmentUid=2449fff4-7632-422c-aa00-519fcb194e26,executorType=newdeploy,functionName=ml-image-processing,functionNamespace=default,functionUid=58487e4a-0036-4ccd-8b22-c7f0f2d6d72b'
+[info] Original replicas=73, selector='environmentName=yolo,environmentNamespace=default,environmentUid=ced8af41-455b-4081-99aa-1700c0092126,executorType=newdeploy,functionName=ml-object-detection,functionNamespace=default,functionUid=182005a6-ad76-40e9-9ecd-2fb10570ca05'
+[ok] Patched Deployment resources
+[ok] Patched Deployment resources
+[ok] Verified Deployment template resources: requests={'cpu': '300m', 'memory': '50Mi'} limits={'cpu': '735m', 'memory': '59Mi'}
+[info] Scaling deployment to 0 replicas to force full pod replacement
+[ok] Verified Deployment template resources: requests={'cpu': '1500m', 'memory': '400Mi'} limits={'cpu': '2994m', 'memory': '469Mi'}
+[info] Scaling deployment to 0 replicas to force full pod replacement
+[ok] All pods terminated (replicas=0)
+[info] Scaling deployment back to 24 replicas
+[ok] All pods terminated (replicas=0)
+[info] Scaling deployment back to 73 replicas
+[ok] Deleted HPA newdeploy-ml-image-processing-default-8b22-c7f0f2d6d72b
+[ok] Deleted HPA newdeploy-ml-object-detection-default-9ecd-2fb10570ca05
+[ok] Rollout completed after scale-to-zero
+[verify] newest RS=newdeploy-ml-image-processing-default-8b22-c7f0f2d6d72b-6bf4f9f85b pods=24 ready=24
+[ok] Verified newest ReplicaSet template resources match expected
+[ok] Rollout completed after scale-to-zero
+[verify] newest RS=newdeploy-ml-object-detection-default-9ecd-2fb10570ca05-5cf84f86bd pods=73 ready=73
+[ok] Verified newest ReplicaSet template resources match expected
+[info] Locust stopped
+[info] Started Locust with PID 3911202
+[info] start sleep for 20s
+[info] sleep done
+\Start sampling in parallel...
+Workflow e2e p99 latency (47 completed in 19.4s, parallel, 8 workers): 9.000s
+Average stage latencies:
+  - ml-image-processing: 0.104s
+  - ml-object-detection: 0.341s
+[info] total_requests: 1150
+[info] e2e_latency (p99): 3.800 s
+[info] energy_j: 7760.839288 J
+[info] served_rps: 54.50 req/s
+[info]: start_time: 1767782742.1868048, end_time: 1767782761.5547493, duration_s: 19.37 s
+[info] energy_cost: 6.748556 J/request
+[info] average power: 400.705366 W
+[info] Locust stopped
+================================================================================
+objective      : price
+resource_config: [{'cpu_m': 735, 'memory_mi': 59}, {'cpu_m': 2994, 'memory_mi': 469}], latencies: {'ml-image-processing': 0.10427353027472763, 'ml-object-detection': 0.34132418116113467}, price_cost: 8986.023389, energy_cost: 6.748556, latency_p99 : 3.800000, feasible: False, total_requests: 1150, served_rps: 54.50, total_energy_j: 7760.839288 J, profiling_duration_s: 19.367944s, average_power: 400.705366 W
+wall_time_s    : 106.308
+================================================================================
+
+[info] Started Locust with PID 3913026
+Updating function ml-image-processing to cpu: 793m, memory: 51Mi
+Updating Deployment resource configuration...
+
+Updating function ml-object-detection to cpu: 1699m, memory: 462Mi
+Updating Deployment resource configuration...
+
+[info] Original replicas=73, selector='environmentName=yolo,environmentNamespace=default,environmentUid=ced8af41-455b-4081-99aa-1700c0092126,executorType=newdeploy,functionName=ml-object-detection,functionNamespace=default,functionUid=182005a6-ad76-40e9-9ecd-2fb10570ca05'
+[info] Original replicas=24, selector='environmentName=ml-image-processing,environmentNamespace=default,environmentUid=2449fff4-7632-422c-aa00-519fcb194e26,executorType=newdeploy,functionName=ml-image-processing,functionNamespace=default,functionUid=58487e4a-0036-4ccd-8b22-c7f0f2d6d72b'
+[ok] Patched Deployment resources
+[ok] Patched Deployment resources
+[ok] Verified Deployment template resources: requests={'cpu': '300m', 'memory': '50Mi'} limits={'cpu': '793m', 'memory': '51Mi'}
+[info] Scaling deployment to 0 replicas to force full pod replacement
+[ok] Verified Deployment template resources: requests={'cpu': '1500m', 'memory': '400Mi'} limits={'cpu': '1699m', 'memory': '462Mi'}
+[info] Scaling deployment to 0 replicas to force full pod replacement
+[ok] All pods terminated (replicas=0)
+[info] Scaling deployment back to 24 replicas
+[ok] All pods terminated (replicas=0)
+[info] Scaling deployment back to 73 replicas
+[ok] Deleted HPA newdeploy-ml-image-processing-default-8b22-c7f0f2d6d72b
+[ok] Deleted HPA newdeploy-ml-object-detection-default-9ecd-2fb10570ca05
+[ok] Rollout completed after scale-to-zero
+[verify] newest RS=newdeploy-ml-image-processing-default-8b22-c7f0f2d6d72b-6bd8cb5b7c pods=24 ready=24
+[ok] Verified newest ReplicaSet template resources match expected
+[ok] Rollout completed after scale-to-zero
+[verify] newest RS=newdeploy-ml-object-detection-default-9ecd-2fb10570ca05-5559744b95 pods=73 ready=73
+[ok] Verified newest ReplicaSet template resources match expected
+[info] Locust stopped
+[info] Started Locust with PID 3921244
+[info] start sleep for 20s
+[info] sleep done
+\Start sampling in parallel...
+Workflow e2e p99 latency (32 completed in 21.5s, parallel, 8 workers): 9.000s
+Average stage latencies:
+  - ml-image-processing: 0.091s
+  - ml-object-detection: 0.701s
+[info] poll_locust_row: failed to load, try again
+[info] poll_locust_row: failed to load, try again
+[info] poll_locust_row: failed to load, try again
+[info] total_requests: 846
+[info] e2e_latency (p99): 3.900 s
+[info] energy_j: 6993.994921 J
+[info] served_rps: 39.80 req/s
+[info]: start_time: 1767782849.550023, end_time: 1767782871.065686, duration_s: 21.52 s
+[info] energy_cost: 8.267133 J/request
+[info] average power: 325.065277 W
+[info] Locust stopped
+================================================================================
+objective      : price
+resource_config: [{'cpu_m': 793, 'memory_mi': 51}, {'cpu_m': 1699, 'memory_mi': 462}], latencies: {'ml-image-processing': 0.09073352387272998, 'ml-object-detection': 0.7013256089565786}, price_cost: 10508.647869, energy_cost: 8.267133, latency_p99 : 3.900000, feasible: False, total_requests: 846, served_rps: 39.80, total_energy_j: 6993.994921 J, profiling_duration_s: 21.515663s, average_power: 325.065277 W
+wall_time_s    : 111.023
+================================================================================
+
+[info] Started Locust with PID 3923216
+Updating function ml-image-processing to cpu: 516m, memory: 59Mi
+Updating Deployment resource configuration...
+
+Updating function ml-object-detection to cpu: 5034m, memory: 477Mi
+Updating Deployment resource configuration...
+
+[info] Original replicas=24, selector='environmentName=ml-image-processing,environmentNamespace=default,environmentUid=2449fff4-7632-422c-aa00-519fcb194e26,executorType=newdeploy,functionName=ml-image-processing,functionNamespace=default,functionUid=58487e4a-0036-4ccd-8b22-c7f0f2d6d72b'
+[info] Original replicas=73, selector='environmentName=yolo,environmentNamespace=default,environmentUid=ced8af41-455b-4081-99aa-1700c0092126,executorType=newdeploy,functionName=ml-object-detection,functionNamespace=default,functionUid=182005a6-ad76-40e9-9ecd-2fb10570ca05'
+[ok] Patched Deployment resources
+[ok] Patched Deployment resources
+[ok] Verified Deployment template resources: requests={'cpu': '300m', 'memory': '50Mi'} limits={'cpu': '516m', 'memory': '59Mi'}
+[info] Scaling deployment to 0 replicas to force full pod replacement
+[ok] Verified Deployment template resources: requests={'cpu': '1500m', 'memory': '400Mi'} limits={'cpu': '5034m', 'memory': '477Mi'}
+[info] Scaling deployment to 0 replicas to force full pod replacement
+[ok] All pods terminated (replicas=0)
+[info] Scaling deployment back to 24 replicas
+[ok] All pods terminated (replicas=0)
+[info] Scaling deployment back to 73 replicas
+[ok] Deleted HPA newdeploy-ml-image-processing-default-8b22-c7f0f2d6d72b
+[ok] Deleted HPA newdeploy-ml-object-detection-default-9ecd-2fb10570ca05
+[ok] Rollout completed after scale-to-zero
+[verify] newest RS=newdeploy-ml-image-processing-default-8b22-c7f0f2d6d72b-5d85d8898b pods=24 ready=24
+[ok] Verified newest ReplicaSet template resources match expected
+[ok] Rollout completed after scale-to-zero
+[verify] newest RS=newdeploy-ml-object-detection-default-9ecd-2fb10570ca05-676fd869bb pods=73 ready=73
+[ok] Verified newest ReplicaSet template resources match expected
+[info] Locust stopped
+[info] Started Locust with PID 3931161
+[info] start sleep for 20s
+[info] sleep done
+\Start sampling in parallel...
+Workflow e2e p99 latency (68 completed in 17.3s, parallel, 8 workers): 2.906s
+Average stage latencies:
+  - ml-image-processing: 0.167s
+  - ml-object-detection: 0.213s
+[info] poll_locust_row: failed to load, try again
+[info] total_requests: 1255
+[info] e2e_latency (p99): 2.100 s
+[info] energy_j: 8640.496469 J
+[info] served_rps: 69.50 req/s
+[info]: start_time: 1767782960.6148372, end_time: 1767782977.9434643, duration_s: 17.33 s
+[info] energy_cost: 6.884858 J/request
+[info] average power: 498.625564 W
+[info] Locust stopped
+================================================================================
+objective      : price
+resource_config: [{'cpu_m': 516, 'memory_mi': 59}, {'cpu_m': 5034, 'memory_mi': 477}], latencies: {'ml-image-processing': 0.16739710699082078, 'ml-object-detection': 0.21349794768235264}, price_cost: 9428.122186, energy_cost: 6.884858, latency_p99 : 2.100000, feasible: True, total_requests: 1255, served_rps: 69.50, total_energy_j: 8640.496469 J, profiling_duration_s: 17.328627s, average_power: 498.625564 W
+wall_time_s    : 105.838
+================================================================================
+
+[info] Started Locust with PID 3932897
+Updating function ml-image-processing to cpu: 341m, memory: 52Mi
+Updating Deployment resource configuration...
+
+Updating function ml-object-detection to cpu: 5662m, memory: 425Mi
+Updating Deployment resource configuration...
+
+[info] Original replicas=24, selector='environmentName=ml-image-processing,environmentNamespace=default,environmentUid=2449fff4-7632-422c-aa00-519fcb194e26,executorType=newdeploy,functionName=ml-image-processing,functionNamespace=default,functionUid=58487e4a-0036-4ccd-8b22-c7f0f2d6d72b'
+[info] Original replicas=73, selector='environmentName=yolo,environmentNamespace=default,environmentUid=ced8af41-455b-4081-99aa-1700c0092126,executorType=newdeploy,functionName=ml-object-detection,functionNamespace=default,functionUid=182005a6-ad76-40e9-9ecd-2fb10570ca05'
+[ok] Patched Deployment resources
+[ok] Patched Deployment resources
+[ok] Verified Deployment template resources: requests={'cpu': '300m', 'memory': '50Mi'} limits={'cpu': '341m', 'memory': '52Mi'}
+[info] Scaling deployment to 0 replicas to force full pod replacement
+[ok] Verified Deployment template resources: requests={'cpu': '1500m', 'memory': '400Mi'} limits={'cpu': '5662m', 'memory': '425Mi'}
+[info] Scaling deployment to 0 replicas to force full pod replacement
+[ok] All pods terminated (replicas=0)
+[info] Scaling deployment back to 24 replicas
+[ok] All pods terminated (replicas=0)
+[info] Scaling deployment back to 73 replicas
+[ok] Deleted HPA newdeploy-ml-image-processing-default-8b22-c7f0f2d6d72b
+[ok] Deleted HPA newdeploy-ml-object-detection-default-9ecd-2fb10570ca05
+[ok] Rollout completed after scale-to-zero
+[verify] newest RS=newdeploy-ml-image-processing-default-8b22-c7f0f2d6d72b-854b746597 pods=24 ready=24
+[ok] Verified newest ReplicaSet template resources match expected
+[ok] Rollout completed after scale-to-zero
+[verify] newest RS=newdeploy-ml-object-detection-default-9ecd-2fb10570ca05-64c47958df pods=73 ready=73
+[ok] Verified newest ReplicaSet template resources match expected
+[info] Locust stopped
+[info] Started Locust with PID 3940686
+[info] start sleep for 20s
+[info] sleep done
+\Start sampling in parallel...
+Workflow e2e p99 latency (59 completed in 18.2s, parallel, 8 workers): 4.497s
+Average stage latencies:
+  - ml-image-processing: 0.257s
+  - ml-object-detection: 0.166s
+[info] total_requests: 1066
+[info] e2e_latency (p99): 5.300 s
+[info] energy_j: 8177.860557 J
+[info] served_rps: 60.20 req/s
+[info]: start_time: 1767783067.373859, end_time: 1767783085.5247977, duration_s: 18.15 s
+[info] energy_cost: 7.671539 J/request
+[info] average power: 450.547526 W
+[info] Locust stopped
+================================================================================
+objective      : price
+resource_config: [{'cpu_m': 341, 'memory_mi': 52}, {'cpu_m': 5662, 'memory_mi': 425}], latencies: {'ml-image-processing': 0.25674312556225615, 'ml-object-detection': 0.16641143186933408}, price_cost: 8290.112181, energy_cost: 7.671539, latency_p99 : 5.300000, feasible: False, total_requests: 1066, served_rps: 60.20, total_energy_j: 8177.860557 J, profiling_duration_s: 18.150939s, average_power: 450.547526 W
+wall_time_s    : 107.079
+================================================================================
+
+[info] Started Locust with PID 3942480
+Updating function ml-image-processing to cpu: 401m, memory: 68Mi
+Updating Deployment resource configuration...
+
+Updating function ml-object-detection to cpu: 5512m, memory: 497Mi
+Updating Deployment resource configuration...
+
+[info] Original replicas=24, selector='environmentName=ml-image-processing,environmentNamespace=default,environmentUid=2449fff4-7632-422c-aa00-519fcb194e26,executorType=newdeploy,functionName=ml-image-processing,functionNamespace=default,functionUid=58487e4a-0036-4ccd-8b22-c7f0f2d6d72b'
+[info] Original replicas=73, selector='environmentName=yolo,environmentNamespace=default,environmentUid=ced8af41-455b-4081-99aa-1700c0092126,executorType=newdeploy,functionName=ml-object-detection,functionNamespace=default,functionUid=182005a6-ad76-40e9-9ecd-2fb10570ca05'
+[ok] Patched Deployment resources
+[ok] Patched Deployment resources
+[ok] Verified Deployment template resources: requests={'cpu': '1500m', 'memory': '400Mi'} limits={'cpu': '5512m', 'memory': '497Mi'}
+[info] Scaling deployment to 0 replicas to force full pod replacement
+[ok] Verified Deployment template resources: requests={'cpu': '300m', 'memory': '50Mi'} limits={'cpu': '401m', 'memory': '68Mi'}
+[info] Scaling deployment to 0 replicas to force full pod replacement
+[ok] All pods terminated (replicas=0)
+[info] Scaling deployment back to 24 replicas
+[ok] All pods terminated (replicas=0)
+[info] Scaling deployment back to 73 replicas
+[ok] Deleted HPA newdeploy-ml-image-processing-default-8b22-c7f0f2d6d72b
+[ok] Deleted HPA newdeploy-ml-object-detection-default-9ecd-2fb10570ca05
+[ok] Rollout completed after scale-to-zero
+[verify] newest RS=newdeploy-ml-image-processing-default-8b22-c7f0f2d6d72b-554cbb9bd4 pods=24 ready=24
+[ok] Verified newest ReplicaSet template resources match expected
+[ok] Rollout completed after scale-to-zero
+[verify] newest RS=newdeploy-ml-object-detection-default-9ecd-2fb10570ca05-f5f9769dc pods=73 ready=73
+[ok] Verified newest ReplicaSet template resources match expected
+[info] Locust stopped
+[info] Started Locust with PID 3950717
+[info] start sleep for 20s
+[info] sleep done
+\Start sampling in parallel...
+Workflow e2e p99 latency (65 completed in 17.4s, parallel, 8 workers): 1.816s
+Average stage latencies:
+  - ml-image-processing: 0.252s
+  - ml-object-detection: 0.190s
+[info] poll_locust_row: failed to load, try again
+[info] total_requests: 1145
+[info] e2e_latency (p99): 1.900 s
+[info] energy_j: 8320.948468 J
+[info] served_rps: 66.90 req/s
+[info]: start_time: 1767783174.4459758, end_time: 1767783191.8239832, duration_s: 17.38 s
+[info] energy_cost: 7.267204 J/request
+[info] average power: 478.820631 W
+[info] Locust stopped
+================================================================================
+objective      : price
+resource_config: [{'cpu_m': 401, 'memory_mi': 68}, {'cpu_m': 5512, 'memory_mi': 497}], latencies: {'ml-image-processing': 0.2519522109283851, 'ml-object-detection': 0.19022599513141009}, price_cost: 9246.052920, energy_cost: 7.267204, latency_p99 : 1.900000, feasible: True, total_requests: 1145, served_rps: 66.90, total_energy_j: 8320.948468 J, profiling_duration_s: 17.378007s, average_power: 478.820631 W
+wall_time_s    : 106.803
+================================================================================
+
+[info] Started Locust with PID 3952486
+Updating function ml-image-processing to cpu: 336m, memory: 60Mi
+Updating Deployment resource configuration...
+
+Updating function ml-object-detection to cpu: 4740m, memory: 462Mi
+Updating Deployment resource configuration...
+
+[info] Original replicas=24, selector='environmentName=ml-image-processing,environmentNamespace=default,environmentUid=2449fff4-7632-422c-aa00-519fcb194e26,executorType=newdeploy,functionName=ml-image-processing,functionNamespace=default,functionUid=58487e4a-0036-4ccd-8b22-c7f0f2d6d72b'
+[info] Original replicas=73, selector='environmentName=yolo,environmentNamespace=default,environmentUid=ced8af41-455b-4081-99aa-1700c0092126,executorType=newdeploy,functionName=ml-object-detection,functionNamespace=default,functionUid=182005a6-ad76-40e9-9ecd-2fb10570ca05'
+[ok] Patched Deployment resources
+[ok] Patched Deployment resources
+[ok] Verified Deployment template resources: requests={'cpu': '300m', 'memory': '50Mi'} limits={'cpu': '336m', 'memory': '60Mi'}
+[info] Scaling deployment to 0 replicas to force full pod replacement
+[ok] Verified Deployment template resources: requests={'cpu': '1500m', 'memory': '400Mi'} limits={'cpu': '4740m', 'memory': '462Mi'}
+[info] Scaling deployment to 0 replicas to force full pod replacement
+[ok] All pods terminated (replicas=0)
+[info] Scaling deployment back to 24 replicas
+[ok] All pods terminated (replicas=0)
+[info] Scaling deployment back to 73 replicas
+[ok] Deleted HPA newdeploy-ml-image-processing-default-8b22-c7f0f2d6d72b
+[ok] Deleted HPA newdeploy-ml-object-detection-default-9ecd-2fb10570ca05
+[ok] Rollout completed after scale-to-zero
+[verify] newest RS=newdeploy-ml-image-processing-default-8b22-c7f0f2d6d72b-5879448688 pods=24 ready=24
+[ok] Verified newest ReplicaSet template resources match expected
+[ok] Rollout completed after scale-to-zero
+[verify] newest RS=newdeploy-ml-object-detection-default-9ecd-2fb10570ca05-644cf6dff9 pods=73 ready=73
+[ok] Verified newest ReplicaSet template resources match expected
+[info] Locust stopped
+[info] Started Locust with PID 3960090
+[info] start sleep for 20s
+[info] sleep done
+\Start sampling in parallel...
+Workflow e2e p99 latency (59 completed in 19.5s, parallel, 8 workers): 4.874s
+Average stage latencies:
+  - ml-image-processing: 0.276s
+  - ml-object-detection: 0.202s
+[info] total_requests: 1038
+[info] e2e_latency (p99): 6.000 s
+[info] energy_j: 8706.570762 J
+[info] served_rps: 58.10 req/s
+[info]: start_time: 1767783270.4588404, end_time: 1767783289.9515216, duration_s: 19.49 s
+[info] energy_cost: 8.387833 J/request
+[info] average power: 446.658448 W
+[info] Locust stopped
+================================================================================
+objective      : price
+resource_config: [{'cpu_m': 336, 'memory_mi': 60}, {'cpu_m': 4740, 'memory_mi': 462}], latencies: {'ml-image-processing': 0.27618323343853324, 'ml-object-detection': 0.2020054281120962}, price_cost: 8449.406591, energy_cost: 8.387833, latency_p99 : 6.000000, feasible: False, total_requests: 1038, served_rps: 58.10, total_energy_j: 8706.570762 J, profiling_duration_s: 19.492681s, average_power: 446.658448 W
+wall_time_s    : 97.638
+================================================================================
+
+[info] Started Locust with PID 3961445
+Updating function ml-image-processing to cpu: 556m, memory: 51Mi
+Updating Deployment resource configuration...
+
+Updating function ml-object-detection to cpu: 4890m, memory: 506Mi
+Updating Deployment resource configuration...
+
+[info] Original replicas=24, selector='environmentName=ml-image-processing,environmentNamespace=default,environmentUid=2449fff4-7632-422c-aa00-519fcb194e26,executorType=newdeploy,functionName=ml-image-processing,functionNamespace=default,functionUid=58487e4a-0036-4ccd-8b22-c7f0f2d6d72b'
+[info] Original replicas=73, selector='environmentName=yolo,environmentNamespace=default,environmentUid=ced8af41-455b-4081-99aa-1700c0092126,executorType=newdeploy,functionName=ml-object-detection,functionNamespace=default,functionUid=182005a6-ad76-40e9-9ecd-2fb10570ca05'
+[ok] Patched Deployment resources
+[ok] Patched Deployment resources
+[ok] Verified Deployment template resources: requests={'cpu': '300m', 'memory': '50Mi'} limits={'cpu': '556m', 'memory': '51Mi'}
+[info] Scaling deployment to 0 replicas to force full pod replacement
+[ok] Verified Deployment template resources: requests={'cpu': '1500m', 'memory': '400Mi'} limits={'cpu': '4890m', 'memory': '506Mi'}
+[info] Scaling deployment to 0 replicas to force full pod replacement
+[ok] All pods terminated (replicas=0)
+[info] Scaling deployment back to 24 replicas
+[ok] All pods terminated (replicas=0)
+[info] Scaling deployment back to 73 replicas
+[ok] Deleted HPA newdeploy-ml-image-processing-default-8b22-c7f0f2d6d72b
+[ok] Deleted HPA newdeploy-ml-object-detection-default-9ecd-2fb10570ca05
+[ok] Rollout completed after scale-to-zero
+[verify] newest RS=newdeploy-ml-image-processing-default-8b22-c7f0f2d6d72b-fbbbc5f59 pods=24 ready=24
+[ok] Verified newest ReplicaSet template resources match expected
+[ok] Rollout completed after scale-to-zero
+[verify] newest RS=newdeploy-ml-object-detection-default-9ecd-2fb10570ca05-84f4b9bb54 pods=73 ready=73
+[ok] Verified newest ReplicaSet template resources match expected
+[info] Locust stopped
+[info] Started Locust with PID 3967108
+[info] start sleep for 20s
+[info] sleep done
+\Start sampling in parallel...
+Workflow e2e p99 latency (66 completed in 17.9s, parallel, 8 workers): 9.000s
+Average stage latencies:
+  - ml-image-processing: 0.149s
+  - ml-object-detection: 0.235s
+[info] total_requests: 1260
+[info] e2e_latency (p99): 3.200 s
+[info] energy_j: 8826.735050 J
+[info] served_rps: 70.40 req/s
+[info]: start_time: 1767783380.9401689, end_time: 1767783398.8719652, duration_s: 17.93 s
+[info] energy_cost: 7.005345 J/request
+[info] average power: 492.239310 W
+[info] Locust stopped
+================================================================================
+objective      : price
+resource_config: [{'cpu_m': 556, 'memory_mi': 51}, {'cpu_m': 4890, 'memory_mi': 506}], latencies: {'ml-image-processing': 0.14883926439170653, 'ml-object-detection': 0.23548889820678875}, price_cost: 10078.395379, energy_cost: 7.005345, latency_p99 : 3.200000, feasible: False, total_requests: 1260, served_rps: 70.40, total_energy_j: 8826.735050 J, profiling_duration_s: 17.931796s, average_power: 492.239310 W
+wall_time_s    : 108.922
+================================================================================
+
+Starting fresh (no checkpoint at bo_model_price_20260107_103902.pt).
+  initial_points = 10
+  running_batches = 10
+  initial_best_feasible_cost = 8926.339864551963
+  initial_best_constraint = -0.800
+  initial_best_resource_config = [{'cpu_m': 407, 'memory_mi': 69}, {'cpu_m': 4836, 'memory_mi': 505}]
+  time_taken_for_init = 1060.66 seconds
+/home/cc/miniconda3/envs/faas/lib/python3.10/site-packages/botorch/acquisition/monte_carlo.py:502: NumericsWarning: qNoisyExpectedImprovement has known numerical issues that lead to suboptimal optimization performance. It is strongly recommended to simply replace
+
+	 qNoisyExpectedImprovement 	 --> 	 qLogNoisyExpectedImprovement 
+
+instead, which fixes the issues and has the same API. See https://arxiv.org/abs/2310.20708 for details.
+  legacy_ei_numerics_warning(legacy_name=type(self).__name__)
+[info] Started Locust with PID 3967486
+Updating function ml-image-processing to cpu: 675m, memory: 67Mi
+Updating Deployment resource configuration...
+
+Updating function ml-object-detection to cpu: 3410m, memory: 425Mi
+Updating Deployment resource configuration...
+
+[info] Original replicas=24, selector='environmentName=ml-image-processing,environmentNamespace=default,environmentUid=2449fff4-7632-422c-aa00-519fcb194e26,executorType=newdeploy,functionName=ml-image-processing,functionNamespace=default,functionUid=58487e4a-0036-4ccd-8b22-c7f0f2d6d72b'
+[info] Original replicas=73, selector='environmentName=yolo,environmentNamespace=default,environmentUid=ced8af41-455b-4081-99aa-1700c0092126,executorType=newdeploy,functionName=ml-object-detection,functionNamespace=default,functionUid=182005a6-ad76-40e9-9ecd-2fb10570ca05'
+[ok] Patched Deployment resources
+[ok] Patched Deployment resources
+[ok] Verified Deployment template resources: requests={'cpu': '1500m', 'memory': '400Mi'} limits={'cpu': '3410m', 'memory': '425Mi'}
+[info] Scaling deployment to 0 replicas to force full pod replacement
+[ok] Verified Deployment template resources: requests={'cpu': '300m', 'memory': '50Mi'} limits={'cpu': '675m', 'memory': '67Mi'}
+[info] Scaling deployment to 0 replicas to force full pod replacement
+[ok] All pods terminated (replicas=0)
+[info] Scaling deployment back to 24 replicas
+[ok] All pods terminated (replicas=0)
+[info] Scaling deployment back to 73 replicas
+[ok] Deleted HPA newdeploy-ml-image-processing-default-8b22-c7f0f2d6d72b
+[ok] Deleted HPA newdeploy-ml-object-detection-default-9ecd-2fb10570ca05
+[ok] Rollout completed after scale-to-zero
+[verify] newest RS=newdeploy-ml-image-processing-default-8b22-c7f0f2d6d72b-78876d9474 pods=24 ready=24
+[ok] Verified newest ReplicaSet template resources match expected
+[ok] Rollout completed after scale-to-zero
+[verify] newest RS=newdeploy-ml-object-detection-default-9ecd-2fb10570ca05-6dd54cd5f7 pods=73 ready=73
+[ok] Verified newest ReplicaSet template resources match expected
+[info] Locust stopped
+[info] Started Locust with PID 3973140
+[info] start sleep for 20s
+[info] sleep done
+\Start sampling in parallel...
+Workflow e2e p99 latency (49 completed in 20.9s, parallel, 8 workers): 9.000s
+Average stage latencies:
+  - ml-image-processing: 0.108s
+  - ml-object-detection: 0.303s
+[info] total_requests: 1249
+[info] e2e_latency (p99): 3.800 s
+[info] energy_j: 8943.559636 J
+[info] served_rps: 60.10 req/s
+[info]: start_time: 1767783490.4540782, end_time: 1767783511.3946834, duration_s: 20.94 s
+[info] energy_cost: 7.160576 J/request
+[info] average power: 427.091747 W
+[info] Locust stopped
+================================================================================
+objective      : price
+resource_config: [{'cpu_m': 675, 'memory_mi': 67}, {'cpu_m': 3410, 'memory_mi': 425}], latencies: {'ml-image-processing': 0.10838476094441155, 'ml-object-detection': 0.3026501585920461}, price_cost: 9042.782232, energy_cost: 7.160576, latency_p99 : 3.800000, feasible: False, total_requests: 1249, served_rps: 60.10, total_energy_j: 8943.559636 J, profiling_duration_s: 20.940605s, average_power: 427.091747 W
+wall_time_s    : 105.702
+================================================================================
+
+[info] Started Locust with PID 3973327
+Updating function ml-image-processing to cpu: 618m, memory: 69Mi
+Updating Deployment resource configuration...
+
+Updating function ml-object-detection to cpu: 3429m, memory: 476Mi
+Updating Deployment resource configuration...
+
+[info] Original replicas=24, selector='environmentName=ml-image-processing,environmentNamespace=default,environmentUid=2449fff4-7632-422c-aa00-519fcb194e26,executorType=newdeploy,functionName=ml-image-processing,functionNamespace=default,functionUid=58487e4a-0036-4ccd-8b22-c7f0f2d6d72b'
+[info] Original replicas=73, selector='environmentName=yolo,environmentNamespace=default,environmentUid=ced8af41-455b-4081-99aa-1700c0092126,executorType=newdeploy,functionName=ml-object-detection,functionNamespace=default,functionUid=182005a6-ad76-40e9-9ecd-2fb10570ca05'
+[ok] Patched Deployment resources
+[ok] Patched Deployment resources
+[ok] Verified Deployment template resources: requests={'cpu': '300m', 'memory': '50Mi'} limits={'cpu': '618m', 'memory': '69Mi'}
+[info] Scaling deployment to 0 replicas to force full pod replacement
+[ok] Verified Deployment template resources: requests={'cpu': '1500m', 'memory': '400Mi'} limits={'cpu': '3429m', 'memory': '476Mi'}
+[info] Scaling deployment to 0 replicas to force full pod replacement
+[ok] All pods terminated (replicas=0)
+[info] Scaling deployment back to 24 replicas
+[ok] All pods terminated (replicas=0)
+[info] Scaling deployment back to 73 replicas
+[ok] Deleted HPA newdeploy-ml-image-processing-default-8b22-c7f0f2d6d72b
+[ok] Deleted HPA newdeploy-ml-object-detection-default-9ecd-2fb10570ca05
+[ok] Rollout completed after scale-to-zero
+[verify] newest RS=newdeploy-ml-image-processing-default-8b22-c7f0f2d6d72b-776fbb74c pods=24 ready=24
+[ok] Verified newest ReplicaSet template resources match expected
+[ok] Rollout completed after scale-to-zero
+[verify] newest RS=newdeploy-ml-object-detection-default-9ecd-2fb10570ca05-586fb88b65 pods=73 ready=73
+[ok] Verified newest ReplicaSet template resources match expected
+[info] Locust stopped
+[info] Started Locust with PID 3979136
+[info] start sleep for 20s
+[info] sleep done
+\Start sampling in parallel...
+Workflow e2e p99 latency (45 completed in 19.2s, parallel, 8 workers): 9.000s
+Average stage latencies:
+  - ml-image-processing: 0.125s
+  - ml-object-detection: 0.317s
+[info] total_requests: 1256
+[info] e2e_latency (p99): 3.800 s
+[info] energy_j: 8175.770246 J
+[info] served_rps: 59.40 req/s
+[info]: start_time: 1767783598.2051048, end_time: 1767783617.3794365, duration_s: 19.17 s
+[info] energy_cost: 6.509371 J/request
+[info] average power: 426.391406 W
+[info] Locust stopped
+================================================================================
+objective      : price
+resource_config: [{'cpu_m': 618, 'memory_mi': 69}, {'cpu_m': 3429, 'memory_mi': 476}], latencies: {'ml-image-processing': 0.1245708815886506, 'ml-object-detection': 0.3172316721108343}, price_cost: 9540.392500, energy_cost: 6.509371, latency_p99 : 3.800000, feasible: False, total_requests: 1256, served_rps: 59.40, total_energy_j: 8175.770246 J, profiling_duration_s: 19.174332s, average_power: 426.391406 W
+wall_time_s    : 105.988
+================================================================================
+
+[info] Started Locust with PID 3979326
+Updating function ml-image-processing to cpu: 423m, memory: 68Mi
+Updating Deployment resource configuration...
+
+Updating function ml-object-detection to cpu: 4791m, memory: 433Mi
+Updating Deployment resource configuration...
+
+[info] Original replicas=73, selector='environmentName=yolo,environmentNamespace=default,environmentUid=ced8af41-455b-4081-99aa-1700c0092126,executorType=newdeploy,functionName=ml-object-detection,functionNamespace=default,functionUid=182005a6-ad76-40e9-9ecd-2fb10570ca05'
+[info] Original replicas=24, selector='environmentName=ml-image-processing,environmentNamespace=default,environmentUid=2449fff4-7632-422c-aa00-519fcb194e26,executorType=newdeploy,functionName=ml-image-processing,functionNamespace=default,functionUid=58487e4a-0036-4ccd-8b22-c7f0f2d6d72b'
+[ok] Patched Deployment resources
+[ok] Patched Deployment resources
+[ok] Verified Deployment template resources: requests={'cpu': '1500m', 'memory': '400Mi'} limits={'cpu': '4791m', 'memory': '433Mi'}
+[info] Scaling deployment to 0 replicas to force full pod replacement
+[ok] Verified Deployment template resources: requests={'cpu': '300m', 'memory': '50Mi'} limits={'cpu': '423m', 'memory': '68Mi'}
+[info] Scaling deployment to 0 replicas to force full pod replacement
+[ok] All pods terminated (replicas=0)
+[info] Scaling deployment back to 73 replicas
+[ok] All pods terminated (replicas=0)
+[info] Scaling deployment back to 24 replicas
+[ok] Deleted HPA newdeploy-ml-image-processing-default-8b22-c7f0f2d6d72b
+[ok] Deleted HPA newdeploy-ml-object-detection-default-9ecd-2fb10570ca05
+[ok] Rollout completed after scale-to-zero
+[verify] newest RS=newdeploy-ml-image-processing-default-8b22-c7f0f2d6d72b-975657744 pods=24 ready=24
+[ok] Verified newest ReplicaSet template resources match expected
+[ok] Rollout completed after scale-to-zero
+[verify] newest RS=newdeploy-ml-object-detection-default-9ecd-2fb10570ca05-5dcc758bb8 pods=73 ready=73
+[ok] Verified newest ReplicaSet template resources match expected
+[info] Locust stopped
+[info] Started Locust with PID 3985018
+[info] start sleep for 20s
+[info] sleep done
+\Start sampling in parallel...
+Workflow e2e p99 latency (67 completed in 17.0s, parallel, 8 workers): 1.648s
+Average stage latencies:
+  - ml-image-processing: 0.219s
+  - ml-object-detection: 0.218s
+[info] poll_locust_row: failed to load, try again
+[info] poll_locust_row: failed to load, try again
+[info] total_requests: 1194
+[info] e2e_latency (p99): 2.100 s
+[info] energy_j: 8203.999256 J
+[info] served_rps: 66.50 req/s
+[info]: start_time: 1767783707.995091, end_time: 1767783724.9542894, duration_s: 16.96 s
+[info] energy_cost: 6.871021 J/request
+[info] average power: 483.749233 W
+[info] Locust stopped
+================================================================================
+objective      : price
+resource_config: [{'cpu_m': 423, 'memory_mi': 68}, {'cpu_m': 4791, 'memory_mi': 433}], latencies: {'ml-image-processing': 0.2186246887405417, 'ml-object-detection': 0.21816144588945516}, price_cost: 9192.278268, energy_cost: 6.871021, latency_p99 : 2.100000, feasible: True, total_requests: 1194, served_rps: 66.50, total_energy_j: 8203.999256 J, profiling_duration_s: 16.959198s, average_power: 483.749233 W
+wall_time_s    : 108.586
+================================================================================
+
+================================================================================
+
+Batch  1: best_feasible_cost (random, qNEI) = (8926.339864551963, 8926.339864551963), best_constraint =  -0.800 (<=0 feasible), time = 327.12.
+Best feasible resource configuration: [{'cpu_m': 407, 'memory_mi': 69}, {'cpu_m': 4836, 'memory_mi': 505}]
+
+================================================================================
+/home/cc/miniconda3/envs/faas/lib/python3.10/site-packages/botorch/acquisition/monte_carlo.py:502: NumericsWarning: qNoisyExpectedImprovement has known numerical issues that lead to suboptimal optimization performance. It is strongly recommended to simply replace
+
+	 qNoisyExpectedImprovement 	 --> 	 qLogNoisyExpectedImprovement 
+
+instead, which fixes the issues and has the same API. See https://arxiv.org/abs/2310.20708 for details.
+  legacy_ei_numerics_warning(legacy_name=type(self).__name__)
+[info] Started Locust with PID 3985360
+Updating function ml-image-processing to cpu: 418m, memory: 63Mi
+Updating Deployment resource configuration...
+
+Updating function ml-object-detection to cpu: 4972m, memory: 512Mi
+Updating Deployment resource configuration...
+
+[info] Original replicas=24, selector='environmentName=ml-image-processing,environmentNamespace=default,environmentUid=2449fff4-7632-422c-aa00-519fcb194e26,executorType=newdeploy,functionName=ml-image-processing,functionNamespace=default,functionUid=58487e4a-0036-4ccd-8b22-c7f0f2d6d72b'
+[info] Original replicas=73, selector='environmentName=yolo,environmentNamespace=default,environmentUid=ced8af41-455b-4081-99aa-1700c0092126,executorType=newdeploy,functionName=ml-object-detection,functionNamespace=default,functionUid=182005a6-ad76-40e9-9ecd-2fb10570ca05'
+[ok] Patched Deployment resources
+[ok] Patched Deployment resources
+[ok] Verified Deployment template resources: requests={'cpu': '300m', 'memory': '50Mi'} limits={'cpu': '418m', 'memory': '63Mi'}
+[info] Scaling deployment to 0 replicas to force full pod replacement
+[ok] Verified Deployment template resources: requests={'cpu': '1500m', 'memory': '400Mi'} limits={'cpu': '4972m', 'memory': '512Mi'}
+[info] Scaling deployment to 0 replicas to force full pod replacement
+[ok] All pods terminated (replicas=0)
+[info] Scaling deployment back to 24 replicas
+[ok] All pods terminated (replicas=0)
+[info] Scaling deployment back to 73 replicas
+[ok] Deleted HPA newdeploy-ml-image-processing-default-8b22-c7f0f2d6d72b
+[ok] Deleted HPA newdeploy-ml-object-detection-default-9ecd-2fb10570ca05
+[ok] Rollout completed after scale-to-zero
+[verify] newest RS=newdeploy-ml-image-processing-default-8b22-c7f0f2d6d72b-6d8fd75c4 pods=24 ready=24
+[ok] Verified newest ReplicaSet template resources match expected
+[ok] Rollout completed after scale-to-zero
+[verify] newest RS=newdeploy-ml-object-detection-default-9ecd-2fb10570ca05-798897595b pods=73 ready=73
+[ok] Verified newest ReplicaSet template resources match expected
+[info] Locust stopped
+[info] Started Locust with PID 3991444
+[info] start sleep for 20s
+[info] sleep done
+\Start sampling in parallel...
+Workflow e2e p99 latency (66 completed in 17.4s, parallel, 8 workers): 2.100s
+Average stage latencies:
+  - ml-image-processing: 0.222s
+  - ml-object-detection: 0.211s
+[info] poll_locust_row: failed to load, try again
+[info] total_requests: 1187
+[info] e2e_latency (p99): 2.000 s
+[info] energy_j: 8328.546756 J
+[info] served_rps: 65.90 req/s
+[info]: start_time: 1767783813.9778965, end_time: 1767783831.423789, duration_s: 17.45 s
+[info] energy_cost: 7.016467 J/request
+[info] average power: 477.392986 W
+[info] Locust stopped
+================================================================================
+objective      : price
+resource_config: [{'cpu_m': 418, 'memory_mi': 63}, {'cpu_m': 4972, 'memory_mi': 512}], latencies: {'ml-image-processing': 0.22162923512444127, 'ml-object-detection': 0.21117358800080238}, price_cost: 9241.010491, energy_cost: 7.016467, latency_p99 : 2.000000, feasible: True, total_requests: 1187, served_rps: 65.90, total_energy_j: 8328.546756 J, profiling_duration_s: 17.445893s, average_power: 477.392986 W
+wall_time_s    : 99.553
+================================================================================
+
+[info] Started Locust with PID 3991622
+Updating function ml-image-processing to cpu: 650m, memory: 57Mi
+Updating Deployment resource configuration...
+
+Updating function ml-object-detection to cpu: 3173m, memory: 400Mi
+Updating Deployment resource configuration...
+
+[info] Original replicas=24, selector='environmentName=ml-image-processing,environmentNamespace=default,environmentUid=2449fff4-7632-422c-aa00-519fcb194e26,executorType=newdeploy,functionName=ml-image-processing,functionNamespace=default,functionUid=58487e4a-0036-4ccd-8b22-c7f0f2d6d72b'
+[info] Original replicas=73, selector='environmentName=yolo,environmentNamespace=default,environmentUid=ced8af41-455b-4081-99aa-1700c0092126,executorType=newdeploy,functionName=ml-object-detection,functionNamespace=default,functionUid=182005a6-ad76-40e9-9ecd-2fb10570ca05'
+[ok] Patched Deployment resources
+[ok] Patched Deployment resources
+[ok] Verified Deployment template resources: requests={'cpu': '300m', 'memory': '50Mi'} limits={'cpu': '650m', 'memory': '57Mi'}
+[info] Scaling deployment to 0 replicas to force full pod replacement
+[ok] Verified Deployment template resources: requests={'cpu': '1500m', 'memory': '400Mi'} limits={'cpu': '3173m', 'memory': '400Mi'}
+[info] Scaling deployment to 0 replicas to force full pod replacement
+[ok] All pods terminated (replicas=0)
+[info] Scaling deployment back to 24 replicas
+[ok] All pods terminated (replicas=0)
+[info] Scaling deployment back to 73 replicas
+[ok] Deleted HPA newdeploy-ml-image-processing-default-8b22-c7f0f2d6d72b
+[ok] Rollout completed after scale-to-zero
+[verify] newest RS=newdeploy-ml-image-processing-default-8b22-c7f0f2d6d72b-5c44795699 pods=24 ready=24
+[ok] Verified newest ReplicaSet template resources match expected
+[ok] Rollout completed after scale-to-zero
+[verify] newest RS=newdeploy-ml-object-detection-default-9ecd-2fb10570ca05-5588c8894d pods=73 ready=73
+[ok] Verified newest ReplicaSet template resources match expected
+[info] Locust stopped
+[info] Started Locust with PID 3997130
+[info] start sleep for 20s
+[info] sleep done
+\Start sampling in parallel...
+Workflow e2e p99 latency (56 completed in 21.7s, parallel, 8 workers): 9.000s
+Average stage latencies:
+  - ml-image-processing: 0.112s
+  - ml-object-detection: 0.345s
+[info] poll_locust_row: failed to load, try again
+[info] poll_locust_row: failed to load, try again
+[info] total_requests: 1197
+[info] e2e_latency (p99): 3.900 s
+[info] energy_j: 9009.701127 J
+[info] served_rps: 55.40 req/s
+[info]: start_time: 1767783918.429073, end_time: 1767783940.1683753, duration_s: 21.74 s
+[info] energy_cost: 7.526902 J/request
+[info] average power: 414.442978 W
+[info] Locust stopped
+================================================================================
+objective      : price
+resource_config: [{'cpu_m': 650, 'memory_mi': 57}, {'cpu_m': 3173, 'memory_mi': 400}], latencies: {'ml-image-processing': 0.11200605695472753, 'ml-object-detection': 0.3452021290468884}, price_cost: 9583.754190, energy_cost: 7.526902, latency_p99 : 3.900000, feasible: False, total_requests: 1197, served_rps: 55.40, total_energy_j: 9009.701127 J, profiling_duration_s: 21.739302s, average_power: 414.442978 W
+wall_time_s    : 109.290
+================================================================================
+
+[info] Started Locust with PID 3997309
+Updating function ml-image-processing to cpu: 793m, memory: 65Mi
+Updating Deployment resource configuration...
+
+Updating function ml-object-detection to cpu: 3462m, memory: 433Mi
+Updating Deployment resource configuration...
+
+[info] Original replicas=24, selector='environmentName=ml-image-processing,environmentNamespace=default,environmentUid=2449fff4-7632-422c-aa00-519fcb194e26,executorType=newdeploy,functionName=ml-image-processing,functionNamespace=default,functionUid=58487e4a-0036-4ccd-8b22-c7f0f2d6d72b'
+[info] Original replicas=73, selector='environmentName=yolo,environmentNamespace=default,environmentUid=ced8af41-455b-4081-99aa-1700c0092126,executorType=newdeploy,functionName=ml-object-detection,functionNamespace=default,functionUid=182005a6-ad76-40e9-9ecd-2fb10570ca05'
+[ok] Patched Deployment resources
+[ok] Patched Deployment resources
+[ok] Verified Deployment template resources: requests={'cpu': '300m', 'memory': '50Mi'} limits={'cpu': '793m', 'memory': '65Mi'}
+[info] Scaling deployment to 0 replicas to force full pod replacement
+[ok] Verified Deployment template resources: requests={'cpu': '1500m', 'memory': '400Mi'} limits={'cpu': '3462m', 'memory': '433Mi'}
+[info] Scaling deployment to 0 replicas to force full pod replacement
+[ok] All pods terminated (replicas=0)
+[info] Scaling deployment back to 24 replicas
+[ok] All pods terminated (replicas=0)
+[info] Scaling deployment back to 73 replicas
+[ok] Deleted HPA newdeploy-ml-image-processing-default-8b22-c7f0f2d6d72b
+[ok] Deleted HPA newdeploy-ml-object-detection-default-9ecd-2fb10570ca05
+[ok] Rollout completed after scale-to-zero
+[verify] newest RS=newdeploy-ml-image-processing-default-8b22-c7f0f2d6d72b-79b8cb4ccc pods=24 ready=24
+[ok] Verified newest ReplicaSet template resources match expected
+[ok] Rollout completed after scale-to-zero
+[verify] newest RS=newdeploy-ml-object-detection-default-9ecd-2fb10570ca05-9696c5d8 pods=73 ready=73
+[ok] Verified newest ReplicaSet template resources match expected
+[info] Locust stopped
+[info] Started Locust with PID 4002918
+[info] start sleep for 20s
+[info] sleep done
+\Start sampling in parallel...
+Workflow e2e p99 latency (41 completed in 21.8s, parallel, 8 workers): 9.000s
+Average stage latencies:
+  - ml-image-processing: 0.107s
+  - ml-object-detection: 0.303s
+[info] poll_locust_row: failed to load, try again
+[info] poll_locust_row: failed to load, try again
+[info] total_requests: 1290
+[info] e2e_latency (p99): 3.800 s
+[info] energy_j: 9371.555714 J
+[info] served_rps: 62.90 req/s
+[info]: start_time: 1767784029.4668458, end_time: 1767784051.2375293, duration_s: 21.77 s
+[info] energy_cost: 7.264772 J/request
+[info] average power: 430.466765 W
+[info] Locust stopped
+================================================================================
+objective      : price
+resource_config: [{'cpu_m': 793, 'memory_mi': 65}, {'cpu_m': 3462, 'memory_mi': 433}], latencies: {'ml-image-processing': 0.10670482225915683, 'ml-object-detection': 0.3034691244496831}, price_cost: 9235.526609, energy_cost: 7.264772, latency_p99 : 3.800000, feasible: False, total_requests: 1290, served_rps: 62.90, total_energy_j: 9371.555714 J, profiling_duration_s: 21.770684s, average_power: 430.466765 W
+wall_time_s    : 111.043
+================================================================================
+
+================================================================================
+
+Batch  2: best_feasible_cost (random, qNEI) = (8926.339864551963, 8926.339864551963), best_constraint =  -0.800 (<=0 feasible), time = 326.25.
+Best feasible resource configuration: [{'cpu_m': 407, 'memory_mi': 69}, {'cpu_m': 4836, 'memory_mi': 505}]
+
+================================================================================
+/home/cc/miniconda3/envs/faas/lib/python3.10/site-packages/botorch/acquisition/monte_carlo.py:502: NumericsWarning: qNoisyExpectedImprovement has known numerical issues that lead to suboptimal optimization performance. It is strongly recommended to simply replace
+
+	 qNoisyExpectedImprovement 	 --> 	 qLogNoisyExpectedImprovement 
+
+instead, which fixes the issues and has the same API. See https://arxiv.org/abs/2310.20708 for details.
+  legacy_ei_numerics_warning(legacy_name=type(self).__name__)
+[info] Started Locust with PID 4003227
+Updating function ml-image-processing to cpu: 489m, memory: 70Mi
+Updating Deployment resource configuration...
+
+Updating function ml-object-detection to cpu: 1957m, memory: 512Mi
+Updating Deployment resource configuration...
+
+[info] Original replicas=24, selector='environmentName=ml-image-processing,environmentNamespace=default,environmentUid=2449fff4-7632-422c-aa00-519fcb194e26,executorType=newdeploy,functionName=ml-image-processing,functionNamespace=default,functionUid=58487e4a-0036-4ccd-8b22-c7f0f2d6d72b'
+[info] Original replicas=73, selector='environmentName=yolo,environmentNamespace=default,environmentUid=ced8af41-455b-4081-99aa-1700c0092126,executorType=newdeploy,functionName=ml-object-detection,functionNamespace=default,functionUid=182005a6-ad76-40e9-9ecd-2fb10570ca05'
+[ok] Patched Deployment resources
+[ok] Patched Deployment resources
+[ok] Verified Deployment template resources: requests={'cpu': '300m', 'memory': '50Mi'} limits={'cpu': '489m', 'memory': '70Mi'}
+[info] Scaling deployment to 0 replicas to force full pod replacement
+[ok] Verified Deployment template resources: requests={'cpu': '1500m', 'memory': '400Mi'} limits={'cpu': '1957m', 'memory': '512Mi'}
+[info] Scaling deployment to 0 replicas to force full pod replacement
+[ok] All pods terminated (replicas=0)
+[info] Scaling deployment back to 24 replicas
+[ok] All pods terminated (replicas=0)
+[info] Scaling deployment back to 73 replicas
+[ok] Deleted HPA newdeploy-ml-object-detection-default-9ecd-2fb10570ca05
+[ok] Deleted HPA newdeploy-ml-image-processing-default-8b22-c7f0f2d6d72b
+[ok] Rollout completed after scale-to-zero
+[verify] newest RS=newdeploy-ml-image-processing-default-8b22-c7f0f2d6d72b-79c4c6bc49 pods=24 ready=24
+[ok] Verified newest ReplicaSet template resources match expected
+[ok] Rollout completed after scale-to-zero
+[verify] newest RS=newdeploy-ml-object-detection-default-9ecd-2fb10570ca05-59d5c9b88 pods=73 ready=73
+[ok] Verified newest ReplicaSet template resources match expected
+[info] Locust stopped
+[info] Started Locust with PID 4008959
+[info] start sleep for 20s
+[info] sleep done
+\Start sampling in parallel...
+Workflow e2e p99 latency (33 completed in 21.7s, parallel, 8 workers): 9.000s
+Average stage latencies:
+  - ml-image-processing: 0.134s
+  - ml-object-detection: 0.651s
+[info] poll_locust_row: failed to load, try again
+[info] poll_locust_row: failed to load, try again
+[info] total_requests: 869
+[info] e2e_latency (p99): 4.100 s
+[info] energy_j: 7172.834585 J
+[info] served_rps: 40.10 req/s
+[info]: start_time: 1767784152.485707, end_time: 1767784174.1471324, duration_s: 21.66 s
+[info] energy_cost: 8.254125 J/request
+[info] average power: 331.134007 W
+[info] Locust stopped
+================================================================================
+objective      : price
+resource_config: [{'cpu_m': 489, 'memory_mi': 70}, {'cpu_m': 1957, 'memory_mi': 512}], latencies: {'ml-image-processing': 0.13385137980803846, 'ml-object-detection': 0.6505348665406927}, price_cost: 11187.242034, energy_cost: 8.254125, latency_p99 : 4.100000, feasible: False, total_requests: 869, served_rps: 40.10, total_energy_j: 7172.834585 J, profiling_duration_s: 21.661425s, average_power: 331.134007 W
+wall_time_s    : 116.084
+================================================================================
+
+[info] Started Locust with PID 4009160
+Updating function ml-image-processing to cpu: 390m, memory: 70Mi
+Updating Deployment resource configuration...
+
+Updating function ml-object-detection to cpu: 4809m, memory: 512Mi
+Updating Deployment resource configuration...
+
+[info] Original replicas=24, selector='environmentName=ml-image-processing,environmentNamespace=default,environmentUid=2449fff4-7632-422c-aa00-519fcb194e26,executorType=newdeploy,functionName=ml-image-processing,functionNamespace=default,functionUid=58487e4a-0036-4ccd-8b22-c7f0f2d6d72b'
+[info] Original replicas=73, selector='environmentName=yolo,environmentNamespace=default,environmentUid=ced8af41-455b-4081-99aa-1700c0092126,executorType=newdeploy,functionName=ml-object-detection,functionNamespace=default,functionUid=182005a6-ad76-40e9-9ecd-2fb10570ca05'
+[ok] Patched Deployment resources
+[ok] Patched Deployment resources
+[ok] Verified Deployment template resources: requests={'cpu': '300m', 'memory': '50Mi'} limits={'cpu': '390m', 'memory': '70Mi'}
+[info] Scaling deployment to 0 replicas to force full pod replacement
+[ok] Verified Deployment template resources: requests={'cpu': '1500m', 'memory': '400Mi'} limits={'cpu': '4809m', 'memory': '512Mi'}
+[info] Scaling deployment to 0 replicas to force full pod replacement
+[ok] All pods terminated (replicas=0)
+[info] Scaling deployment back to 24 replicas
+[ok] All pods terminated (replicas=0)
+[info] Scaling deployment back to 73 replicas
+[ok] Deleted HPA newdeploy-ml-object-detection-default-9ecd-2fb10570ca05
+[ok] Deleted HPA newdeploy-ml-image-processing-default-8b22-c7f0f2d6d72b
+[ok] Rollout completed after scale-to-zero
+[verify] newest RS=newdeploy-ml-image-processing-default-8b22-c7f0f2d6d72b-789dd84cff pods=24 ready=24
+[ok] Verified newest ReplicaSet template resources match expected
+[ok] Rollout completed after scale-to-zero
+[verify] newest RS=newdeploy-ml-object-detection-default-9ecd-2fb10570ca05-f4db4d548 pods=73 ready=73
+[ok] Verified newest ReplicaSet template resources match expected
+[info] Locust stopped
+[info] Started Locust with PID 4015111
+[info] start sleep for 20s
+[info] sleep done
+\Start sampling in parallel...
+Workflow e2e p99 latency (60 completed in 17.4s, parallel, 8 workers): 2.458s
+Average stage latencies:
+  - ml-image-processing: 0.249s
+  - ml-object-detection: 0.244s
+[info] poll_locust_row: failed to load, try again
+[info] total_requests: 1109
+[info] e2e_latency (p99): 2.500 s
+[info] energy_j: 8531.665832 J
+[info] served_rps: 63.20 req/s
+[info]: start_time: 1767784258.4972992, end_time: 1767784275.8809464, duration_s: 17.38 s
+[info] energy_cost: 7.693116 J/request
+[info] average power: 490.786872 W
+[info] Locust stopped
+================================================================================
+objective      : price
+resource_config: [{'cpu_m': 390, 'memory_mi': 70}, {'cpu_m': 4809, 'memory_mi': 512}], latencies: {'ml-image-processing': 0.24927526955337573, 'ml-object-detection': 0.24420940362227458}, price_cost: 10320.338025, energy_cost: 7.693116, latency_p99 : 2.500000, feasible: True, total_requests: 1109, served_rps: 63.20, total_energy_j: 8531.665832 J, profiling_duration_s: 17.383647s, average_power: 490.786872 W
+wall_time_s    : 101.224
+================================================================================
+
+[info] Started Locust with PID 4015287
+Updating function ml-image-processing to cpu: 425m, memory: 70Mi
+Updating Deployment resource configuration...
+
+Updating function ml-object-detection to cpu: 3409m, memory: 512Mi
+Updating Deployment resource configuration...
+
+[info] Original replicas=24, selector='environmentName=ml-image-processing,environmentNamespace=default,environmentUid=2449fff4-7632-422c-aa00-519fcb194e26,executorType=newdeploy,functionName=ml-image-processing,functionNamespace=default,functionUid=58487e4a-0036-4ccd-8b22-c7f0f2d6d72b'
+[info] Original replicas=73, selector='environmentName=yolo,environmentNamespace=default,environmentUid=ced8af41-455b-4081-99aa-1700c0092126,executorType=newdeploy,functionName=ml-object-detection,functionNamespace=default,functionUid=182005a6-ad76-40e9-9ecd-2fb10570ca05'
+[ok] Patched Deployment resources
+[ok] Patched Deployment resources
+[ok] Verified Deployment template resources: requests={'cpu': '1500m', 'memory': '400Mi'} limits={'cpu': '3409m', 'memory': '512Mi'}
+[info] Scaling deployment to 0 replicas to force full pod replacement
+[ok] Verified Deployment template resources: requests={'cpu': '300m', 'memory': '50Mi'} limits={'cpu': '425m', 'memory': '70Mi'}
+[info] Scaling deployment to 0 replicas to force full pod replacement
+[ok] All pods terminated (replicas=0)
+[info] Scaling deployment back to 24 replicas
+[ok] All pods terminated (replicas=0)
+[info] Scaling deployment back to 73 replicas
+[ok] Deleted HPA newdeploy-ml-image-processing-default-8b22-c7f0f2d6d72b
+[ok] Deleted HPA newdeploy-ml-object-detection-default-9ecd-2fb10570ca05
+[ok] Rollout completed after scale-to-zero
+[verify] newest RS=newdeploy-ml-image-processing-default-8b22-c7f0f2d6d72b-79c95b9b9c pods=24 ready=24
+[ok] Verified newest ReplicaSet template resources match expected
+[ok] Rollout completed after scale-to-zero
+[verify] newest RS=newdeploy-ml-object-detection-default-9ecd-2fb10570ca05-67f97966d8 pods=73 ready=73
+[ok] Verified newest ReplicaSet template resources match expected
+[info] Locust stopped
+[info] Started Locust with PID 4020915
+[info] start sleep for 20s
+[info] sleep done
+\Start sampling in parallel...
+Workflow e2e p99 latency (56 completed in 19.3s, parallel, 8 workers): 9.000s
+Average stage latencies:
+  - ml-image-processing: 0.194s
+  - ml-object-detection: 0.305s
+[info] total_requests: 1197
+[info] e2e_latency (p99): 4.500 s
+[info] energy_j: 8190.778585 J
+[info] served_rps: 56.80 req/s
+[info]: start_time: 1767784367.1828487, end_time: 1767784386.469853, duration_s: 19.29 s
+[info] energy_cost: 6.842756 J/request
+[info] average power: 424.678633 W
+[info] Locust stopped
+================================================================================
+objective      : price
+resource_config: [{'cpu_m': 425, 'memory_mi': 70}, {'cpu_m': 3409, 'memory_mi': 512}], latencies: {'ml-image-processing': 0.1944224209829162, 'ml-object-detection': 0.3052734222101907}, price_cost: 9161.880956, energy_cost: 6.842756, latency_p99 : 4.500000, feasible: False, total_requests: 1197, served_rps: 56.80, total_energy_j: 8190.778585 J, profiling_duration_s: 19.287004s, average_power: 424.678633 W
+wall_time_s    : 110.078
+================================================================================
+
+================================================================================
+
+Batch  3: best_feasible_cost (random, qNEI) = (8926.339864551963, 8926.339864551963), best_constraint =  -0.800 (<=0 feasible), time = 334.18.
+Best feasible resource configuration: [{'cpu_m': 407, 'memory_mi': 69}, {'cpu_m': 4836, 'memory_mi': 505}]
+
+================================================================================
+/home/cc/miniconda3/envs/faas/lib/python3.10/site-packages/botorch/acquisition/monte_carlo.py:502: NumericsWarning: qNoisyExpectedImprovement has known numerical issues that lead to suboptimal optimization performance. It is strongly recommended to simply replace
+
+	 qNoisyExpectedImprovement 	 --> 	 qLogNoisyExpectedImprovement 
+
+instead, which fixes the issues and has the same API. See https://arxiv.org/abs/2310.20708 for details.
+  legacy_ei_numerics_warning(legacy_name=type(self).__name__)
+[info] Started Locust with PID 4021235
+Updating function ml-image-processing to cpu: 409m, memory: 59Mi
+Updating Deployment resource configuration...
+
+Updating function ml-object-detection to cpu: 5231m, memory: 400Mi
+Updating Deployment resource configuration...
+
+[info] Original replicas=24, selector='environmentName=ml-image-processing,environmentNamespace=default,environmentUid=2449fff4-7632-422c-aa00-519fcb194e26,executorType=newdeploy,functionName=ml-image-processing,functionNamespace=default,functionUid=58487e4a-0036-4ccd-8b22-c7f0f2d6d72b'
+[info] Original replicas=73, selector='environmentName=yolo,environmentNamespace=default,environmentUid=ced8af41-455b-4081-99aa-1700c0092126,executorType=newdeploy,functionName=ml-object-detection,functionNamespace=default,functionUid=182005a6-ad76-40e9-9ecd-2fb10570ca05'
+[ok] Patched Deployment resources
+[ok] Patched Deployment resources
+[ok] Verified Deployment template resources: requests={'cpu': '300m', 'memory': '50Mi'} limits={'cpu': '409m', 'memory': '59Mi'}
+[info] Scaling deployment to 0 replicas to force full pod replacement
+[ok] Verified Deployment template resources: requests={'cpu': '1500m', 'memory': '400Mi'} limits={'cpu': '5231m', 'memory': '400Mi'}
+[info] Scaling deployment to 0 replicas to force full pod replacement
+[ok] All pods terminated (replicas=0)
+[info] Scaling deployment back to 24 replicas
+[ok] All pods terminated (replicas=0)
+[info] Scaling deployment back to 73 replicas
+[ok] Deleted HPA newdeploy-ml-image-processing-default-8b22-c7f0f2d6d72b
+[ok] Rollout completed after scale-to-zero
+[verify] newest RS=newdeploy-ml-image-processing-default-8b22-c7f0f2d6d72b-5cb8c6d988 pods=24 ready=24
+[ok] Verified newest ReplicaSet template resources match expected
+[ok] Rollout completed after scale-to-zero
+[verify] newest RS=newdeploy-ml-object-detection-default-9ecd-2fb10570ca05-69546cd46d pods=73 ready=73
+[ok] Verified newest ReplicaSet template resources match expected
+[info] Locust stopped
+[info] Started Locust with PID 4027064
+[info] start sleep for 20s
+[info] sleep done
+\Start sampling in parallel...
+Workflow e2e p99 latency (65 completed in 16.5s, parallel, 8 workers): 2.284s
+Average stage latencies:
+  - ml-image-processing: 0.219s
+  - ml-object-detection: 0.219s
+[info] poll_locust_row: failed to load, try again
+[info] poll_locust_row: failed to load, try again
+[info] poll_locust_row: failed to load, try again
+[info] total_requests: 1180
+[info] e2e_latency (p99): 2.500 s
+[info] energy_j: 7851.111209 J
+[info] served_rps: 65.10 req/s
+[info]: start_time: 1767784478.8209085, end_time: 1767784495.3192, duration_s: 16.50 s
+[info] energy_cost: 6.653484 J/request
+[info] average power: 475.874197 W
+[info] Locust stopped
+================================================================================
+objective      : price
+resource_config: [{'cpu_m': 409, 'memory_mi': 59}, {'cpu_m': 5231, 'memory_mi': 400}], latencies: {'ml-image-processing': 0.2186192448824071, 'ml-object-detection': 0.2185467277940076}, price_cost: 10009.413060, energy_cost: 6.653484, latency_p99 : 2.500000, feasible: True, total_requests: 1180, served_rps: 65.10, total_energy_j: 7851.111209 J, profiling_duration_s: 16.498291s, average_power: 475.874197 W
+wall_time_s    : 104.805
+================================================================================
+
+[info] Started Locust with PID 4027278
+Updating function ml-image-processing to cpu: 409m, memory: 55Mi
+Updating Deployment resource configuration...
+
+Updating function ml-object-detection to cpu: 5331m, memory: 456Mi
+Updating Deployment resource configuration...
+
+[info] Original replicas=73, selector='environmentName=yolo,environmentNamespace=default,environmentUid=ced8af41-455b-4081-99aa-1700c0092126,executorType=newdeploy,functionName=ml-object-detection,functionNamespace=default,functionUid=182005a6-ad76-40e9-9ecd-2fb10570ca05'
+[info] Original replicas=24, selector='environmentName=ml-image-processing,environmentNamespace=default,environmentUid=2449fff4-7632-422c-aa00-519fcb194e26,executorType=newdeploy,functionName=ml-image-processing,functionNamespace=default,functionUid=58487e4a-0036-4ccd-8b22-c7f0f2d6d72b'
+[ok] Patched Deployment resources
+[ok] Patched Deployment resources
+[ok] Verified Deployment template resources: requests={'cpu': '1500m', 'memory': '400Mi'} limits={'cpu': '5331m', 'memory': '456Mi'}
+[info] Scaling deployment to 0 replicas to force full pod replacement
+[ok] Verified Deployment template resources: requests={'cpu': '300m', 'memory': '50Mi'} limits={'cpu': '409m', 'memory': '55Mi'}
+[info] Scaling deployment to 0 replicas to force full pod replacement
+[ok] All pods terminated (replicas=0)
+[info] Scaling deployment back to 24 replicas
+[ok] All pods terminated (replicas=0)
+[info] Scaling deployment back to 73 replicas
+[ok] Deleted HPA newdeploy-ml-image-processing-default-8b22-c7f0f2d6d72b
+[ok] Deleted HPA newdeploy-ml-object-detection-default-9ecd-2fb10570ca05
+[ok] Rollout completed after scale-to-zero
+[verify] newest RS=newdeploy-ml-image-processing-default-8b22-c7f0f2d6d72b-78867c9b6c pods=24 ready=24
+[ok] Verified newest ReplicaSet template resources match expected
+[ok] Rollout completed after scale-to-zero
+[verify] newest RS=newdeploy-ml-object-detection-default-9ecd-2fb10570ca05-75f5766985 pods=73 ready=73
+[ok] Verified newest ReplicaSet template resources match expected
+[info] Locust stopped
+[info] Started Locust with PID 4033072
+[info] start sleep for 20s
+[info] sleep done
+\Start sampling in parallel...
+Workflow e2e p99 latency (65 completed in 16.4s, parallel, 8 workers): 2.980s
+Average stage latencies:
+  - ml-image-processing: 0.236s
+  - ml-object-detection: 0.198s
+[info] poll_locust_row: failed to load, try again
+[info] poll_locust_row: failed to load, try again
+[info] poll_locust_row: failed to load, try again
+[info] total_requests: 1200
+[info] e2e_latency (p99): 2.000 s
+[info] energy_j: 7878.214832 J
+[info] served_rps: 66.80 req/s
+[info]: start_time: 1767784589.131774, end_time: 1767784605.5501986, duration_s: 16.42 s
+[info] energy_cost: 6.565179 J/request
+[info] average power: 479.839876 W
+[info] Locust stopped
+================================================================================
+objective      : price
+resource_config: [{'cpu_m': 409, 'memory_mi': 55}, {'cpu_m': 5331, 'memory_mi': 456}], latencies: {'ml-image-processing': 0.23580330045750508, 'ml-object-detection': 0.19790596841619565}, price_cost: 9284.289326, energy_cost: 6.565179, latency_p99 : 2.000000, feasible: True, total_requests: 1200, served_rps: 66.80, total_energy_j: 7878.214832 J, profiling_duration_s: 16.418425s, average_power: 479.839876 W
+wall_time_s    : 110.227
+================================================================================
+
+[info] Started Locust with PID 4033257
+Updating function ml-image-processing to cpu: 400m, memory: 58Mi
+Updating Deployment resource configuration...
+
+Updating function ml-object-detection to cpu: 5794m, memory: 466Mi
+Updating Deployment resource configuration...
+
+[info] Original replicas=73, selector='environmentName=yolo,environmentNamespace=default,environmentUid=ced8af41-455b-4081-99aa-1700c0092126,executorType=newdeploy,functionName=ml-object-detection,functionNamespace=default,functionUid=182005a6-ad76-40e9-9ecd-2fb10570ca05'
+[info] Original replicas=24, selector='environmentName=ml-image-processing,environmentNamespace=default,environmentUid=2449fff4-7632-422c-aa00-519fcb194e26,executorType=newdeploy,functionName=ml-image-processing,functionNamespace=default,functionUid=58487e4a-0036-4ccd-8b22-c7f0f2d6d72b'
+[ok] Patched Deployment resources
+[ok] Patched Deployment resources
+[ok] Verified Deployment template resources: requests={'cpu': '1500m', 'memory': '400Mi'} limits={'cpu': '5794m', 'memory': '466Mi'}
+[info] Scaling deployment to 0 replicas to force full pod replacement
+[ok] Verified Deployment template resources: requests={'cpu': '300m', 'memory': '50Mi'} limits={'cpu': '400m', 'memory': '58Mi'}
+[info] Scaling deployment to 0 replicas to force full pod replacement
+[ok] All pods terminated (replicas=0)
+[info] Scaling deployment back to 24 replicas
+[ok] All pods terminated (replicas=0)
+[info] Scaling deployment back to 73 replicas
+[ok] Deleted HPA newdeploy-ml-image-processing-default-8b22-c7f0f2d6d72b
+[ok] Rollout completed after scale-to-zero
+[verify] newest RS=newdeploy-ml-image-processing-default-8b22-c7f0f2d6d72b-7c4b48b988 pods=24 ready=24
+[ok] Verified newest ReplicaSet template resources match expected
+[ok] Deleted HPA newdeploy-ml-object-detection-default-9ecd-2fb10570ca05
+[ok] Rollout completed after scale-to-zero
+[verify] newest RS=newdeploy-ml-object-detection-default-9ecd-2fb10570ca05-b5b6ff4dc pods=73 ready=73
+[ok] Verified newest ReplicaSet template resources match expected
+[info] Locust stopped
+[info] Started Locust with PID 4038848
+[info] start sleep for 20s
+[info] sleep done
+\Start sampling in parallel...
+Workflow e2e p99 latency (65 completed in 17.7s, parallel, 8 workers): 2.472s
+Average stage latencies:
+  - ml-image-processing: 0.220s
+  - ml-object-detection: 0.174s
+[info] total_requests: 1189
+[info] e2e_latency (p99): 2.300 s
+[info] energy_j: 8372.239453 J
+[info] served_rps: 65.00 req/s
+[info]: start_time: 1767784690.9748108, end_time: 1767784708.6360607, duration_s: 17.66 s
+[info] energy_cost: 7.041412 J/request
+[info] average power: 474.045694 W
+[info] Locust stopped
+================================================================================
+objective      : price
+resource_config: [{'cpu_m': 400, 'memory_mi': 58}, {'cpu_m': 5794, 'memory_mi': 466}], latencies: {'ml-image-processing': 0.22042995487124875, 'ml-object-detection': 0.17355212177364873}, price_cost: 8834.871208, energy_cost: 7.041412, latency_p99 : 2.300000, feasible: True, total_requests: 1189, served_rps: 65.00, total_energy_j: 8372.239453 J, profiling_duration_s: 17.661250s, average_power: 474.045694 W
+wall_time_s    : 101.551
+================================================================================
+
+================================================================================
+
+Batch  4: best_feasible_cost (random, qNEI) = (8926.339864551963, 8834.871208223378), best_constraint =  -0.700 (<=0 feasible), time = 322.15.
+Best feasible resource configuration: [{'cpu_m': 400, 'memory_mi': 58}, {'cpu_m': 5794, 'memory_mi': 466}]
+
+================================================================================
+/home/cc/miniconda3/envs/faas/lib/python3.10/site-packages/botorch/acquisition/monte_carlo.py:502: NumericsWarning: qNoisyExpectedImprovement has known numerical issues that lead to suboptimal optimization performance. It is strongly recommended to simply replace
+
+	 qNoisyExpectedImprovement 	 --> 	 qLogNoisyExpectedImprovement 
+
+instead, which fixes the issues and has the same API. See https://arxiv.org/abs/2310.20708 for details.
+  legacy_ei_numerics_warning(legacy_name=type(self).__name__)
+[info] Started Locust with PID 4039159
+Updating function ml-image-processing to cpu: 625m, memory: 50Mi
+Updating Deployment resource configuration...
+
+Updating function ml-object-detection to cpu: 6000m, memory: 453Mi
+Updating Deployment resource configuration...
+
+[info] Original replicas=73, selector='environmentName=yolo,environmentNamespace=default,environmentUid=ced8af41-455b-4081-99aa-1700c0092126,executorType=newdeploy,functionName=ml-object-detection,functionNamespace=default,functionUid=182005a6-ad76-40e9-9ecd-2fb10570ca05'
+[info] Original replicas=24, selector='environmentName=ml-image-processing,environmentNamespace=default,environmentUid=2449fff4-7632-422c-aa00-519fcb194e26,executorType=newdeploy,functionName=ml-image-processing,functionNamespace=default,functionUid=58487e4a-0036-4ccd-8b22-c7f0f2d6d72b'
+[ok] Patched Deployment resources
+[ok] Patched Deployment resources
+[ok] Verified Deployment template resources: requests={'cpu': '300m', 'memory': '50Mi'} limits={'cpu': '625m', 'memory': '50Mi'}
+[info] Scaling deployment to 0 replicas to force full pod replacement
+[ok] Verified Deployment template resources: requests={'cpu': '1500m', 'memory': '400Mi'} limits={'cpu': '6', 'memory': '453Mi'}
+[info] Scaling deployment to 0 replicas to force full pod replacement
+[ok] All pods terminated (replicas=0)
+[info] Scaling deployment back to 24 replicas
+[ok] All pods terminated (replicas=0)
+[info] Scaling deployment back to 73 replicas
+[ok] Deleted HPA newdeploy-ml-image-processing-default-8b22-c7f0f2d6d72b
+[ok] Deleted HPA newdeploy-ml-object-detection-default-9ecd-2fb10570ca05
+[ok] Rollout completed after scale-to-zero
+[verify] newest RS=newdeploy-ml-image-processing-default-8b22-c7f0f2d6d72b-687dd7c9ff pods=24 ready=24
+[ok] Verified newest ReplicaSet template resources match expected
+[ok] Rollout completed after scale-to-zero
+[verify] newest RS=newdeploy-ml-object-detection-default-9ecd-2fb10570ca05-65b648b47f pods=73 ready=73
+[ok] Verified newest ReplicaSet template resources match expected
+[info] Locust stopped
+[info] Started Locust with PID 4045019
+[info] start sleep for 20s
+[info] sleep done
+\Start sampling in parallel...
+Workflow e2e p99 latency (72 completed in 16.1s, parallel, 8 workers): 1.227s
+Average stage latencies:
+  - ml-image-processing: 0.148s
+  - ml-object-detection: 0.183s
+[info] total_requests: 1126
+[info] e2e_latency (p99): 1.500 s
+[info] energy_j: 8231.207142 J
+[info] served_rps: 74.70 req/s
+[info]: start_time: 1767784801.7187946, end_time: 1767784817.8247623, duration_s: 16.11 s
+[info] energy_cost: 7.310131 J/request
+[info] average power: 511.065666 W
+[info] Locust stopped
+================================================================================
+objective      : price
+resource_config: [{'cpu_m': 625, 'memory_mi': 50}, {'cpu_m': 6000, 'memory_mi': 453}], latencies: {'ml-image-processing': 0.14756321592075336, 'ml-object-detection': 0.18277214295489508}, price_cost: 9618.840162, energy_cost: 7.310131, latency_p99 : 1.500000, feasible: True, total_requests: 1126, served_rps: 74.70, total_energy_j: 8231.207142 J, profiling_duration_s: 16.105968s, average_power: 511.065666 W
+wall_time_s    : 102.757
+================================================================================
+
+[info] Started Locust with PID 4045207
+Updating function ml-image-processing to cpu: 413m, memory: 70Mi
+Updating Deployment resource configuration...
+
+Updating function ml-object-detection to cpu: 4452m, memory: 474Mi
+Updating Deployment resource configuration...
+
+[info] Original replicas=24, selector='environmentName=ml-image-processing,environmentNamespace=default,environmentUid=2449fff4-7632-422c-aa00-519fcb194e26,executorType=newdeploy,functionName=ml-image-processing,functionNamespace=default,functionUid=58487e4a-0036-4ccd-8b22-c7f0f2d6d72b'
+[info] Original replicas=73, selector='environmentName=yolo,environmentNamespace=default,environmentUid=ced8af41-455b-4081-99aa-1700c0092126,executorType=newdeploy,functionName=ml-object-detection,functionNamespace=default,functionUid=182005a6-ad76-40e9-9ecd-2fb10570ca05'
+[ok] Patched Deployment resources
+[ok] Patched Deployment resources
+[ok] Verified Deployment template resources: requests={'cpu': '1500m', 'memory': '400Mi'} limits={'cpu': '4452m', 'memory': '474Mi'}
+[info] Scaling deployment to 0 replicas to force full pod replacement
+[ok] Verified Deployment template resources: requests={'cpu': '300m', 'memory': '50Mi'} limits={'cpu': '413m', 'memory': '70Mi'}
+[info] Scaling deployment to 0 replicas to force full pod replacement
+[ok] All pods terminated (replicas=0)
+[info] Scaling deployment back to 24 replicas
+[ok] All pods terminated (replicas=0)
+[info] Scaling deployment back to 73 replicas
+[ok] Deleted HPA newdeploy-ml-image-processing-default-8b22-c7f0f2d6d72b
+[ok] Rollout completed after scale-to-zero
+[verify] newest RS=newdeploy-ml-image-processing-default-8b22-c7f0f2d6d72b-5bbcd8b75f pods=24 ready=24
+[ok] Verified newest ReplicaSet template resources match expected
+[ok] Rollout completed after scale-to-zero
+[verify] newest RS=newdeploy-ml-object-detection-default-9ecd-2fb10570ca05-8559d96cf5 pods=73 ready=73
+[ok] Verified newest ReplicaSet template resources match expected
+[info] Locust stopped
+[info] Started Locust with PID 4051154
+[info] start sleep for 20s
+[info] sleep done
+\Start sampling in parallel...
+Workflow e2e p99 latency (65 completed in 17.7s, parallel, 8 workers): 2.195s
+Average stage latencies:
+  - ml-image-processing: 0.218s
+  - ml-object-detection: 0.235s
+[info] total_requests: 1171
+[info] e2e_latency (p99): 2.300 s
+[info] energy_j: 8491.211927 J
+[info] served_rps: 63.80 req/s
+[info]: start_time: 1767784911.9360402, end_time: 1767784929.625889, duration_s: 17.69 s
+[info] energy_cost: 7.251248 J/request
+[info] average power: 480.004774 W
+[info] Locust stopped
+================================================================================
+objective      : price
+resource_config: [{'cpu_m': 413, 'memory_mi': 70}, {'cpu_m': 4452, 'memory_mi': 474}], latencies: {'ml-image-processing': 0.21776385717093943, 'ml-object-detection': 0.23508810676777592}, price_cost: 9206.982555, energy_cost: 7.251248, latency_p99 : 2.300000, feasible: True, total_requests: 1171, served_rps: 63.80, total_energy_j: 8491.211927 J, profiling_duration_s: 17.689849s, average_power: 480.004774 W
+wall_time_s    : 111.788
+================================================================================
+
+[info] Started Locust with PID 4051335
+Updating function ml-image-processing to cpu: 345m, memory: 56Mi
+Updating Deployment resource configuration...
+
+Updating function ml-object-detection to cpu: 1759m, memory: 423Mi
+Updating Deployment resource configuration...
+
+[info] Original replicas=24, selector='environmentName=ml-image-processing,environmentNamespace=default,environmentUid=2449fff4-7632-422c-aa00-519fcb194e26,executorType=newdeploy,functionName=ml-image-processing,functionNamespace=default,functionUid=58487e4a-0036-4ccd-8b22-c7f0f2d6d72b'
+[info] Original replicas=73, selector='environmentName=yolo,environmentNamespace=default,environmentUid=ced8af41-455b-4081-99aa-1700c0092126,executorType=newdeploy,functionName=ml-object-detection,functionNamespace=default,functionUid=182005a6-ad76-40e9-9ecd-2fb10570ca05'
+[ok] Patched Deployment resources
+[ok] Patched Deployment resources
+[ok] Verified Deployment template resources: requests={'cpu': '300m', 'memory': '50Mi'} limits={'cpu': '345m', 'memory': '56Mi'}
+[info] Scaling deployment to 0 replicas to force full pod replacement
+[ok] Verified Deployment template resources: requests={'cpu': '1500m', 'memory': '400Mi'} limits={'cpu': '1759m', 'memory': '423Mi'}
+[info] Scaling deployment to 0 replicas to force full pod replacement
+[ok] All pods terminated (replicas=0)
+[info] Scaling deployment back to 24 replicas
+[ok] All pods terminated (replicas=0)
+[info] Scaling deployment back to 73 replicas
+[ok] Deleted HPA newdeploy-ml-image-processing-default-8b22-c7f0f2d6d72b
+[ok] Rollout completed after scale-to-zero
+[verify] newest RS=newdeploy-ml-image-processing-default-8b22-c7f0f2d6d72b-cbd95c8f4 pods=24 ready=24
+[ok] Verified newest ReplicaSet template resources match expected
+[ok] Rollout completed after scale-to-zero
+[verify] newest RS=newdeploy-ml-object-detection-default-9ecd-2fb10570ca05-5c6b98fbc9 pods=73 ready=73
+[ok] Verified newest ReplicaSet template resources match expected
+[info] Locust stopped
+[info] Started Locust with PID 4057393
+[info] start sleep for 20s
+[info] sleep done
+\Start sampling in parallel...
+Workflow e2e p99 latency (28 completed in 22.6s, parallel, 8 workers): 9.000s
+Average stage latencies:
+  - ml-image-processing: 0.244s
+  - ml-object-detection: 0.728s
+[info] total_requests: 921
+[info] e2e_latency (p99): 4.400 s
+[info] energy_j: 7271.608596 J
+[info] served_rps: 38.60 req/s
+[info]: start_time: 1767785012.0068285, end_time: 1767785034.6554046, duration_s: 22.65 s
+[info] energy_cost: 7.895340 J/request
+[info] average power: 321.062507 W
+[info] Locust stopped
+================================================================================
+objective      : price
+resource_config: [{'cpu_m': 345, 'memory_mi': 56}, {'cpu_m': 1759, 'memory_mi': 423}], latencies: {'ml-image-processing': 0.24430066122758118, 'ml-object-detection': 0.7275593767619946}, price_cost: 11284.893775, energy_cost: 7.895340, latency_p99 : 4.400000, feasible: False, total_requests: 921, served_rps: 38.60, total_energy_j: 7271.608596 J, profiling_duration_s: 22.648576s, average_power: 321.062507 W
+wall_time_s    : 105.046
+================================================================================
+
+================================================================================
+
+Batch  5: best_feasible_cost (random, qNEI) = (8926.339864551963, 8834.871208223378), best_constraint =  -0.700 (<=0 feasible), time = 326.02.
+Best feasible resource configuration: [{'cpu_m': 400, 'memory_mi': 58}, {'cpu_m': 5794, 'memory_mi': 466}]
+
+================================================================================
+/home/cc/miniconda3/envs/faas/lib/python3.10/site-packages/botorch/acquisition/monte_carlo.py:502: NumericsWarning: qNoisyExpectedImprovement has known numerical issues that lead to suboptimal optimization performance. It is strongly recommended to simply replace
+
+	 qNoisyExpectedImprovement 	 --> 	 qLogNoisyExpectedImprovement 
+
+instead, which fixes the issues and has the same API. See https://arxiv.org/abs/2310.20708 for details.
+  legacy_ei_numerics_warning(legacy_name=type(self).__name__)
+[info] Started Locust with PID 4057705
+Updating function ml-image-processing to cpu: 353m, memory: 62Mi
+Updating Deployment resource configuration...
+
+Updating function ml-object-detection to cpu: 2587m, memory: 416Mi
+Updating Deployment resource configuration...
+
+[info] Original replicas=73, selector='environmentName=yolo,environmentNamespace=default,environmentUid=ced8af41-455b-4081-99aa-1700c0092126,executorType=newdeploy,functionName=ml-object-detection,functionNamespace=default,functionUid=182005a6-ad76-40e9-9ecd-2fb10570ca05'
+[info] Original replicas=24, selector='environmentName=ml-image-processing,environmentNamespace=default,environmentUid=2449fff4-7632-422c-aa00-519fcb194e26,executorType=newdeploy,functionName=ml-image-processing,functionNamespace=default,functionUid=58487e4a-0036-4ccd-8b22-c7f0f2d6d72b'
+[ok] Patched Deployment resources
+[ok] Patched Deployment resources
+[ok] Verified Deployment template resources: requests={'cpu': '300m', 'memory': '50Mi'} limits={'cpu': '353m', 'memory': '62Mi'}
+[info] Scaling deployment to 0 replicas to force full pod replacement
+[ok] Verified Deployment template resources: requests={'cpu': '1500m', 'memory': '400Mi'} limits={'cpu': '2587m', 'memory': '416Mi'}
+[info] Scaling deployment to 0 replicas to force full pod replacement
+[ok] All pods terminated (replicas=0)
+[info] Scaling deployment back to 24 replicas
+[ok] All pods terminated (replicas=0)
+[info] Scaling deployment back to 73 replicas
+[ok] Deleted HPA newdeploy-ml-image-processing-default-8b22-c7f0f2d6d72b
+[ok] Deleted HPA newdeploy-ml-object-detection-default-9ecd-2fb10570ca05
+[ok] Rollout completed after scale-to-zero
+[verify] newest RS=newdeploy-ml-image-processing-default-8b22-c7f0f2d6d72b-5d877746db pods=24 ready=24
+[ok] Verified newest ReplicaSet template resources match expected
+[ok] Rollout completed after scale-to-zero
+[verify] newest RS=newdeploy-ml-object-detection-default-9ecd-2fb10570ca05-5c6c65f9cd pods=73 ready=73
+[ok] Verified newest ReplicaSet template resources match expected
+[info] Locust stopped
+[info] Started Locust with PID 4063271
+[info] start sleep for 20s
+[info] sleep done
+\Start sampling in parallel...
+Workflow e2e p99 latency (43 completed in 19.2s, parallel, 8 workers): 9.000s
+Average stage latencies:
+  - ml-image-processing: 0.205s
+  - ml-object-detection: 0.440s
+[info] total_requests: 843
+[info] e2e_latency (p99): 4.400 s
+[info] energy_j: 7201.424066 J
+[info] served_rps: 46.30 req/s
+[info]: start_time: 1767785125.3828297, end_time: 1767785144.551841, duration_s: 19.17 s
+[info] energy_cost: 8.542615 J/request
+[info] average power: 375.680515 W
+[info] Locust stopped
+================================================================================
+objective      : price
+resource_config: [{'cpu_m': 353, 'memory_mi': 62}, {'cpu_m': 2587, 'memory_mi': 416}], latencies: {'ml-image-processing': 0.20519548140998398, 'ml-object-detection': 0.43964566169306635}, price_cost: 9967.346892, energy_cost: 8.542615, latency_p99 : 4.400000, feasible: False, total_requests: 843, served_rps: 46.30, total_energy_j: 7201.424066 J, profiling_duration_s: 19.169011s, average_power: 375.680515 W
+wall_time_s    : 106.217
+================================================================================
+
+[info] Started Locust with PID 4063440
+Updating function ml-image-processing to cpu: 542m, memory: 60Mi
+Updating Deployment resource configuration...
+
+Updating function ml-object-detection to cpu: 3682m, memory: 489Mi
+Updating Deployment resource configuration...
+
+[info] Original replicas=24, selector='environmentName=ml-image-processing,environmentNamespace=default,environmentUid=2449fff4-7632-422c-aa00-519fcb194e26,executorType=newdeploy,functionName=ml-image-processing,functionNamespace=default,functionUid=58487e4a-0036-4ccd-8b22-c7f0f2d6d72b'
+[info] Original replicas=73, selector='environmentName=yolo,environmentNamespace=default,environmentUid=ced8af41-455b-4081-99aa-1700c0092126,executorType=newdeploy,functionName=ml-object-detection,functionNamespace=default,functionUid=182005a6-ad76-40e9-9ecd-2fb10570ca05'
+[ok] Patched Deployment resources
+[ok] Patched Deployment resources
+[ok] Verified Deployment template resources: requests={'cpu': '300m', 'memory': '50Mi'} limits={'cpu': '542m', 'memory': '60Mi'}
+[info] Scaling deployment to 0 replicas to force full pod replacement
+[ok] Verified Deployment template resources: requests={'cpu': '1500m', 'memory': '400Mi'} limits={'cpu': '3682m', 'memory': '489Mi'}
+[info] Scaling deployment to 0 replicas to force full pod replacement
+[ok] All pods terminated (replicas=0)
+[info] Scaling deployment back to 24 replicas
+[ok] All pods terminated (replicas=0)
+[info] Scaling deployment back to 73 replicas
+[ok] Deleted HPA newdeploy-ml-object-detection-default-9ecd-2fb10570ca05
+[ok] Deleted HPA newdeploy-ml-image-processing-default-8b22-c7f0f2d6d72b
+[ok] Rollout completed after scale-to-zero
+[verify] newest RS=newdeploy-ml-image-processing-default-8b22-c7f0f2d6d72b-8fd57c8db pods=24 ready=24
+[ok] Verified newest ReplicaSet template resources match expected
+[ok] Rollout completed after scale-to-zero
+[verify] newest RS=newdeploy-ml-object-detection-default-9ecd-2fb10570ca05-58f67b499c pods=73 ready=73
+[ok] Verified newest ReplicaSet template resources match expected
+[info] Locust stopped
+[info] Started Locust with PID 4069046
+[info] start sleep for 20s
+[info] sleep done
+\Start sampling in parallel...
+Workflow e2e p99 latency (57 completed in 21.3s, parallel, 8 workers): 9.000s
+Average stage latencies:
+  - ml-image-processing: 0.143s
+  - ml-object-detection: 0.294s
+[info] poll_locust_row: failed to load, try again
+[info] poll_locust_row: failed to load, try again
+[info] poll_locust_row: failed to load, try again
+[info] total_requests: 1300
+[info] e2e_latency (p99): 4.000 s
+[info] energy_j: 205852.611812 J
+[info] served_rps: 61.20 req/s
+[info]: start_time: 1767785233.907457, end_time: 1767785255.1856484, duration_s: 21.28 s
+[info] energy_cost: 158.348163 J/request
+[info] average power: 9674.347252 W
+[info] Locust stopped
+================================================================================
+objective      : price
+resource_config: [{'cpu_m': 542, 'memory_mi': 60}, {'cpu_m': 3682, 'memory_mi': 489}], latencies: {'ml-image-processing': 0.14295590338388495, 'ml-object-detection': 0.29376463661445124}, price_cost: 9485.320862, energy_cost: 158.348163, latency_p99 : 4.000000, feasible: False, total_requests: 1300, served_rps: 61.20, total_energy_j: 205852.611812 J, profiling_duration_s: 21.278191s, average_power: 9674.347252 W
+wall_time_s    : 112.163
+================================================================================
+
+[info] Started Locust with PID 4069211
+Updating function ml-image-processing to cpu: 401m, memory: 53Mi
+Updating Deployment resource configuration...
+
+Updating function ml-object-detection to cpu: 6000m, memory: 504Mi
+Updating Deployment resource configuration...
+
+[info] Original replicas=24, selector='environmentName=ml-image-processing,environmentNamespace=default,environmentUid=2449fff4-7632-422c-aa00-519fcb194e26,executorType=newdeploy,functionName=ml-image-processing,functionNamespace=default,functionUid=58487e4a-0036-4ccd-8b22-c7f0f2d6d72b'
+[info] Original replicas=73, selector='environmentName=yolo,environmentNamespace=default,environmentUid=ced8af41-455b-4081-99aa-1700c0092126,executorType=newdeploy,functionName=ml-object-detection,functionNamespace=default,functionUid=182005a6-ad76-40e9-9ecd-2fb10570ca05'
+[ok] Patched Deployment resources
+[ok] Patched Deployment resources
+[ok] Verified Deployment template resources: requests={'cpu': '300m', 'memory': '50Mi'} limits={'cpu': '401m', 'memory': '53Mi'}
+[info] Scaling deployment to 0 replicas to force full pod replacement
+[ok] Verified Deployment template resources: requests={'cpu': '1500m', 'memory': '400Mi'} limits={'cpu': '6', 'memory': '504Mi'}
+[info] Scaling deployment to 0 replicas to force full pod replacement
+[ok] All pods terminated (replicas=0)
+[info] Scaling deployment back to 24 replicas
+[ok] All pods terminated (replicas=0)
+[info] Scaling deployment back to 73 replicas
+[ok] Deleted HPA newdeploy-ml-image-processing-default-8b22-c7f0f2d6d72b
+[ok] Deleted HPA newdeploy-ml-object-detection-default-9ecd-2fb10570ca05
+[ok] Rollout completed after scale-to-zero
+[verify] newest RS=newdeploy-ml-image-processing-default-8b22-c7f0f2d6d72b-5d6778f764 pods=24 ready=24
+[ok] Verified newest ReplicaSet template resources match expected
+[ok] Rollout completed after scale-to-zero
+[verify] newest RS=newdeploy-ml-object-detection-default-9ecd-2fb10570ca05-7dcffcc974 pods=73 ready=73
+[ok] Verified newest ReplicaSet template resources match expected
+[info] Locust stopped
+[info] Started Locust with PID 4075090
+[info] start sleep for 20s
+[info] sleep done
+\Start sampling in parallel...
+Workflow e2e p99 latency (62 completed in 16.7s, parallel, 8 workers): 3.016s
+Average stage latencies:
+  - ml-image-processing: 0.244s
+  - ml-object-detection: 0.196s
+[info] poll_locust_row: failed to load, try again
+[info] poll_locust_row: failed to load, try again
+[info] total_requests: 1099
+[info] e2e_latency (p99): 3.100 s
+[info] energy_j: 8837.068637 J
+[info] served_rps: 59.10 req/s
+[info]: start_time: 1767785346.6302106, end_time: 1767785363.3581688, duration_s: 16.73 s
+[info] energy_cost: 8.041009 J/request
+[info] average power: 528.281368 W
+[info] Locust stopped
+================================================================================
+objective      : price
+resource_config: [{'cpu_m': 401, 'memory_mi': 53}, {'cpu_m': 6000, 'memory_mi': 504}], latencies: {'ml-image-processing': 0.24445275262358687, 'ml-object-detection': 0.19597337308580115}, price_cost: 10318.128983, energy_cost: 8.041009, latency_p99 : 3.100000, feasible: False, total_requests: 1099, served_rps: 59.10, total_energy_j: 8837.068637 J, profiling_duration_s: 16.727958s, average_power: 528.281368 W
+wall_time_s    : 107.668
+================================================================================
+
+================================================================================
+
+Batch  6: best_feasible_cost (random, qNEI) = (8926.339864551963, 8834.871208223378), best_constraint =  -0.700 (<=0 feasible), time = 329.72.
+Best feasible resource configuration: [{'cpu_m': 400, 'memory_mi': 58}, {'cpu_m': 5794, 'memory_mi': 466}]
+
+================================================================================
+/home/cc/miniconda3/envs/faas/lib/python3.10/site-packages/botorch/acquisition/monte_carlo.py:502: NumericsWarning: qNoisyExpectedImprovement has known numerical issues that lead to suboptimal optimization performance. It is strongly recommended to simply replace
+
+	 qNoisyExpectedImprovement 	 --> 	 qLogNoisyExpectedImprovement 
+
+instead, which fixes the issues and has the same API. See https://arxiv.org/abs/2310.20708 for details.
+  legacy_ei_numerics_warning(legacy_name=type(self).__name__)
+[info] Started Locust with PID 4075438
+Updating function ml-image-processing to cpu: 404m, memory: 62Mi
+Updating Deployment resource configuration...
+
+Updating function ml-object-detection to cpu: 5917m, memory: 461Mi
+Updating Deployment resource configuration...
+
+[info] Original replicas=73, selector='environmentName=yolo,environmentNamespace=default,environmentUid=ced8af41-455b-4081-99aa-1700c0092126,executorType=newdeploy,functionName=ml-object-detection,functionNamespace=default,functionUid=182005a6-ad76-40e9-9ecd-2fb10570ca05'
+[info] Original replicas=24, selector='environmentName=ml-image-processing,environmentNamespace=default,environmentUid=2449fff4-7632-422c-aa00-519fcb194e26,executorType=newdeploy,functionName=ml-image-processing,functionNamespace=default,functionUid=58487e4a-0036-4ccd-8b22-c7f0f2d6d72b'
+[ok] Patched Deployment resources
+[ok] Patched Deployment resources
+[ok] Verified Deployment template resources: requests={'cpu': '300m', 'memory': '50Mi'} limits={'cpu': '404m', 'memory': '62Mi'}
+[info] Scaling deployment to 0 replicas to force full pod replacement
+[ok] Verified Deployment template resources: requests={'cpu': '1500m', 'memory': '400Mi'} limits={'cpu': '5917m', 'memory': '461Mi'}
+[info] Scaling deployment to 0 replicas to force full pod replacement
+[ok] All pods terminated (replicas=0)
+[info] Scaling deployment back to 24 replicas
+[ok] All pods terminated (replicas=0)
+[info] Scaling deployment back to 73 replicas
+[ok] Deleted HPA newdeploy-ml-image-processing-default-8b22-c7f0f2d6d72b
+[ok] Deleted HPA newdeploy-ml-object-detection-default-9ecd-2fb10570ca05
+[ok] Rollout completed after scale-to-zero
+[verify] newest RS=newdeploy-ml-image-processing-default-8b22-c7f0f2d6d72b-7c96f6b7b8 pods=24 ready=24
+[ok] Verified newest ReplicaSet template resources match expected
+[ok] Rollout completed after scale-to-zero
+[verify] newest RS=newdeploy-ml-object-detection-default-9ecd-2fb10570ca05-869ddd948 pods=73 ready=73
+[ok] Verified newest ReplicaSet template resources match expected
+[info] Locust stopped
+[info] Started Locust with PID 4081263
+[info] start sleep for 20s
+[info] sleep done
+\Start sampling in parallel...
+Workflow e2e p99 latency (68 completed in 16.7s, parallel, 8 workers): 2.305s
+Average stage latencies:
+  - ml-image-processing: 0.216s
+  - ml-object-detection: 0.171s
+[info] poll_locust_row: failed to load, try again
+[info] poll_locust_row: failed to load, try again
+[info] total_requests: 1190
+[info] e2e_latency (p99): 2.300 s
+[info] energy_j: 7866.562080 J
+[info] served_rps: 66.70 req/s
+[info]: start_time: 1767785459.5548365, end_time: 1767785476.2304368, duration_s: 16.68 s
+[info] energy_cost: 6.610556 J/request
+[info] average power: 471.740863 W
+[info] Locust stopped
+================================================================================
+objective      : price
+resource_config: [{'cpu_m': 404, 'memory_mi': 62}, {'cpu_m': 5917, 'memory_mi': 461}], latencies: {'ml-image-processing': 0.2157633376568008, 'ml-object-detection': 0.1711686814258642}, price_cost: 8892.266471, energy_cost: 6.610556, latency_p99 : 2.300000, feasible: True, total_requests: 1190, served_rps: 66.70, total_energy_j: 7866.562080 J, profiling_duration_s: 16.675600s, average_power: 471.740863 W
+wall_time_s    : 107.583
+================================================================================
+
+[info] Started Locust with PID 4081445
+Updating function ml-image-processing to cpu: 337m, memory: 66Mi
+Updating Deployment resource configuration...
+
+Updating function ml-object-detection to cpu: 5775m, memory: 488Mi
+Updating Deployment resource configuration...
+
+[info] Original replicas=24, selector='environmentName=ml-image-processing,environmentNamespace=default,environmentUid=2449fff4-7632-422c-aa00-519fcb194e26,executorType=newdeploy,functionName=ml-image-processing,functionNamespace=default,functionUid=58487e4a-0036-4ccd-8b22-c7f0f2d6d72b'
+[info] Original replicas=73, selector='environmentName=yolo,environmentNamespace=default,environmentUid=ced8af41-455b-4081-99aa-1700c0092126,executorType=newdeploy,functionName=ml-object-detection,functionNamespace=default,functionUid=182005a6-ad76-40e9-9ecd-2fb10570ca05'
+[ok] Patched Deployment resources
+[ok] Patched Deployment resources
+[ok] Verified Deployment template resources: requests={'cpu': '1500m', 'memory': '400Mi'} limits={'cpu': '5775m', 'memory': '488Mi'}
+[info] Scaling deployment to 0 replicas to force full pod replacement
+[ok] Verified Deployment template resources: requests={'cpu': '300m', 'memory': '50Mi'} limits={'cpu': '337m', 'memory': '66Mi'}
+[info] Scaling deployment to 0 replicas to force full pod replacement
+[ok] All pods terminated (replicas=0)
+[info] Scaling deployment back to 24 replicas
+[ok] All pods terminated (replicas=0)
+[info] Scaling deployment back to 73 replicas
+[ok] Deleted HPA newdeploy-ml-image-processing-default-8b22-c7f0f2d6d72b
+[ok] Deleted HPA newdeploy-ml-object-detection-default-9ecd-2fb10570ca05
+[ok] Rollout completed after scale-to-zero
+[verify] newest RS=newdeploy-ml-image-processing-default-8b22-c7f0f2d6d72b-6d66c56d67 pods=24 ready=24
+[ok] Verified newest ReplicaSet template resources match expected
+[ok] Rollout completed after scale-to-zero
+[verify] newest RS=newdeploy-ml-object-detection-default-9ecd-2fb10570ca05-7bf9cbc596 pods=73 ready=73
+[ok] Verified newest ReplicaSet template resources match expected
+[info] Locust stopped
+[info] Started Locust with PID 4087457
+[info] start sleep for 20s
+[info] sleep done
+\Start sampling in parallel...
+Workflow e2e p99 latency (56 completed in 16.0s, parallel, 8 workers): 3.230s
+Average stage latencies:
+  - ml-image-processing: 0.275s
+  - ml-object-detection: 0.171s
+[info] total_requests: 917
+[info] e2e_latency (p99): 2.700 s
+[info] energy_j: 7336.678704 J
+[info] served_rps: 61.40 req/s
+[info]: start_time: 1767785568.536173, end_time: 1767785584.5722284, duration_s: 16.04 s
+[info] energy_cost: 8.000740 J/request
+[info] average power: 457.511436 W
+[info] Locust stopped
+================================================================================
+objective      : price
+resource_config: [{'cpu_m': 337, 'memory_mi': 66}, {'cpu_m': 5775, 'memory_mi': 488}], latencies: {'ml-image-processing': 0.2754896208560759, 'ml-object-detection': 0.17107609936335524}, price_cost: 8702.135705, energy_cost: 8.000740, latency_p99 : 2.700000, feasible: True, total_requests: 917, served_rps: 61.40, total_energy_j: 7336.678704 J, profiling_duration_s: 16.036055s, average_power: 457.511436 W
+wall_time_s    : 107.281
+================================================================================
+
+[info] Started Locust with PID 4087649
+Updating function ml-image-processing to cpu: 770m, memory: 65Mi
+Updating Deployment resource configuration...
+
+Updating function ml-object-detection to cpu: 4439m, memory: 444Mi
+Updating Deployment resource configuration...
+
+[info] Original replicas=24, selector='environmentName=ml-image-processing,environmentNamespace=default,environmentUid=2449fff4-7632-422c-aa00-519fcb194e26,executorType=newdeploy,functionName=ml-image-processing,functionNamespace=default,functionUid=58487e4a-0036-4ccd-8b22-c7f0f2d6d72b'
+[info] Original replicas=73, selector='environmentName=yolo,environmentNamespace=default,environmentUid=ced8af41-455b-4081-99aa-1700c0092126,executorType=newdeploy,functionName=ml-object-detection,functionNamespace=default,functionUid=182005a6-ad76-40e9-9ecd-2fb10570ca05'
+[ok] Patched Deployment resources
+[ok] Patched Deployment resources
+[ok] Verified Deployment template resources: requests={'cpu': '1500m', 'memory': '400Mi'} limits={'cpu': '4439m', 'memory': '444Mi'}
+[info] Scaling deployment to 0 replicas to force full pod replacement
+[ok] Verified Deployment template resources: requests={'cpu': '300m', 'memory': '50Mi'} limits={'cpu': '770m', 'memory': '65Mi'}
+[info] Scaling deployment to 0 replicas to force full pod replacement
+[ok] All pods terminated (replicas=0)
+[info] Scaling deployment back to 24 replicas
+[ok] All pods terminated (replicas=0)
+[info] Scaling deployment back to 73 replicas
+[ok] Deleted HPA newdeploy-ml-image-processing-default-8b22-c7f0f2d6d72b
+[ok] Deleted HPA newdeploy-ml-object-detection-default-9ecd-2fb10570ca05
+[ok] Rollout completed after scale-to-zero
+[verify] newest RS=newdeploy-ml-image-processing-default-8b22-c7f0f2d6d72b-6f8788c6cf pods=24 ready=24
+[ok] Verified newest ReplicaSet template resources match expected
+[ok] Rollout completed after scale-to-zero
+[verify] newest RS=newdeploy-ml-object-detection-default-9ecd-2fb10570ca05-56c9688f97 pods=73 ready=73
+[ok] Verified newest ReplicaSet template resources match expected
+[info] Locust stopped
+[info] Started Locust with PID 4093468
+[info] start sleep for 20s
+[info] sleep done
+\Start sampling in parallel...
+Workflow e2e p99 latency (55 completed in 17.7s, parallel, 8 workers): 9.000s
+Average stage latencies:
+  - ml-image-processing: 0.114s
+  - ml-object-detection: 0.245s
+[info] total_requests: 1251
+[info] e2e_latency (p99): 3.700 s
+[info] energy_j: 8529.659450 J
+[info] served_rps: 70.10 req/s
+[info]: start_time: 1767785676.0869565, end_time: 1767785693.7929995, duration_s: 17.71 s
+[info] energy_cost: 6.818273 J/request
+[info] average power: 481.737193 W
+[info] Locust stopped
+================================================================================
+objective      : price
+resource_config: [{'cpu_m': 770, 'memory_mi': 65}, {'cpu_m': 4439, 'memory_mi': 444}], latencies: {'ml-image-processing': 0.11433652440580178, 'ml-object-detection': 0.24546649860104128}, price_cost: 9562.921407, energy_cost: 6.818273, latency_p99 : 3.700000, feasible: False, total_requests: 1251, served_rps: 70.10, total_energy_j: 8529.659450 J, profiling_duration_s: 17.706043s, average_power: 481.737193 W
+wall_time_s    : 109.260
+================================================================================
+
+================================================================================
+
+Batch  7: best_feasible_cost (random, qNEI) = (8926.339864551963, 8702.13570497847), best_constraint =  -0.300 (<=0 feasible), time = 329.43.
+Best feasible resource configuration: [{'cpu_m': 337, 'memory_mi': 66}, {'cpu_m': 5775, 'memory_mi': 488}]
+
+================================================================================
+/home/cc/miniconda3/envs/faas/lib/python3.10/site-packages/botorch/acquisition/monte_carlo.py:502: NumericsWarning: qNoisyExpectedImprovement has known numerical issues that lead to suboptimal optimization performance. It is strongly recommended to simply replace
+
+	 qNoisyExpectedImprovement 	 --> 	 qLogNoisyExpectedImprovement 
+
+instead, which fixes the issues and has the same API. See https://arxiv.org/abs/2310.20708 for details.
+  legacy_ei_numerics_warning(legacy_name=type(self).__name__)
+[info] Started Locust with PID 4093807
+Updating function ml-image-processing to cpu: 441m, memory: 70Mi
+Updating Deployment resource configuration...
+
+Updating function ml-object-detection to cpu: 5000m, memory: 429Mi
+Updating Deployment resource configuration...
+
+[info] Original replicas=24, selector='environmentName=ml-image-processing,environmentNamespace=default,environmentUid=2449fff4-7632-422c-aa00-519fcb194e26,executorType=newdeploy,functionName=ml-image-processing,functionNamespace=default,functionUid=58487e4a-0036-4ccd-8b22-c7f0f2d6d72b'
+[info] Original replicas=73, selector='environmentName=yolo,environmentNamespace=default,environmentUid=ced8af41-455b-4081-99aa-1700c0092126,executorType=newdeploy,functionName=ml-object-detection,functionNamespace=default,functionUid=182005a6-ad76-40e9-9ecd-2fb10570ca05'
+[ok] Patched Deployment resources
+[ok] Patched Deployment resources
+[ok] Verified Deployment template resources: requests={'cpu': '1500m', 'memory': '400Mi'} limits={'cpu': '5', 'memory': '429Mi'}
+[info] Scaling deployment to 0 replicas to force full pod replacement
+[ok] Verified Deployment template resources: requests={'cpu': '300m', 'memory': '50Mi'} limits={'cpu': '441m', 'memory': '70Mi'}
+[info] Scaling deployment to 0 replicas to force full pod replacement
+[ok] All pods terminated (replicas=0)
+[info] Scaling deployment back to 24 replicas
+[ok] All pods terminated (replicas=0)
+[info] Scaling deployment back to 73 replicas
+[ok] Deleted HPA newdeploy-ml-image-processing-default-8b22-c7f0f2d6d72b
+[ok] Deleted HPA newdeploy-ml-object-detection-default-9ecd-2fb10570ca05
+[ok] Rollout completed after scale-to-zero
+[verify] newest RS=newdeploy-ml-image-processing-default-8b22-c7f0f2d6d72b-6758dd756f pods=24 ready=24
+[ok] Verified newest ReplicaSet template resources match expected
+[ok] Rollout completed after scale-to-zero
+[verify] newest RS=newdeploy-ml-object-detection-default-9ecd-2fb10570ca05-5b79844f9f pods=73 ready=73
+[ok] Verified newest ReplicaSet template resources match expected
+[info] Locust stopped
+[info] Started Locust with PID 4099612
+[info] start sleep for 20s
+[info] sleep done
+\Start sampling in parallel...
+Workflow e2e p99 latency (67 completed in 16.4s, parallel, 8 workers): 1.801s
+Average stage latencies:
+  - ml-image-processing: 0.212s
+  - ml-object-detection: 0.209s
+[info] poll_locust_row: failed to load, try again
+[info] poll_locust_row: failed to load, try again
+[info] poll_locust_row: failed to load, try again
+[info] total_requests: 1200
+[info] e2e_latency (p99): 2.000 s
+[info] energy_j: 7948.049162 J
+[info] served_rps: 66.80 req/s
+[info]: start_time: 1767785782.0075514, end_time: 1767785798.4333246, duration_s: 16.43 s
+[info] energy_cost: 6.623374 J/request
+[info] average power: 483.876716 W
+[info] Locust stopped
+================================================================================
+objective      : price
+resource_config: [{'cpu_m': 441, 'memory_mi': 70}, {'cpu_m': 5000, 'memory_mi': 429}], latencies: {'ml-image-processing': 0.21234180891552745, 'ml-object-detection': 0.2094655243971788}, price_cost: 9210.866640, energy_cost: 6.623374, latency_p99 : 2.000000, feasible: True, total_requests: 1200, served_rps: 66.80, total_energy_j: 7948.049162 J, profiling_duration_s: 16.425773s, average_power: 483.876716 W
+wall_time_s    : 100.990
+================================================================================
+
+[info] Started Locust with PID 4099780
+Updating function ml-image-processing to cpu: 396m, memory: 60Mi
+Updating Deployment resource configuration...
+
+Updating function ml-object-detection to cpu: 4611m, memory: 462Mi
+Updating Deployment resource configuration...
+
+[info] Original replicas=24, selector='environmentName=ml-image-processing,environmentNamespace=default,environmentUid=2449fff4-7632-422c-aa00-519fcb194e26,executorType=newdeploy,functionName=ml-image-processing,functionNamespace=default,functionUid=58487e4a-0036-4ccd-8b22-c7f0f2d6d72b'
+[info] Original replicas=73, selector='environmentName=yolo,environmentNamespace=default,environmentUid=ced8af41-455b-4081-99aa-1700c0092126,executorType=newdeploy,functionName=ml-object-detection,functionNamespace=default,functionUid=182005a6-ad76-40e9-9ecd-2fb10570ca05'
+[ok] Patched Deployment resources
+[ok] Patched Deployment resources
+[ok] Verified Deployment template resources: requests={'cpu': '300m', 'memory': '50Mi'} limits={'cpu': '396m', 'memory': '60Mi'}
+[info] Scaling deployment to 0 replicas to force full pod replacement
+[ok] Verified Deployment template resources: requests={'cpu': '1500m', 'memory': '400Mi'} limits={'cpu': '4611m', 'memory': '462Mi'}
+[info] Scaling deployment to 0 replicas to force full pod replacement
+[ok] All pods terminated (replicas=0)
+[info] Scaling deployment back to 24 replicas
+[ok] All pods terminated (replicas=0)
+[info] Scaling deployment back to 73 replicas
+[ok] Deleted HPA newdeploy-ml-image-processing-default-8b22-c7f0f2d6d72b
+[ok] Deleted HPA newdeploy-ml-object-detection-default-9ecd-2fb10570ca05
+[ok] Rollout completed after scale-to-zero
+[verify] newest RS=newdeploy-ml-image-processing-default-8b22-c7f0f2d6d72b-58995dcff6 pods=24 ready=24
+[ok] Verified newest ReplicaSet template resources match expected
+[ok] Rollout completed after scale-to-zero
+[verify] newest RS=newdeploy-ml-object-detection-default-9ecd-2fb10570ca05-779cbb9599 pods=73 ready=73
+[ok] Verified newest ReplicaSet template resources match expected
+[info] Locust stopped
+[info] Started Locust with PID 4105255
+[info] start sleep for 20s
+[info] sleep done
+\Start sampling in parallel...
+Workflow e2e p99 latency (62 completed in 18.6s, parallel, 8 workers): 2.809s
+Average stage latencies:
+  - ml-image-processing: 0.233s
+  - ml-object-detection: 0.229s
+[info] total_requests: 1141
+[info] e2e_latency (p99): 3.100 s
+[info] energy_j: 8756.779271 J
+[info] served_rps: 62.80 req/s
+[info]: start_time: 1767785892.8278728, end_time: 1767785911.4548035, duration_s: 18.63 s
+[info] energy_cost: 7.674653 J/request
+[info] average power: 470.113912 W
+[info] Locust stopped
+================================================================================
+objective      : price
+resource_config: [{'cpu_m': 396, 'memory_mi': 60}, {'cpu_m': 4611, 'memory_mi': 462}], latencies: {'ml-image-processing': 0.23261383640760136, 'ml-object-detection': 0.2285635931372282}, price_cost: 9271.439092, energy_cost: 7.674653, latency_p99 : 3.100000, feasible: False, total_requests: 1141, served_rps: 62.80, total_energy_j: 8756.779271 J, profiling_duration_s: 18.626931s, average_power: 470.113912 W
+wall_time_s    : 111.494
+================================================================================
+
+[info] Started Locust with PID 4105426
+Updating function ml-image-processing to cpu: 391m, memory: 58Mi
+Updating Deployment resource configuration...
+
+Updating function ml-object-detection to cpu: 5993m, memory: 449Mi
+Updating Deployment resource configuration...
+
+[info] Original replicas=24, selector='environmentName=ml-image-processing,environmentNamespace=default,environmentUid=2449fff4-7632-422c-aa00-519fcb194e26,executorType=newdeploy,functionName=ml-image-processing,functionNamespace=default,functionUid=58487e4a-0036-4ccd-8b22-c7f0f2d6d72b'
+[info] Original replicas=73, selector='environmentName=yolo,environmentNamespace=default,environmentUid=ced8af41-455b-4081-99aa-1700c0092126,executorType=newdeploy,functionName=ml-object-detection,functionNamespace=default,functionUid=182005a6-ad76-40e9-9ecd-2fb10570ca05'
+[ok] Patched Deployment resources
+[ok] Patched Deployment resources
+[ok] Verified Deployment template resources: requests={'cpu': '300m', 'memory': '50Mi'} limits={'cpu': '391m', 'memory': '58Mi'}
+[info] Scaling deployment to 0 replicas to force full pod replacement
+[ok] Verified Deployment template resources: requests={'cpu': '1500m', 'memory': '400Mi'} limits={'cpu': '5993m', 'memory': '449Mi'}
+[info] Scaling deployment to 0 replicas to force full pod replacement
+[ok] All pods terminated (replicas=0)
+[info] Scaling deployment back to 24 replicas
+[ok] All pods terminated (replicas=0)
+[info] Scaling deployment back to 73 replicas
+[ok] Deleted HPA newdeploy-ml-image-processing-default-8b22-c7f0f2d6d72b
+[ok] Deleted HPA newdeploy-ml-object-detection-default-9ecd-2fb10570ca05
+[ok] Rollout completed after scale-to-zero
+[verify] newest RS=newdeploy-ml-image-processing-default-8b22-c7f0f2d6d72b-fcdc7b474 pods=24 ready=24
+[ok] Verified newest ReplicaSet template resources match expected
+[ok] Rollout completed after scale-to-zero
+[verify] newest RS=newdeploy-ml-object-detection-default-9ecd-2fb10570ca05-975cc8fbb pods=73 ready=73
+[ok] Verified newest ReplicaSet template resources match expected
+[info] Locust stopped
+[info] Started Locust with PID 4111163
+[info] start sleep for 20s
+[info] sleep done
+\Start sampling in parallel...
+Workflow e2e p99 latency (63 completed in 18.5s, parallel, 8 workers): 3.489s
+Average stage latencies:
+  - ml-image-processing: 0.231s
+  - ml-object-detection: 0.164s
+[info] total_requests: 1171
+[info] e2e_latency (p99): 2.500 s
+[info] energy_j: 8630.628430 J
+[info] served_rps: 65.40 req/s
+[info]: start_time: 1767785997.306928, end_time: 1767786015.8414643, duration_s: 18.53 s
+[info] energy_cost: 7.370306 J/request
+[info] average power: 465.651164 W
+[info] Locust stopped
+================================================================================
+objective      : price
+resource_config: [{'cpu_m': 391, 'memory_mi': 58}, {'cpu_m': 5993, 'memory_mi': 449}], latencies: {'ml-image-processing': 0.23067392413282678, 'ml-object-detection': 0.164323015123724}, price_cost: 8660.570924, energy_cost: 7.370306, latency_p99 : 2.500000, feasible: True, total_requests: 1171, served_rps: 65.40, total_energy_j: 8630.628430 J, profiling_duration_s: 18.534536s, average_power: 465.651164 W
+wall_time_s    : 104.377
+================================================================================
+
+================================================================================
+
+Batch  8: best_feasible_cost (random, qNEI) = (8926.339864551963, 8660.570924363074), best_constraint =  -0.500 (<=0 feasible), time = 322.00.
+Best feasible resource configuration: [{'cpu_m': 391, 'memory_mi': 58}, {'cpu_m': 5993, 'memory_mi': 449}]
+
+================================================================================
+/home/cc/miniconda3/envs/faas/lib/python3.10/site-packages/botorch/acquisition/monte_carlo.py:502: NumericsWarning: qNoisyExpectedImprovement has known numerical issues that lead to suboptimal optimization performance. It is strongly recommended to simply replace
+
+	 qNoisyExpectedImprovement 	 --> 	 qLogNoisyExpectedImprovement 
+
+instead, which fixes the issues and has the same API. See https://arxiv.org/abs/2310.20708 for details.
+  legacy_ei_numerics_warning(legacy_name=type(self).__name__)
+[info] Started Locust with PID 4111482
+Updating function ml-image-processing to cpu: 418m, memory: 70Mi
+Updating Deployment resource configuration...
+
+Updating function ml-object-detection to cpu: 5615m, memory: 512Mi
+Updating Deployment resource configuration...
+
+[info] Original replicas=24, selector='environmentName=ml-image-processing,environmentNamespace=default,environmentUid=2449fff4-7632-422c-aa00-519fcb194e26,executorType=newdeploy,functionName=ml-image-processing,functionNamespace=default,functionUid=58487e4a-0036-4ccd-8b22-c7f0f2d6d72b'
+[info] Original replicas=73, selector='environmentName=yolo,environmentNamespace=default,environmentUid=ced8af41-455b-4081-99aa-1700c0092126,executorType=newdeploy,functionName=ml-object-detection,functionNamespace=default,functionUid=182005a6-ad76-40e9-9ecd-2fb10570ca05'
+[ok] Patched Deployment resources
+[ok] Patched Deployment resources
+[ok] Verified Deployment template resources: requests={'cpu': '300m', 'memory': '50Mi'} limits={'cpu': '418m', 'memory': '70Mi'}
+[info] Scaling deployment to 0 replicas to force full pod replacement
+[ok] Verified Deployment template resources: requests={'cpu': '1500m', 'memory': '400Mi'} limits={'cpu': '5615m', 'memory': '512Mi'}
+[info] Scaling deployment to 0 replicas to force full pod replacement
+[ok] All pods terminated (replicas=0)
+[info] Scaling deployment back to 24 replicas
+[ok] All pods terminated (replicas=0)
+[info] Scaling deployment back to 73 replicas
+[ok] Deleted HPA newdeploy-ml-image-processing-default-8b22-c7f0f2d6d72b
+[ok] Deleted HPA newdeploy-ml-object-detection-default-9ecd-2fb10570ca05
+[ok] Rollout completed after scale-to-zero
+[verify] newest RS=newdeploy-ml-image-processing-default-8b22-c7f0f2d6d72b-bb55fd98f pods=24 ready=24
+[ok] Verified newest ReplicaSet template resources match expected
+[ok] Rollout completed after scale-to-zero
+[verify] newest RS=newdeploy-ml-object-detection-default-9ecd-2fb10570ca05-87fd5576 pods=73 ready=73
+[ok] Verified newest ReplicaSet template resources match expected
+[info] Locust stopped
+[info] Started Locust with PID 4117153
+[info] start sleep for 20s
+[info] sleep done
+\Start sampling in parallel...
+Workflow e2e p99 latency (65 completed in 17.1s, parallel, 8 workers): 2.087s
+Average stage latencies:
+  - ml-image-processing: 0.224s
+  - ml-object-detection: 0.185s
+[info] poll_locust_row: failed to load, try again
+[info] total_requests: 1207
+[info] e2e_latency (p99): 2.100 s
+[info] energy_j: 8146.541219 J
+[info] served_rps: 66.60 req/s
+[info]: start_time: 1767786114.870562, end_time: 1767786132.021084, duration_s: 17.15 s
+[info] energy_cost: 6.749413 J/request
+[info] average power: 475.002523 W
+[info] Locust stopped
+================================================================================
+objective      : price
+resource_config: [{'cpu_m': 418, 'memory_mi': 70}, {'cpu_m': 5615, 'memory_mi': 512}], latencies: {'ml-image-processing': 0.22392815922458584, 'ml-object-detection': 0.18491752558172894}, price_cost: 9137.393354, energy_cost: 6.749413, latency_p99 : 2.100000, feasible: True, total_requests: 1207, served_rps: 66.60, total_energy_j: 8146.541219 J, profiling_duration_s: 17.150522s, average_power: 475.002523 W
+wall_time_s    : 110.872
+================================================================================
+
+[info] Started Locust with PID 4117337
+Updating function ml-image-processing to cpu: 664m, memory: 69Mi
+Updating Deployment resource configuration...
+
+Updating function ml-object-detection to cpu: 4669m, memory: 449Mi
+Updating Deployment resource configuration...
+
+[info] Original replicas=24, selector='environmentName=ml-image-processing,environmentNamespace=default,environmentUid=2449fff4-7632-422c-aa00-519fcb194e26,executorType=newdeploy,functionName=ml-image-processing,functionNamespace=default,functionUid=58487e4a-0036-4ccd-8b22-c7f0f2d6d72b'
+[info] Original replicas=73, selector='environmentName=yolo,environmentNamespace=default,environmentUid=ced8af41-455b-4081-99aa-1700c0092126,executorType=newdeploy,functionName=ml-object-detection,functionNamespace=default,functionUid=182005a6-ad76-40e9-9ecd-2fb10570ca05'
+[ok] Patched Deployment resources
+[ok] Patched Deployment resources
+[ok] Verified Deployment template resources: requests={'cpu': '300m', 'memory': '50Mi'} limits={'cpu': '664m', 'memory': '69Mi'}
+[info] Scaling deployment to 0 replicas to force full pod replacement
+[ok] Verified Deployment template resources: requests={'cpu': '1500m', 'memory': '400Mi'} limits={'cpu': '4669m', 'memory': '449Mi'}
+[info] Scaling deployment to 0 replicas to force full pod replacement
+[ok] All pods terminated (replicas=0)
+[info] Scaling deployment back to 24 replicas
+[ok] All pods terminated (replicas=0)
+[info] Scaling deployment back to 73 replicas
+[ok] Deleted HPA newdeploy-ml-image-processing-default-8b22-c7f0f2d6d72b
+[ok] Deleted HPA newdeploy-ml-object-detection-default-9ecd-2fb10570ca05
+[ok] Rollout completed after scale-to-zero
+[verify] newest RS=newdeploy-ml-image-processing-default-8b22-c7f0f2d6d72b-587d6d56fc pods=24 ready=24
+[ok] Verified newest ReplicaSet template resources match expected
+[ok] Rollout completed after scale-to-zero
+[verify] newest RS=newdeploy-ml-object-detection-default-9ecd-2fb10570ca05-7d47dbb47d pods=73 ready=73
+[ok] Verified newest ReplicaSet template resources match expected
+[info] Locust stopped
+[info] Started Locust with PID 4123348
+[info] start sleep for 20s
+[info] sleep done
+\Start sampling in parallel...
+Workflow e2e p99 latency (71 completed in 17.4s, parallel, 8 workers): 2.677s
+Average stage latencies:
+  - ml-image-processing: 0.128s
+  - ml-object-detection: 0.234s
+[info] poll_locust_row: failed to load, try again
+[info] total_requests: 1215
+[info] e2e_latency (p99): 3.700 s
+Traceback (most recent call last):
+  File "/home/cc/uncertain-carbon/aquatope/src/container_resource_manager/manager.py", line 125, in <module>
+    main()
+  File "/home/cc/uncertain-carbon/aquatope/src/container_resource_manager/manager.py", line 90, in main
+    best_cost, resource_config = bayesian_optimization.bo_loop(
+  File "/home/cc/uncertain-carbon/aquatope/src/container_resource_manager/bayesian_optimization.py", line 468, in bo_loop
+    new_x_nei, new_obj_nei, new_con_nei, sample_data = optimize_acqf_and_get_observation(
+  File "/home/cc/uncertain-carbon/aquatope/src/container_resource_manager/bayesian_optimization.py", line 213, in optimize_acqf_and_get_observation
+    new_obj, new_con, sample_data = eval_obj_con(new_x)
+  File "/home/cc/uncertain-carbon/aquatope/src/container_resource_manager/bayesian_optimization.py", line 132, in eval_obj_con
+    obj, con, sample_data = sample_cost_duration(X=X)
+  File "/home/cc/uncertain-carbon/aquatope/src/container_resource_manager/bo_utils.py", line 535, in sample_cost_duration
+    obj, cons, sample_data = sample_cost(x=x)
+  File "/home/cc/uncertain-carbon/aquatope/src/container_resource_manager/bo_utils.py", line 400, in sample_cost
+    start_energy_snap = get_worker_energy(timestamp=start_time, url=WORKER_ENERGY_URL)
+  File "/home/cc/uncertain-carbon/aquatope/src/container_resource_manager/bo_utils.py", line 159, in get_worker_energy
+    r.raise_for_status()
+  File "/home/cc/miniconda3/envs/faas/lib/python3.10/site-packages/requests/models.py", line 1026, in raise_for_status
+    raise HTTPError(http_error_msg, response=self)
+requests.exceptions.HTTPError: 404 Client Error: Not Found for url: http://10.52.2.205:9876/power?timestamp_utc_ms=1767786215378
+========================================
+Energy
+drwxrwxr-x 2 cc cc   4096 Jan  7 08:14 __pycache__
+-rw-rw-r-- 1 cc cc  21718 Jan  7 08:07 bayesian_optimization.py
+drwxrwxr-x 2 cc cc   4096 Jan  5 15:43 bo_outputs_copy
+-rw-rw-r-- 1 cc cc  18261 Jan  7 08:14 bo_utils.py
+-rw-rw-r-- 1 cc cc  12286 Jan  5 01:06 check_result.py
+-rw-rw-r-- 1 cc cc   7349 Jan  5 15:31 compute_stat.py
+-rw-rw-r-- 1 cc cc   6640 Jan  5 15:43 compute_trade_off.py
+-rw-rw-r-- 1 cc cc   1438 Jan  5 14:32 config.py
+-rw-rw-r-- 1 cc cc   4253 Jan  7 07:48 manager.py
+-rw-rw-r-- 1 cc cc   9045 Dec 16 05:41 original-bayesian_optimization.py
+-rw-rw-r-- 1 cc cc  11668 Jan  5 15:23 original_bo_results_price_20260105_051239 copy.json
+-rw-rw-r-- 1 cc cc   2423 Jan  3 19:23 pods_mapping.py
+-rw-rw-r-- 1 cc cc  21769 Jan  7 06:31 power_service.py
+-rw-rw-r-- 1 cc cc   1736 Jan  7 00:16 temp.py
+
+IS_ENERGY: True
+[info] batch_size: 3, initial_points: 10, n_batch: 10
+No checkpoint found, starting fresh BO run.
+[info] Started Locust with PID 4123685
+Updating function ml-image-processing to cpu: 432m, memory: 63Mi
+Updating Deployment resource configuration...
+
+Updating function ml-object-detection to cpu: 3330m, memory: 439Mi
+Updating Deployment resource configuration...
+
+[info] Original replicas=24, selector='environmentName=ml-image-processing,environmentNamespace=default,environmentUid=2449fff4-7632-422c-aa00-519fcb194e26,executorType=newdeploy,functionName=ml-image-processing,functionNamespace=default,functionUid=58487e4a-0036-4ccd-8b22-c7f0f2d6d72b'
+[info] Original replicas=73, selector='environmentName=yolo,environmentNamespace=default,environmentUid=ced8af41-455b-4081-99aa-1700c0092126,executorType=newdeploy,functionName=ml-object-detection,functionNamespace=default,functionUid=182005a6-ad76-40e9-9ecd-2fb10570ca05'
+[ok] Patched Deployment resources
+[ok] Patched Deployment resources
+[ok] Verified Deployment template resources: requests={'cpu': '1500m', 'memory': '400Mi'} limits={'cpu': '3330m', 'memory': '439Mi'}
+[info] Scaling deployment to 0 replicas to force full pod replacement
+[ok] Verified Deployment template resources: requests={'cpu': '300m', 'memory': '50Mi'} limits={'cpu': '432m', 'memory': '63Mi'}
+[info] Scaling deployment to 0 replicas to force full pod replacement
+[ok] All pods terminated (replicas=0)
+[info] Scaling deployment back to 24 replicas
+[ok] All pods terminated (replicas=0)
+[info] Scaling deployment back to 73 replicas
+[ok] Deleted HPA newdeploy-ml-image-processing-default-8b22-c7f0f2d6d72b
+[ok] Deleted HPA newdeploy-ml-object-detection-default-9ecd-2fb10570ca05
+[ok] Rollout completed after scale-to-zero
+[verify] newest RS=newdeploy-ml-image-processing-default-8b22-c7f0f2d6d72b-8d985df5d pods=24 ready=24
+[ok] Verified newest ReplicaSet template resources match expected
+[ok] Rollout completed after scale-to-zero
+[verify] newest RS=newdeploy-ml-object-detection-default-9ecd-2fb10570ca05-759987bcd4 pods=73 ready=73
+[ok] Verified newest ReplicaSet template resources match expected
+[info] Locust is not running
+[info] Started Locust with PID 4129136
+[info] start sleep for 20s
+[info] sleep done
+\Start sampling in parallel...
+Workflow e2e p99 latency (61 completed in 18.6s, parallel, 8 workers): 9.000s
+Average stage latencies:
+  - ml-image-processing: 0.184s
+  - ml-object-detection: 0.336s
+[info] total_requests: 1006
+[info] e2e_latency (p99): 4.200 s
+[info] energy_j: 7802.725872 J
+[info] served_rps: 54.90 req/s
+[info]: start_time: 1767786328.2428875, end_time: 1767786346.8833349, duration_s: 18.64 s
+[info] energy_cost: 7.756189 J/request
+[info] average power: 418.591127 W
+[info] Locust is not running
+================================================================================
+objective      : energy
+resource_config: [{'cpu_m': 432, 'memory_mi': 63}, {'cpu_m': 3330, 'memory_mi': 439}], latencies: {'ml-image-processing': 0.1838779069467223, 'ml-object-detection': 0.3358783620120636}, price_cost: 9806.221956, energy_cost: 7.756189, latency_p99 : 4.200000, feasible: False, total_requests: 1006, served_rps: 54.90, total_energy_j: 7802.725872 J, profiling_duration_s: 18.640447s, average_power: 418.591127 W
+wall_time_s    : 109.040
+================================================================================
+
+[info] Started Locust with PID 4129219
+Updating function ml-image-processing to cpu: 521m, memory: 57Mi
+Updating Deployment resource configuration...
+
+Updating function ml-object-detection to cpu: 5594m, memory: 420Mi
+Updating Deployment resource configuration...
+
+[info] Original replicas=24, selector='environmentName=ml-image-processing,environmentNamespace=default,environmentUid=2449fff4-7632-422c-aa00-519fcb194e26,executorType=newdeploy,functionName=ml-image-processing,functionNamespace=default,functionUid=58487e4a-0036-4ccd-8b22-c7f0f2d6d72b'
+[info] Original replicas=73, selector='environmentName=yolo,environmentNamespace=default,environmentUid=ced8af41-455b-4081-99aa-1700c0092126,executorType=newdeploy,functionName=ml-object-detection,functionNamespace=default,functionUid=182005a6-ad76-40e9-9ecd-2fb10570ca05'
+[ok] Patched Deployment resources
+[ok] Patched Deployment resources
+[ok] Verified Deployment template resources: requests={'cpu': '300m', 'memory': '50Mi'} limits={'cpu': '521m', 'memory': '57Mi'}
+[info] Scaling deployment to 0 replicas to force full pod replacement
+[ok] Verified Deployment template resources: requests={'cpu': '1500m', 'memory': '400Mi'} limits={'cpu': '5594m', 'memory': '420Mi'}
+[info] Scaling deployment to 0 replicas to force full pod replacement
+[ok] All pods terminated (replicas=0)
+[info] Scaling deployment back to 24 replicas
+[ok] All pods terminated (replicas=0)
+[info] Scaling deployment back to 73 replicas
+[ok] Deleted HPA newdeploy-ml-object-detection-default-9ecd-2fb10570ca05
+[ok] Deleted HPA newdeploy-ml-image-processing-default-8b22-c7f0f2d6d72b
+[ok] Rollout completed after scale-to-zero
+[verify] newest RS=newdeploy-ml-image-processing-default-8b22-c7f0f2d6d72b-7cdf57d6b5 pods=24 ready=24
+[ok] Verified newest ReplicaSet template resources match expected
+[ok] Rollout completed after scale-to-zero
+[verify] newest RS=newdeploy-ml-object-detection-default-9ecd-2fb10570ca05-658c95474c pods=73 ready=73
+[ok] Verified newest ReplicaSet template resources match expected
+[info] Locust is not running
+[info] Started Locust with PID 4135025
+[info] start sleep for 20s
+[info] sleep done
+\Start sampling in parallel...
+Workflow e2e p99 latency (71 completed in 17.1s, parallel, 8 workers): 1.780s
+Average stage latencies:
+  - ml-image-processing: 0.177s
+  - ml-object-detection: 0.215s
+[info] total_requests: 1058
+[info] e2e_latency (p99): 1.800 s
+[info] energy_j: 8901.888536 J
+[info] served_rps: 69.20 req/s
+[info]: start_time: 1767786433.4228797, end_time: 1767786450.5455618, duration_s: 17.12 s
+[info] energy_cost: 8.413883 J/request
+[info] average power: 519.888677 W
+[info] Locust is not running
+================================================================================
+objective      : energy
+resource_config: [{'cpu_m': 521, 'memory_mi': 57}, {'cpu_m': 5594, 'memory_mi': 420}], latencies: {'ml-image-processing': 0.1767635935405925, 'ml-object-detection': 0.21458082702535558}, price_cost: 10502.767802, energy_cost: 8.413883, latency_p99 : 1.800000, feasible: True, total_requests: 1058, served_rps: 69.20, total_energy_j: 8901.888536 J, profiling_duration_s: 17.122682s, average_power: 519.888677 W
+wall_time_s    : 103.637
+================================================================================
+
+[info] Started Locust with PID 4135104
+Updating function ml-image-processing to cpu: 546m, memory: 51Mi
+Updating Deployment resource configuration...
+
+Updating function ml-object-detection to cpu: 4904m, memory: 445Mi
+Updating Deployment resource configuration...
+
+[info] Original replicas=73, selector='environmentName=yolo,environmentNamespace=default,environmentUid=ced8af41-455b-4081-99aa-1700c0092126,executorType=newdeploy,functionName=ml-object-detection,functionNamespace=default,functionUid=182005a6-ad76-40e9-9ecd-2fb10570ca05'
+[info] Original replicas=24, selector='environmentName=ml-image-processing,environmentNamespace=default,environmentUid=2449fff4-7632-422c-aa00-519fcb194e26,executorType=newdeploy,functionName=ml-image-processing,functionNamespace=default,functionUid=58487e4a-0036-4ccd-8b22-c7f0f2d6d72b'
+[ok] Patched Deployment resources
+[ok] Patched Deployment resources
+[ok] Verified Deployment template resources: requests={'cpu': '1500m', 'memory': '400Mi'} limits={'cpu': '4904m', 'memory': '445Mi'}
+[info] Scaling deployment to 0 replicas to force full pod replacement
+[ok] Verified Deployment template resources: requests={'cpu': '300m', 'memory': '50Mi'} limits={'cpu': '546m', 'memory': '51Mi'}
+[info] Scaling deployment to 0 replicas to force full pod replacement
+[ok] All pods terminated (replicas=0)
+[info] Scaling deployment back to 24 replicas
+[ok] All pods terminated (replicas=0)
+[info] Scaling deployment back to 73 replicas
+[ok] Deleted HPA newdeploy-ml-image-processing-default-8b22-c7f0f2d6d72b
+[ok] Deleted HPA newdeploy-ml-object-detection-default-9ecd-2fb10570ca05
+[ok] Rollout completed after scale-to-zero
+[verify] newest RS=newdeploy-ml-image-processing-default-8b22-c7f0f2d6d72b-b79bcd4cc pods=24 ready=24
+[ok] Verified newest ReplicaSet template resources match expected
+[ok] Rollout completed after scale-to-zero
+[verify] newest RS=newdeploy-ml-object-detection-default-9ecd-2fb10570ca05-7864bf99c8 pods=73 ready=73
+[ok] Verified newest ReplicaSet template resources match expected
+[info] Locust is not running
+[info] Started Locust with PID 4140709
+[info] start sleep for 20s
+[info] sleep done
+\Start sampling in parallel...
+Workflow e2e p99 latency (47 completed in 16.8s, parallel, 8 workers): 9.000s
+Average stage latencies:
+  - ml-image-processing: 0.168s
+  - ml-object-detection: 0.357s
+[info] poll_locust_row: failed to load, try again
+[info] poll_locust_row: failed to load, try again
+[info] total_requests: 870
+[info] e2e_latency (p99): 5.100 s
+[info] energy_j: 6477.194855 J
+[info] served_rps: 35.60 req/s
+[info]: start_time: 1767786537.9135184, end_time: 1767786554.7431278, duration_s: 16.83 s
+[info] energy_cost: 7.445052 J/request
+[info] average power: 384.868995 W
+[info] Locust is not running
+================================================================================
+objective      : energy
+resource_config: [{'cpu_m': 546, 'memory_mi': 51}, {'cpu_m': 4904, 'memory_mi': 445}], latencies: {'ml-image-processing': 0.16757552607339762, 'ml-object-detection': 0.3573375361794162}, price_cost: 15221.668982, energy_cost: 7.445052, latency_p99 : 5.100000, feasible: False, total_requests: 870, served_rps: 35.60, total_energy_j: 6477.194855 J, profiling_duration_s: 16.829609s, average_power: 384.868995 W
+wall_time_s    : 105.271
+================================================================================
+
+[info] Started Locust with PID 4140812
+Updating function ml-image-processing to cpu: 594m, memory: 53Mi
+Updating Deployment resource configuration...
+
+Updating function ml-object-detection to cpu: 2262m, memory: 484Mi
+Updating Deployment resource configuration...
+
+[info] Original replicas=24, selector='environmentName=ml-image-processing,environmentNamespace=default,environmentUid=2449fff4-7632-422c-aa00-519fcb194e26,executorType=newdeploy,functionName=ml-image-processing,functionNamespace=default,functionUid=58487e4a-0036-4ccd-8b22-c7f0f2d6d72b'
+[info] Original replicas=73, selector='environmentName=yolo,environmentNamespace=default,environmentUid=ced8af41-455b-4081-99aa-1700c0092126,executorType=newdeploy,functionName=ml-object-detection,functionNamespace=default,functionUid=182005a6-ad76-40e9-9ecd-2fb10570ca05'
+[ok] Patched Deployment resources
+[ok] Patched Deployment resources
+[ok] Verified Deployment template resources: requests={'cpu': '300m', 'memory': '50Mi'} limits={'cpu': '594m', 'memory': '53Mi'}
+[info] Scaling deployment to 0 replicas to force full pod replacement
+[ok] Verified Deployment template resources: requests={'cpu': '1500m', 'memory': '400Mi'} limits={'cpu': '2262m', 'memory': '484Mi'}
+[info] Scaling deployment to 0 replicas to force full pod replacement
+[ok] All pods terminated (replicas=0)
+[info] Scaling deployment back to 24 replicas
+[ok] All pods terminated (replicas=0)
+[info] Scaling deployment back to 73 replicas
+[ok] Deleted HPA newdeploy-ml-image-processing-default-8b22-c7f0f2d6d72b
+[ok] Deleted HPA newdeploy-ml-object-detection-default-9ecd-2fb10570ca05
+[ok] Rollout completed after scale-to-zero
+[verify] newest RS=newdeploy-ml-image-processing-default-8b22-c7f0f2d6d72b-75fcf9d5db pods=24 ready=24
+[ok] Verified newest ReplicaSet template resources match expected
+[ok] Rollout completed after scale-to-zero
+[verify] newest RS=newdeploy-ml-object-detection-default-9ecd-2fb10570ca05-66cc74f8dd pods=73 ready=73
+[ok] Verified newest ReplicaSet template resources match expected
+[info] Locust is not running
+[info] Started Locust with PID 4145899
+[info] start sleep for 20s
+[info] sleep done
+\Start sampling in parallel...
+Workflow e2e p99 latency (41 completed in 21.8s, parallel, 8 workers): 9.000s
+Average stage latencies:
+  - ml-image-processing: 0.110s
+  - ml-object-detection: 0.497s
+[info] total_requests: 974
+[info] e2e_latency (p99): 3.800 s
+[info] energy_j: 7972.771859 J
+[info] served_rps: 46.50 req/s
+[info]: start_time: 1767786640.52034, end_time: 1767786662.3590086, duration_s: 21.84 s
+[info] energy_cost: 8.185597 J/request
+[info] average power: 365.075912 W
+[info] Locust is not running
+================================================================================
+objective      : energy
+resource_config: [{'cpu_m': 594, 'memory_mi': 53}, {'cpu_m': 2262, 'memory_mi': 484}], latencies: {'ml-image-processing': 0.1104563652248732, 'ml-object-detection': 0.4966285977962202}, price_cost: 9861.896689, energy_cost: 8.185597, latency_p99 : 3.800000, feasible: False, total_requests: 974, served_rps: 46.50, total_energy_j: 7972.771859 J, profiling_duration_s: 21.838669s, average_power: 365.075912 W
+wall_time_s    : 106.582
+================================================================================
+
+[info] Started Locust with PID 4145993
+Updating function ml-image-processing to cpu: 765m, memory: 52Mi
+Updating Deployment resource configuration...
+
+Updating function ml-object-detection to cpu: 3737m, memory: 453Mi
+Updating Deployment resource configuration...
+
+[info] Original replicas=24, selector='environmentName=ml-image-processing,environmentNamespace=default,environmentUid=2449fff4-7632-422c-aa00-519fcb194e26,executorType=newdeploy,functionName=ml-image-processing,functionNamespace=default,functionUid=58487e4a-0036-4ccd-8b22-c7f0f2d6d72b'
+[info] Original replicas=73, selector='environmentName=yolo,environmentNamespace=default,environmentUid=ced8af41-455b-4081-99aa-1700c0092126,executorType=newdeploy,functionName=ml-object-detection,functionNamespace=default,functionUid=182005a6-ad76-40e9-9ecd-2fb10570ca05'
+[ok] Patched Deployment resources
+[ok] Patched Deployment resources
+[ok] Verified Deployment template resources: requests={'cpu': '300m', 'memory': '50Mi'} limits={'cpu': '765m', 'memory': '52Mi'}
+[info] Scaling deployment to 0 replicas to force full pod replacement
+[ok] Verified Deployment template resources: requests={'cpu': '1500m', 'memory': '400Mi'} limits={'cpu': '3737m', 'memory': '453Mi'}
+[info] Scaling deployment to 0 replicas to force full pod replacement
+[ok] All pods terminated (replicas=0)
+[info] Scaling deployment back to 24 replicas
+[ok] All pods terminated (replicas=0)
+[info] Scaling deployment back to 73 replicas
+[ok] Deleted HPA newdeploy-ml-image-processing-default-8b22-c7f0f2d6d72b
+[ok] Deleted HPA newdeploy-ml-object-detection-default-9ecd-2fb10570ca05
+[ok] Rollout completed after scale-to-zero
+[verify] newest RS=newdeploy-ml-image-processing-default-8b22-c7f0f2d6d72b-5f9f65745c pods=24 ready=24
+[ok] Verified newest ReplicaSet template resources match expected
+[ok] Rollout completed after scale-to-zero
+[verify] newest RS=newdeploy-ml-object-detection-default-9ecd-2fb10570ca05-f8b864896 pods=73 ready=73
+[ok] Verified newest ReplicaSet template resources match expected
+[info] Locust is not running
+[info] Started Locust with PID 4151720
+[info] start sleep for 20s
+[info] sleep done
+\Start sampling in parallel...
+Workflow e2e p99 latency (57 completed in 18.1s, parallel, 8 workers): 9.000s
+Average stage latencies:
+  - ml-image-processing: 0.105s
+  - ml-object-detection: 0.282s
+[info] total_requests: 1146
+[info] e2e_latency (p99): 3.700 s
+[info] energy_j: 8059.925717 J
+[info] served_rps: 63.50 req/s
+[info]: start_time: 1767786751.1945302, end_time: 1767786769.2727516, duration_s: 18.08 s
+[info] energy_cost: 7.033094 J/request
+[info] average power: 445.836212 W
+[info] Locust is not running
+================================================================================
+objective      : energy
+resource_config: [{'cpu_m': 765, 'memory_mi': 52}, {'cpu_m': 3737, 'memory_mi': 453}], latencies: {'ml-image-processing': 0.10507040889933705, 'ml-object-detection': 0.28241332864854485}, price_cost: 9261.086519, energy_cost: 7.033094, latency_p99 : 3.700000, feasible: False, total_requests: 1146, served_rps: 63.50, total_energy_j: 8059.925717 J, profiling_duration_s: 18.078221s, average_power: 445.836212 W
+wall_time_s    : 106.917
+================================================================================
+
+[info] Started Locust with PID 4151817
+Updating function ml-image-processing to cpu: 471m, memory: 69Mi
+Updating Deployment resource configuration...
+
+Updating function ml-object-detection to cpu: 2474m, memory: 410Mi
+Updating Deployment resource configuration...
+
+[info] Original replicas=24, selector='environmentName=ml-image-processing,environmentNamespace=default,environmentUid=2449fff4-7632-422c-aa00-519fcb194e26,executorType=newdeploy,functionName=ml-image-processing,functionNamespace=default,functionUid=58487e4a-0036-4ccd-8b22-c7f0f2d6d72b'
+[info] Original replicas=73, selector='environmentName=yolo,environmentNamespace=default,environmentUid=ced8af41-455b-4081-99aa-1700c0092126,executorType=newdeploy,functionName=ml-object-detection,functionNamespace=default,functionUid=182005a6-ad76-40e9-9ecd-2fb10570ca05'
+[ok] Patched Deployment resources
+[ok] Patched Deployment resources
+[ok] Verified Deployment template resources: requests={'cpu': '300m', 'memory': '50Mi'} limits={'cpu': '471m', 'memory': '69Mi'}
+[info] Scaling deployment to 0 replicas to force full pod replacement
+[ok] Verified Deployment template resources: requests={'cpu': '1500m', 'memory': '400Mi'} limits={'cpu': '2474m', 'memory': '410Mi'}
+[info] Scaling deployment to 0 replicas to force full pod replacement
+[ok] All pods terminated (replicas=0)
+[info] Scaling deployment back to 24 replicas
+[ok] All pods terminated (replicas=0)
+[info] Scaling deployment back to 73 replicas
+[ok] Deleted HPA newdeploy-ml-image-processing-default-8b22-c7f0f2d6d72b
+[ok] Deleted HPA newdeploy-ml-object-detection-default-9ecd-2fb10570ca05
+[ok] Rollout completed after scale-to-zero
+[verify] newest RS=newdeploy-ml-image-processing-default-8b22-c7f0f2d6d72b-57877ffb9 pods=24 ready=24
+[ok] Verified newest ReplicaSet template resources match expected
+[ok] Rollout completed after scale-to-zero
+[verify] newest RS=newdeploy-ml-object-detection-default-9ecd-2fb10570ca05-596cb5c88d pods=73 ready=73
+[ok] Verified newest ReplicaSet template resources match expected
+[info] Locust is not running
+[info] Started Locust with PID 4157324
+[info] start sleep for 20s
+[info] sleep done
+\Start sampling in parallel...
+Workflow e2e p99 latency (37 completed in 20.7s, parallel, 8 workers): 9.000s
+Average stage latencies:
+  - ml-image-processing: 0.151s
+  - ml-object-detection: 0.489s
+[info] poll_locust_row: failed to load, try again
+[info] total_requests: 982
+[info] e2e_latency (p99): 4.100 s
+[info] energy_j: 7720.606615 J
+[info] served_rps: 47.50 req/s
+[info]: start_time: 1767786856.9699924, end_time: 1767786877.693186, duration_s: 20.72 s
+[info] energy_cost: 7.862125 J/request
+[info] average power: 372.558726 W
+[info] Locust is not running
+================================================================================
+objective      : energy
+resource_config: [{'cpu_m': 471, 'memory_mi': 69}, {'cpu_m': 2474, 'memory_mi': 410}], latencies: {'ml-image-processing': 0.15064816850309187, 'ml-object-detection': 0.48898744099558544}, price_cost: 10586.777790, energy_cost: 7.862125, latency_p99 : 4.100000, feasible: False, total_requests: 982, served_rps: 47.50, total_energy_j: 7720.606615 J, profiling_duration_s: 20.723194s, average_power: 372.558726 W
+wall_time_s    : 108.942
+================================================================================
+
+[info] Started Locust with PID 4157439
+Updating function ml-image-processing to cpu: 764m, memory: 67Mi
+Updating Deployment resource configuration...
+
+Updating function ml-object-detection to cpu: 2057m, memory: 447Mi
+Updating Deployment resource configuration...
+
+[info] Original replicas=24, selector='environmentName=ml-image-processing,environmentNamespace=default,environmentUid=2449fff4-7632-422c-aa00-519fcb194e26,executorType=newdeploy,functionName=ml-image-processing,functionNamespace=default,functionUid=58487e4a-0036-4ccd-8b22-c7f0f2d6d72b'
+[info] Original replicas=73, selector='environmentName=yolo,environmentNamespace=default,environmentUid=ced8af41-455b-4081-99aa-1700c0092126,executorType=newdeploy,functionName=ml-object-detection,functionNamespace=default,functionUid=182005a6-ad76-40e9-9ecd-2fb10570ca05'
+[ok] Patched Deployment resources
+[ok] Patched Deployment resources
+[ok] Verified Deployment template resources: requests={'cpu': '300m', 'memory': '50Mi'} limits={'cpu': '764m', 'memory': '67Mi'}
+[info] Scaling deployment to 0 replicas to force full pod replacement
+[ok] Verified Deployment template resources: requests={'cpu': '1500m', 'memory': '400Mi'} limits={'cpu': '2057m', 'memory': '447Mi'}
+[info] Scaling deployment to 0 replicas to force full pod replacement
+[ok] All pods terminated (replicas=0)
+[info] Scaling deployment back to 24 replicas
+[ok] All pods terminated (replicas=0)
+[info] Scaling deployment back to 73 replicas
+[ok] Deleted HPA newdeploy-ml-image-processing-default-8b22-c7f0f2d6d72b
+[ok] Deleted HPA newdeploy-ml-object-detection-default-9ecd-2fb10570ca05
+[ok] Rollout completed after scale-to-zero
+[verify] newest RS=newdeploy-ml-image-processing-default-8b22-c7f0f2d6d72b-694bc85868 pods=24 ready=24
+[ok] Verified newest ReplicaSet template resources match expected
+[ok] Rollout completed after scale-to-zero
+[verify] newest RS=newdeploy-ml-object-detection-default-9ecd-2fb10570ca05-67b66b4b7b pods=73 ready=73
+[ok] Verified newest ReplicaSet template resources match expected
+[info] Locust is not running
+[info] Started Locust with PID 4162787
+[info] start sleep for 20s
+[info] sleep done
+\Start sampling in parallel...
+Workflow e2e p99 latency (35 completed in 21.1s, parallel, 8 workers): 9.000s
+Average stage latencies:
+  - ml-image-processing: 0.092s
+  - ml-object-detection: 0.564s
+[info] total_requests: 915
+[info] e2e_latency (p99): 3.800 s
+[info] energy_j: 7258.689646 J
+[info] served_rps: 42.60 req/s
+[info]: start_time: 1767786963.666225, end_time: 1767786984.7858222, duration_s: 21.12 s
+[info] energy_cost: 7.932994 J/request
+[info] average power: 343.694512 W
+[info] Locust is not running
+================================================================================
+objective      : energy
+resource_config: [{'cpu_m': 764, 'memory_mi': 67}, {'cpu_m': 2057, 'memory_mi': 447}], latencies: {'ml-image-processing': 0.0918154822485078, 'ml-object-detection': 0.5640538257679769}, price_cost: 10195.061877, energy_cost: 7.932994, latency_p99 : 3.800000, feasible: False, total_requests: 915, served_rps: 42.60, total_energy_j: 7258.689646 J, profiling_duration_s: 21.119597s, average_power: 343.694512 W
+wall_time_s    : 106.581
+================================================================================
+
+[info] Started Locust with PID 4162880
+Updating function ml-image-processing to cpu: 782m, memory: 50Mi
+Updating Deployment resource configuration...
+
+Updating function ml-object-detection to cpu: 1938m, memory: 437Mi
+Updating Deployment resource configuration...
+
+[info] Original replicas=24, selector='environmentName=ml-image-processing,environmentNamespace=default,environmentUid=2449fff4-7632-422c-aa00-519fcb194e26,executorType=newdeploy,functionName=ml-image-processing,functionNamespace=default,functionUid=58487e4a-0036-4ccd-8b22-c7f0f2d6d72b'
+[info] Original replicas=73, selector='environmentName=yolo,environmentNamespace=default,environmentUid=ced8af41-455b-4081-99aa-1700c0092126,executorType=newdeploy,functionName=ml-object-detection,functionNamespace=default,functionUid=182005a6-ad76-40e9-9ecd-2fb10570ca05'
+[ok] Patched Deployment resources
+[ok] Patched Deployment resources
+[ok] Verified Deployment template resources: requests={'cpu': '1500m', 'memory': '400Mi'} limits={'cpu': '1938m', 'memory': '437Mi'}
+[info] Scaling deployment to 0 replicas to force full pod replacement
+[ok] Verified Deployment template resources: requests={'cpu': '300m', 'memory': '50Mi'} limits={'cpu': '782m', 'memory': '50Mi'}
+[info] Scaling deployment to 0 replicas to force full pod replacement
+[ok] All pods terminated (replicas=0)
+[info] Scaling deployment back to 73 replicas
+[ok] All pods terminated (replicas=0)
+[info] Scaling deployment back to 24 replicas
+[ok] Deleted HPA newdeploy-ml-image-processing-default-8b22-c7f0f2d6d72b
+[ok] Deleted HPA newdeploy-ml-object-detection-default-9ecd-2fb10570ca05
+[ok] Rollout completed after scale-to-zero
+[verify] newest RS=newdeploy-ml-image-processing-default-8b22-c7f0f2d6d72b-5c6f9c4fb7 pods=24 ready=24
+[ok] Verified newest ReplicaSet template resources match expected
+[ok] Rollout completed after scale-to-zero
+[verify] newest RS=newdeploy-ml-object-detection-default-9ecd-2fb10570ca05-585c6b4c75 pods=73 ready=73
+[ok] Verified newest ReplicaSet template resources match expected
+[info] Locust is not running
+[info] Started Locust with PID 4168108
+[info] start sleep for 20s
+[info] sleep done
+\Start sampling in parallel...
+Workflow e2e p99 latency (32 completed in 21.6s, parallel, 8 workers): 9.000s
+Average stage latencies:
+  - ml-image-processing: 0.086s
+  - ml-object-detection: 0.694s
+[info] poll_locust_row: failed to load, try again
+[info] poll_locust_row: failed to load, try again
+[info] poll_locust_row: failed to load, try again
+[info] poll_locust_row: failed to load, try again
+[info] poll_locust_row: failed to load, try again
+[info] poll_locust_row: failed to load, try again
+[info] poll_locust_row: failed to load, try again
+[info] poll_locust_row: failed to load, try again
+[info] poll_locust_row: failed to load, try again
+[info] poll_locust_row: failed to load, try again
+[info] poll_locust_row: failed to load, try again
+[info] poll_locust_row: failed to load, try again
+[info] poll_locust_row: failed to load, try again
+[info] poll_locust_row: failed to load, try again
+[info] poll_locust_row: failed to load, try again
+[info] poll_locust_row: failed to load, try again
+[info] poll_locust_row: failed to load, try again
+[info] poll_locust_row: failed to load, try again
+[info] poll_locust_row: failed to load, try again
+[info] poll_locust_row: failed to load, try again
+Traceback (most recent call last):
+  File "/home/cc/uncertain-carbon/aquatope/src/container_resource_manager/manager.py", line 125, in <module>
+    main()
+  File "/home/cc/uncertain-carbon/aquatope/src/container_resource_manager/manager.py", line 90, in main
+    best_cost, resource_config = bayesian_optimization.bo_loop(
+  File "/home/cc/uncertain-carbon/aquatope/src/container_resource_manager/bayesian_optimization.py", line 372, in bo_loop
+    train_x_nei, train_obj_nei, train_con_nei, _, sample_data = generate_initial_data(n=n_init)
+  File "/home/cc/uncertain-carbon/aquatope/src/container_resource_manager/bayesian_optimization.py", line 174, in generate_initial_data
+    train_obj, train_con, sample_data = eval_obj_con(train_x)
+  File "/home/cc/uncertain-carbon/aquatope/src/container_resource_manager/bayesian_optimization.py", line 132, in eval_obj_con
+    obj, con, sample_data = sample_cost_duration(X=X)
+  File "/home/cc/uncertain-carbon/aquatope/src/container_resource_manager/bo_utils.py", line 535, in sample_cost_duration
+    obj, cons, sample_data = sample_cost(x=x)
+  File "/home/cc/uncertain-carbon/aquatope/src/container_resource_manager/bo_utils.py", line 392, in sample_cost
+    end_row = poll_locust_row(f"{LOCUST_CSV}_stats_history.csv", "ml-image-processing-e2e", math.floor(end_time), timeout_s=10, poll_interval_s=0.5)
+  File "/home/cc/uncertain-carbon/aquatope/src/container_resource_manager/bo_utils.py", line 118, in poll_locust_row
+    raise TimeoutError(
+TimeoutError: Timed out after 10s waiting for row (Name='ml-image-processing-e2e', Timestamp=1767787091) in example_stats_history.csv. Last error: None
+========================================

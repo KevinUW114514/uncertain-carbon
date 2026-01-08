@@ -12,6 +12,7 @@ import json
 import threading
 import math
 import pandas as pd
+import traceback
 
 _LOG_LOCK = threading.Lock()
 from concurrent.futures import ThreadPoolExecutor, as_completed
@@ -54,8 +55,24 @@ dtype = torch.double
 import time
 import requests
 from typing import Callable, Dict, List, Tuple, Optional
+import numpy as np
 
 WORKER_ENERGY_URL = "http://10.52.2.205:9876"
+
+def to_jsonable(x):
+    # numpy scalars -> python scalars
+    if isinstance(x, np.generic):
+        return x.item()
+    # numpy arrays -> lists
+    if isinstance(x, np.ndarray):
+        return x.tolist()
+    # dict/list recursion
+    if isinstance(x, dict):
+        return {k: to_jsonable(v) for k, v in x.items()}
+    if isinstance(x, (list, tuple)):
+        return [to_jsonable(v) for v in x]
+    return x
+
 
 def poll_locust_row(
     csv_path: str,
@@ -134,14 +151,60 @@ def _rapl_delta_uj(end_uj: int, start_uj: int, max_range_uj: Optional[int] = Non
 #     r.raise_for_status()
 #     return r.json()
 
-def get_worker_energy(timestamp: float, url: str = WORKER_ENERGY_URL, timeout: float = 2.0) -> dict:
+
+def get_worker_energy(
+    timestamp: float,
+    url: str = WORKER_ENERGY_URL,
+    timeout: float = 2.0,
+    retry_window_s: float = 10.0,
+    retry_interval_s: float = 0.5,
+) -> dict:
     """
     Returns JSON like:
       { "monotonic_ns": ..., "energy_uj": {domain: value, ...}, ... }
+
+    Retries on failure for up to retry_window_s seconds,
+    sleeping retry_interval_s between attempts.
+    Prints the actual error on each failure.
     """
-    r = requests.get(f"{url}/power?timestamp_utc_ms={math.floor(timestamp * 1000)}", timeout=timeout)
-    r.raise_for_status()
-    return r.json()
+    deadline = time.monotonic() + retry_window_s
+    last_exc: Optional[Exception] = None
+
+    ts_ms = math.floor(timestamp * 1000)
+
+    attempt = 0
+    while time.monotonic() < deadline:
+        attempt += 1
+        try:
+            r = requests.get(
+                f"{url}/power?timestamp_utc_ms={ts_ms}",
+                timeout=timeout,
+            )
+            r.raise_for_status()
+            return r.json()
+
+        except (requests.RequestException, ValueError) as e:
+            last_exc = e
+            print(
+                f"[get_worker_energy] attempt={attempt} "
+                f"ts_ms={ts_ms} "
+                f"error={type(e).__name__}: {e}"
+            )
+            time.sleep(retry_interval_s)
+
+    # Retry window exhausted
+    if last_exc is not None:
+        print(
+            f"[get_worker_energy] FAILED after {attempt} attempts "
+            f"within {retry_window_s}s. "
+            f"Last error: {type(last_exc).__name__}: {last_exc}"
+        )
+        raise last_exc
+
+    raise TimeoutError(
+        f"[get_worker_energy] FAILED after {retry_window_s}s with no response"
+    )
+
 
 
 def calc_total_energy_j(
@@ -251,6 +314,7 @@ def calc_cost(functions: list, resource_config: list, latencies: dict) -> float:
             raise ValueError(f"Function {fn} not in latencies")
         duration = latencies[fn]
         pods_count = WORKFLOW_CONFIG["function_pods_mapping"][fn]
+        pods_count = 1
         cost += cpu * pods_count * duration * CPU_UNIT_COST + memory * pods_count * duration * MEMORY_UNIT_COST
         # print(f"Function {fn}: cpu={cpu}m, memory={memory}Mi, duration={duration:.2f}s")
         # cost += (cpu * CPU_UNIT_POWER + CPU_BASE_POWER) * duration + (memory * MEMORY_UNIT_POWER + MEMORY_BASE_POWER) * duration
@@ -328,134 +392,207 @@ def update_resource_config(functions: list, resource_config: list, *, concurrenc
 
 # IS_ENERGY = True
 
+
 def sample_cost(x: torch.Tensor):
     resource_config = from_x_to_resource_config(x)
     hash_id = hash(str(resource_config))
 
     # For reproducibility / audit
     start_ts = time.time()
-    
-    sample_data = CACHE.get(hash_id, None)
-    
-    if hash_id not in CACHE:
-        # Apply configuration
-        update_resource_config(
-            functions=WORKFLOW_CONFIG["functions"],
-            resource_config=resource_config
-        )
 
-        # Give system time to stabilize
-        start_locust()
-        print("[info] start sleep for 20s")
-        time.sleep(20)
-        print("[info] sleep done")
-
-        # start = read_worker_energy_snapshot(WORKER_ENERGY_URL)
-        start_time = time.time()
-        e2e_latency, latencies = invoke_fission_function_sequence(
-            functions=WORKFLOW_CONFIG["functions"],
-            runs=None,
-            duration_s=15
-        )
-        # time.sleep(15)
-        end_time = time.time()
-        time.sleep(3)
-        
-        locust_csv_df = pd.read_csv(f"{LOCUST_CSV}_stats_history.csv")
-        locust_csv_e2e = locust_csv_df.loc[
-            locust_csv_df["Name"] == "ml-image-processing-e2e"
-        ]
-        start_requests = locust_csv_e2e.loc[
-            locust_csv_df["Timestamp"] == math.floor(start_time),
-            "Total Request Count"
-        ].iloc[0]
-        end_row = poll_locust_row(f"{LOCUST_CSV}_stats_history.csv", "ml-image-processing-e2e", math.floor(end_time), timeout_s=10, poll_interval_s=0.5)
-        end_requests   = end_row["Total Request Count"]
-        total_requests = end_requests - start_requests
-        print(f"[info] total_requests: {total_requests}")
-        
-        e2e_latency = end_row["99%"] / 1000.0  # ms -> s
-        print(f"[info] e2e_latency (p99): {e2e_latency:.3f} s")
-        
-        start_energy_snap = get_worker_energy(timestamp=start_time, url=WORKER_ENERGY_URL)
-        # end = read_worker_energy_snapshot(WORKER_ENERGY_URL)
-        end_energy_snap = get_worker_energy(timestamp=end_time, url=WORKER_ENERGY_URL)
-        energy_j = calc_total_energy_j(start_snap=start_energy_snap, end_snap=end_energy_snap)
-        print(f"[info] energy_j: {energy_j:.6f} J")
-        
-        served_rps = end_row["Requests/s"]
-        print(f"[info] served_rps: {served_rps:.2f} req/s")
-        
-        duration_s = end_time - start_time
-        print(f"[info]: start_time: {start_time}, end_time: {end_time}, duration_s: {duration_s:.2f} s")
-        
-        energy_per_request = energy_j / total_requests if total_requests > 0 else float('inf')
-        energy_cost = energy_per_request
-        print(f"[info] energy_cost: {energy_cost:.6f} J/request")
-        
-        power = energy_j / duration_s if duration_s > 0 else float('inf')
-        print(f"[info] average power: {power:.6f} W")
-        
-        price_cost = calc_cost(
-            functions=WORKFLOW_CONFIG["functions"],
-            resource_config=resource_config,
-            latencies=latencies,
-        )
-        # energy_j = calc_total_energy_j(start_snap=start, end_snap=end)
-        # duration_s = (end["monotonic_ns"] - start["monotonic_ns"])
-        # energy_cost = energy_j / duration_s
-        
-        stop_locust()
-        
+    # Fast-path: cached
+    if hash_id in CACHE:
+        print("!!!! Using cached result !!!!")
+        sample_data = CACHE[hash_id]
         if IS_ENERGY:
             objective_name = "energy"
-            cost = energy_cost
+            cost = sample_data["energy_cost"]
         else:
             objective_name = "price"
-            cost = price_cost
+            cost = sample_data["price_cost"]
 
-        # Cache results
-        CACHE[hash_id] = {
-            "cost": cost,
-            "duration": e2e_latency,
-            "latencies": latencies,
-            "price_cost": price_cost,
-            "energy_cost": energy_cost,
-            "objective_name": objective_name,
-            "feasible": e2e_latency <= WORKFLOW_CONFIG["qos"],
-            "resource_config": resource_config,
-            "energy_j": energy_j,
-            "total_requests": total_requests,
-            "served_rps": served_rps,
-            "duration_s": duration_s,
-            "power": power,
-        }
-        
-        sample_data = CACHE[hash_id]
+        e2e_latency = sample_data["duration"]
+        latencies = sample_data["latencies"]
+        price_cost = sample_data["price_cost"]
+        energy_cost = sample_data["energy_cost"]
+        total_requests = sample_data["total_requests"]
+        served_rps = sample_data["served_rps"]
+        energy_j = sample_data["energy_j"]
+        duration_s = sample_data["duration_s"]
+        power = sample_data["power"]
 
-        # ---------- LOGGING (single source of truth) ----------
         lines = [
             "=" * 80,
             f"objective      : {objective_name}",
-            # f"hash_id        : {hash_id}",
             f"resource_config: {resource_config}, latencies: {latencies}, price_cost: {price_cost:.6f}, energy_cost: {energy_cost:.6f}, latency_p99 : {e2e_latency:.6f}, feasible: {sample_data['feasible']}, total_requests: {total_requests}, served_rps: {served_rps:.2f}, total_energy_j: {energy_j:.6f} J, profiling_duration_s: {duration_s:.6f}s, average_power: {power:.6f} W",
+            f"wall_time_s    : {time.time() - start_ts:.3f}",
+            "=" * 80 + "\n",
         ]
-
-        # if IS_ENERGY:
-        #     lines.extend([
-        #         f"energy_j       : {energy_j:.6f}",
-        #         f"window_s       : {duration_s:.6f}",
-        #     ])
-
-        lines.append(f"wall_time_s    : {time.time() - start_ts:.3f}")
-        lines.append("=" * 80 + "\n")
-
         safe_log_append(CONFIG.log_path, "\n".join(lines))
         print("\n".join(lines))
-    else:
-        print("!!!! Using cached result !!!!")
+
+        return torch.tensor([cost], dtype=dtype), torch.tensor([e2e_latency], dtype=dtype), sample_data
+
+    # --- Uncached path: retry the WHOLE workflow on any error ---
+    retry_window_s = 120.0      # adjust as you like (e.g., 60s total retries)
+    retry_interval_s = 2.0     # wait between attempts
+    deadline = time.monotonic() + retry_window_s
+    attempt = 0
+    last_exc = None
+
+    while True:
+        attempt += 1
+        try:
+            # Apply configuration
+            update_resource_config(
+                functions=WORKFLOW_CONFIG["functions"],
+                resource_config=resource_config
+            )
+
+            # Stabilize system
+            start_locust()
+            print(f"[info] attempt={attempt}: start sleep for 20s")
+            time.sleep(20)
+            print(f"[info] attempt={attempt}: sleep done")
+
+            # Workload window
+            start_time = time.time()
+            e2e_latency, latencies = invoke_fission_function_sequence(
+                functions=WORKFLOW_CONFIG["functions"],
+                runs=None,
+                duration_s=15
+            )
+            end_time = time.time()
+            time.sleep(3)
+
+            # Energy snapshots (this is where you often see 404/miss)
+            start_energy_snap = get_worker_energy(timestamp=start_time, url=WORKER_ENERGY_URL)
+            end_energy_snap   = get_worker_energy(timestamp=end_time,   url=WORKER_ENERGY_URL)
+
+            actual_used_time_from_the_worker_start_ms = start_energy_snap["returned_timestamp_utc_ms"]
+            actual_used_time_from_the_worker_end_ms   = end_energy_snap["returned_timestamp_utc_ms"]
+            start_time = actual_used_time_from_the_worker_start_ms / 1000.0
+            end_time   = actual_used_time_from_the_worker_end_ms / 1000.0
+
+            locust_csv_df = pd.read_csv(f"{LOCUST_CSV}_stats_history.csv")
+            locust_csv_e2e = locust_csv_df.loc[locust_csv_df["Name"] == "ml-image-processing-e2e"]
+
+            start_requests = locust_csv_e2e.loc[
+                locust_csv_e2e["Timestamp"] == math.floor(start_time),
+                "Total Request Count"
+            ].iloc[0]
+
+            end_row = poll_locust_row(
+                f"{LOCUST_CSV}_stats_history.csv",
+                "ml-image-processing-e2e",
+                math.floor(end_time),
+                timeout_s=10,
+                poll_interval_s=0.5
+            )
+            end_requests = end_row["Total Request Count"]
+            total_requests = end_requests - start_requests
+            print(f"[info] total_requests: {total_requests}")
+
+            e2e_latency = end_row["99%"] / 1000.0  # ms -> s
+            print(f"[info] e2e_latency (p99): {e2e_latency:.3f} s")
+
+            energy_j = calc_total_energy_j(start_snap=start_energy_snap, end_snap=end_energy_snap)
+            print(f"[info] energy_j: {energy_j:.6f} J")
+
+            served_rps = end_row["Requests/s"]
+            print(f"[info] served_rps: {served_rps:.2f} req/s")
+
+            duration_s = end_time - start_time
+            print(f"[info]: start_time: {start_time}, end_time: {end_time}, duration_s: {duration_s:.2f} s")
+
+            energy_per_request = energy_j / total_requests if total_requests > 0 else float("inf")
+            energy_cost = energy_per_request
+            print(f"[info] energy_cost: {energy_cost:.6f} J/request")
+
+            power = energy_j / duration_s if duration_s > 0 else float("inf")
+            print(f"[info] average power: {power:.6f} W")
+
+            price_cost = calc_cost(
+                functions=WORKFLOW_CONFIG["functions"],
+                resource_config=resource_config,
+                latencies=latencies,
+            )
+
+            stop_locust()
+
+            if IS_ENERGY:
+                objective_name = "energy"
+                cost = energy_cost
+            else:
+                objective_name = "price"
+                cost = price_cost
+
+            # Cache ONLY after success
+            CACHE[hash_id] = {
+                "cost": cost,
+                "duration": e2e_latency,
+                "latencies": latencies,
+                "price_cost": price_cost,
+                "energy_cost": energy_cost,
+                "objective_name": objective_name,
+                "feasible": e2e_latency <= WORKFLOW_CONFIG["qos"],
+                "resource_config": resource_config,
+                "energy_j": energy_j,
+                "total_requests": total_requests,
+                "served_rps": served_rps,
+                "duration_s": duration_s,
+                "power": power,
+            }
+
+            # Success: exit retry loop
+            break
+
+        except Exception as e:
+            last_exc = e
+
+            # Always try to clean up between attempts
+            try:
+                stop_locust()
+            except Exception:
+                pass
+
+            print(f"[sample_cost][ERROR] attempt={attempt} hash_id={hash_id} err={type(e).__name__}: {e}")
+            traceback.print_exc()
+
+            # Time-based retry cutoff
+            if time.monotonic() >= deadline:
+                print(f"[sample_cost][FAILED] retry window exhausted ({retry_window_s}s). Raising last error.")
+                raise
+
+            print(f"[sample_cost] retrying whole workflow in {retry_interval_s}s...")
+            time.sleep(retry_interval_s)
+
+    # Use cached result (now guaranteed to exist)
+    sample_data = CACHE[hash_id]
+    latencies = sample_data["latencies"]
+    price_cost = sample_data["price_cost"]
+    energy_cost = sample_data["energy_cost"]
+    e2e_latency = sample_data["duration"]
+    total_requests = sample_data["total_requests"]
+    served_rps = sample_data["served_rps"]
+    energy_j = sample_data["energy_j"]
+    duration_s = sample_data["duration_s"]
+    power = sample_data["power"]
+    objective_name = sample_data["objective_name"]
+    cost = sample_data["cost"]
+
+    lines = [
+        "=" * 80,
+        f"objective      : {objective_name}",
+        f"resource_config: {resource_config}, latencies: {latencies}, price_cost: {price_cost:.6f}, energy_cost: {energy_cost:.6f}, latency_p99 : {e2e_latency:.6f}, feasible: {sample_data['feasible']}, total_requests: {total_requests}, served_rps: {served_rps:.2f}, total_energy_j: {energy_j:.6f} J, profiling_duration_s: {duration_s:.6f}s, average_power: {power:.6f} W",
+        f"wall_time_s    : {time.time() - start_ts:.3f}",
+        "=" * 80 + "\n",
+    ]
+    safe_log_append(CONFIG.log_path, "\n".join(lines))
+    print("\n".join(lines))
 
     return torch.tensor([cost], dtype=dtype), torch.tensor([e2e_latency], dtype=dtype), sample_data
+
 
 
 def sample_duration(x: torch.tensor):

@@ -1,0 +1,14 @@
+{
+  "objective": "price",
+  "best_cost": 176.0017164325119,
+  "resource_config": [
+    {
+      "cpu_m": 312,
+      "memory_mi": 54
+    },
+    {
+      "cpu_m": 4783,
+      "memory_mi": 492
+    }
+  ]
+}
