@@ -1,0 +1,530 @@
+================================================================================
+objective      : price
+resource_config: [{'cpu_m': 434, 'memory_mi': 64}, {'cpu_m': 3355, 'memory_mi': 405}], latencies: {'ml-image-processing': 0.1893544952930292, 'ml-object-detection': 0.32336346008928446}, price_cost: 203.662012, energy_cost: 7.002540, latency_p99 : 4.100000, feasible: False, total_requests: 1182, served_rps: 57.40, total_energy_j: 8277.002347 J, profiling_duration_s: 19.800000s, average_power: 418.030418 W
+wall_time_s    : 100.489
+================================================================================
+================================================================================
+objective      : price
+resource_config: [{'cpu_m': 666, 'memory_mi': 52}, {'cpu_m': 3380, 'memory_mi': 493}], latencies: {'ml-image-processing': 0.11182640356392684, 'ml-object-detection': 0.3017528513975611}, price_cost: 191.232700, energy_cost: 7.375096, latency_p99 : 3.800000, feasible: False, total_requests: 1234, served_rps: 59.90, total_energy_j: 9100.868191 J, profiling_duration_s: 21.400000s, average_power: 425.274213 W
+wall_time_s    : 109.303
+================================================================================
+================================================================================
+objective      : price
+resource_config: [{'cpu_m': 581, 'memory_mi': 53}, {'cpu_m': 4621, 'memory_mi': 477}], latencies: {'ml-image-processing': 0.14483167521123375, 'ml-object-detection': 0.22703190303540655}, price_cost: 197.480696, energy_cost: 6.583174, latency_p99 : 3.800000, feasible: False, total_requests: 1245, served_rps: 67.90, total_energy_j: 8196.051356 J, profiling_duration_s: 17.000000s, average_power: 482.120668 W
+wall_time_s    : 106.539
+================================================================================
+================================================================================
+objective      : price
+resource_config: [{'cpu_m': 762, 'memory_mi': 67}, {'cpu_m': 4975, 'memory_mi': 493}], latencies: {'ml-image-processing': 0.11801413122726523, 'ml-object-detection': 0.2199866392015331}, price_cost: 206.325564, energy_cost: 6.834995, latency_p99 : 3.600000, feasible: False, total_requests: 1280, served_rps: 70.80, total_energy_j: 8748.793514 J, profiling_duration_s: 17.700000s, average_power: 494.282118 W
+wall_time_s    : 108.464
+================================================================================
+================================================================================
+objective      : price
+resource_config: [{'cpu_m': 435, 'memory_mi': 51}, {'cpu_m': 4977, 'memory_mi': 433}], latencies: {'ml-image-processing': 0.20544057853773914, 'ml-object-detection': 0.214658345850749}, price_cost: 201.557896, energy_cost: 6.873172, latency_p99 : 2.300000, feasible: True, total_requests: 1190, served_rps: 66.60, total_energy_j: 8179.074096 J, profiling_duration_s: 17.100000s, average_power: 478.308429 W
+wall_time_s    : 101.403
+================================================================================
+================================================================================
+objective      : price
+resource_config: [{'cpu_m': 464, 'memory_mi': 57}, {'cpu_m': 4478, 'memory_mi': 445}], latencies: {'ml-image-processing': 0.18728832739659332, 'ml-object-detection': 0.24218600856450698}, price_cost: 204.110969, energy_cost: 6.836858, latency_p99 : 3.900000, feasible: False, total_requests: 1138, served_rps: 62.80, total_energy_j: 7780.343984 J, profiling_duration_s: 16.600000s, average_power: 468.695417 W
+wall_time_s    : 105.755
+================================================================================
+================================================================================
+objective      : price
+resource_config: [{'cpu_m': 793, 'memory_mi': 52}, {'cpu_m': 2433, 'memory_mi': 420}], latencies: {'ml-image-processing': 0.09002152198137572, 'ml-object-detection': 0.48858536548840886}, price_cost: 220.581550, energy_cost: 7.552190, latency_p99 : 3.900000, feasible: False, total_requests: 1009, served_rps: 45.60, total_energy_j: 7620.159608 J, profiling_duration_s: 20.900000s, average_power: 364.600941 W
+wall_time_s    : 110.017
+================================================================================
+================================================================================
+objective      : price
+resource_config: [{'cpu_m': 434, 'memory_mi': 63}, {'cpu_m': 4950, 'memory_mi': 487}], latencies: {'ml-image-processing': 0.21788125135230296, 'ml-object-detection': 0.21510367702946745}, price_cost: 202.020323, energy_cost: 6.852727, latency_p99 : 2.300000, feasible: True, total_requests: 1192, served_rps: 65.70, total_energy_j: 8168.450821 J, profiling_duration_s: 17.000000s, average_power: 480.497107 W
+wall_time_s    : 105.268
+================================================================================
+================================================================================
+objective      : price
+resource_config: [{'cpu_m': 612, 'memory_mi': 64}, {'cpu_m': 2886, 'memory_mi': 439}], latencies: {'ml-image-processing': 0.1157193734598834, 'ml-object-detection': 0.38257073652043583}, price_cost: 205.417918, energy_cost: 7.463056, latency_p99 : 3.900000, feasible: False, total_requests: 1135, served_rps: 54.30, total_energy_j: 8470.568142 J, profiling_duration_s: 21.300000s, average_power: 397.679256 W
+wall_time_s    : 112.958
+================================================================================
+================================================================================
+objective      : price
+resource_config: [{'cpu_m': 687, 'memory_mi': 59}, {'cpu_m': 3324, 'memory_mi': 411}], latencies: {'ml-image-processing': 0.110304413175282, 'ml-object-detection': 0.3162783267370497}, price_cost: 196.665204, energy_cost: 6.620624, latency_p99 : 3.800000, feasible: False, total_requests: 1387, served_rps: 56.20, total_energy_j: 9182.805259 J, profiling_duration_s: 22.000000s, average_power: 417.400239 W
+wall_time_s    : 112.808
+================================================================================
+Starting fresh (no checkpoint at bo_model_price_20260108_111755.pt).
+  initial_points = 10
+  running_batches = 10
+  initial_best_feasible_cost = 201.55789609969852
+  initial_best_constraint = -0.700
+  initial_best_resource_config = [{'cpu_m': 435, 'memory_mi': 51}, {'cpu_m': 4977, 'memory_mi': 433}]
+  time_taken_for_init = 1073.03 seconds
+================================================================================
+================================================================================
+objective      : price
+resource_config: [{'cpu_m': 365, 'memory_mi': 62}, {'cpu_m': 2829, 'memory_mi': 512}], latencies: {'ml-image-processing': 0.2172258670528441, 'ml-object-detection': 0.3956778900113043}, price_cost: 210.025691, energy_cost: 7.909348, latency_p99 : 4.500000, feasible: False, total_requests: 882, served_rps: 47.90, total_energy_j: 6976.045008 J, profiling_duration_s: 18.000000s, average_power: 387.558056 W
+wall_time_s    : 104.320
+================================================================================
+================================================================================
+objective      : price
+resource_config: [{'cpu_m': 800, 'memory_mi': 70}, {'cpu_m': 1500, 'memory_mi': 512}], latencies: {'ml-image-processing': 0.09002339886501431, 'ml-object-detection': 0.8829142755061826}, price_cost: 247.213244, energy_cost: 8.445643, latency_p99 : 3.900000, feasible: False, total_requests: 790, served_rps: 35.20, total_energy_j: 6672.057730 J, profiling_duration_s: 21.400000s, average_power: 311.778397 W
+wall_time_s    : 111.365
+================================================================================
+================================================================================
+objective      : price
+resource_config: [{'cpu_m': 461, 'memory_mi': 50}, {'cpu_m': 3607, 'memory_mi': 467}], latencies: {'ml-image-processing': 0.16763823324530994, 'ml-object-detection': 0.3019151973092686}, price_cost: 203.605385, energy_cost: 7.195406, latency_p99 : 4.300000, feasible: False, total_requests: 1246, served_rps: 60.10, total_energy_j: 8965.476331 J, profiling_duration_s: 20.600000s, average_power: 435.217295 W
+wall_time_s    : 106.938
+================================================================================
+
+Batch  1: best_feasible_cost (random, qNEI) = (201.55789609969852, 201.55789609969852), best_constraint =  -0.700 (<=0 feasible), time = 328.94.
+Best feasible resource configuration: [{'cpu_m': 435, 'memory_mi': 51}, {'cpu_m': 4977, 'memory_mi': 433}]
+
+================================================================================
+================================================================================
+objective      : price
+resource_config: [{'cpu_m': 800, 'memory_mi': 60}, {'cpu_m': 4235, 'memory_mi': 408}], latencies: {'ml-image-processing': 0.10736406757496297, 'ml-object-detection': 0.25388609072979307}, price_cost: 202.223437, energy_cost: 6.971856, latency_p99 : 3.700000, feasible: False, total_requests: 1414, served_rps: 67.70, total_energy_j: 9858.204794 J, profiling_duration_s: 20.900000s, average_power: 471.684438 W
+wall_time_s    : 109.242
+================================================================================
+================================================================================
+objective      : price
+resource_config: [{'cpu_m': 581, 'memory_mi': 60}, {'cpu_m': 4860, 'memory_mi': 491}], latencies: {'ml-image-processing': 0.14987088612190658, 'ml-object-detection': 0.241901625090489}, price_cost: 220.021542, energy_cost: 6.623302, latency_p99 : 3.600000, feasible: False, total_requests: 1229, served_rps: 67.30, total_energy_j: 8140.038190 J, profiling_duration_s: 16.800000s, average_power: 484.526084 W
+wall_time_s    : 99.612
+================================================================================
+================================================================================
+objective      : price
+resource_config: [{'cpu_m': 770, 'memory_mi': 53}, {'cpu_m': 2770, 'memory_mi': 503}], latencies: {'ml-image-processing': 0.09562880159743752, 'ml-object-detection': 0.4294817172922194}, price_cost: 221.270147, energy_cost: 7.521397, latency_p99 : 3.800000, feasible: False, total_requests: 1091, served_rps: 50.70, total_energy_j: 8205.844550 J, profiling_duration_s: 21.300000s, average_power: 385.250919 W
+wall_time_s    : 107.136
+================================================================================
+
+Batch  2: best_feasible_cost (random, qNEI) = (201.55789609969852, 201.55789609969852), best_constraint =  -0.700 (<=0 feasible), time = 321.64.
+Best feasible resource configuration: [{'cpu_m': 435, 'memory_mi': 51}, {'cpu_m': 4977, 'memory_mi': 433}]
+
+================================================================================
+================================================================================
+objective      : price
+resource_config: [{'cpu_m': 466, 'memory_mi': 68}, {'cpu_m': 5546, 'memory_mi': 459}], latencies: {'ml-image-processing': 0.19785719541268368, 'ml-object-detection': 0.20332546218891034}, price_cost: 212.346495, energy_cost: 6.517362, latency_p99 : 2.600000, feasible: True, total_requests: 1240, served_rps: 68.40, total_energy_j: 8081.529238 J, profiling_duration_s: 16.700000s, average_power: 483.923905 W
+wall_time_s    : 102.568
+================================================================================
+================================================================================
+objective      : price
+resource_config: [{'cpu_m': 631, 'memory_mi': 51}, {'cpu_m': 5100, 'memory_mi': 448}], latencies: {'ml-image-processing': 0.12367227846949265, 'ml-object-detection': 0.22318272598505276}, price_cost: 211.721962, energy_cost: 6.502379, latency_p99 : 3.600000, feasible: False, total_requests: 1270, served_rps: 70.10, total_energy_j: 8258.020986 J, profiling_duration_s: 16.700000s, average_power: 494.492273 W
+wall_time_s    : 106.450
+================================================================================
+================================================================================
+objective      : price
+resource_config: [{'cpu_m': 639, 'memory_mi': 51}, {'cpu_m': 3846, 'memory_mi': 430}], latencies: {'ml-image-processing': 0.11852206482301252, 'ml-object-detection': 0.28871853372010475}, price_cost: 206.804826, energy_cost: 7.252318, latency_p99 : 3.800000, feasible: False, total_requests: 1324, served_rps: 63.40, total_energy_j: 9602.069142 J, profiling_duration_s: 21.500000s, average_power: 446.607867 W
+wall_time_s    : 107.718
+================================================================================
+
+Batch  3: best_feasible_cost (random, qNEI) = (201.55789609969852, 201.55789609969852), best_constraint =  -0.700 (<=0 feasible), time = 323.00.
+Best feasible resource configuration: [{'cpu_m': 435, 'memory_mi': 51}, {'cpu_m': 4977, 'memory_mi': 433}]
+
+================================================================================
+================================================================================
+objective      : price
+resource_config: [{'cpu_m': 764, 'memory_mi': 63}, {'cpu_m': 4624, 'memory_mi': 495}], latencies: {'ml-image-processing': 0.11321001935463686, 'ml-object-detection': 0.23289065232786996}, price_cost: 202.770219, energy_cost: 6.461550, latency_p99 : 3.700000, feasible: False, total_requests: 1454, served_rps: 68.40, total_energy_j: 9395.093426 J, profiling_duration_s: 19.500000s, average_power: 481.799663 W
+wall_time_s    : 102.913
+================================================================================
+================================================================================
+objective      : price
+resource_config: [{'cpu_m': 449, 'memory_mi': 61}, {'cpu_m': 4796, 'memory_mi': 400}], latencies: {'ml-image-processing': 0.1911663311549415, 'ml-object-detection': 0.24885803996979938}, price_cost: 222.696547, energy_cost: 6.734510, latency_p99 : 3.100000, feasible: False, total_requests: 1168, served_rps: 65.00, total_energy_j: 7865.907940 J, profiling_duration_s: 16.700000s, average_power: 471.012450 W
+wall_time_s    : 103.527
+================================================================================
+================================================================================
+objective      : price
+resource_config: [{'cpu_m': 449, 'memory_mi': 53}, {'cpu_m': 4811, 'memory_mi': 455}], latencies: {'ml-image-processing': 0.20615254654407952, 'ml-object-detection': 0.22408675291631935}, price_cost: 203.909880, energy_cost: 6.778492, latency_p99 : 1.900000, feasible: True, total_requests: 1218, served_rps: 67.80, total_energy_j: 8256.203543 J, profiling_duration_s: 17.000000s, average_power: 485.659032 W
+wall_time_s    : 105.966
+================================================================================
+
+Batch  4: best_feasible_cost (random, qNEI) = (201.55789609969852, 201.55789609969852), best_constraint =  -0.700 (<=0 feasible), time = 318.65.
+Best feasible resource configuration: [{'cpu_m': 435, 'memory_mi': 51}, {'cpu_m': 4977, 'memory_mi': 433}]
+
+================================================================================
+================================================================================
+objective      : price
+resource_config: [{'cpu_m': 800, 'memory_mi': 69}, {'cpu_m': 3288, 'memory_mi': 433}], latencies: {'ml-image-processing': 0.09749344684293165, 'ml-object-detection': 0.31797842354075434}, price_cost: 196.143116, energy_cost: 6.660974, latency_p99 : 3.800000, feasible: False, total_requests: 1238, served_rps: 59.80, total_energy_j: 8246.285523 J, profiling_duration_s: 19.600000s, average_power: 420.728850 W
+wall_time_s    : 107.814
+================================================================================
+================================================================================
+objective      : price
+resource_config: [{'cpu_m': 417, 'memory_mi': 64}, {'cpu_m': 4950, 'memory_mi': 499}], latencies: {'ml-image-processing': 0.21851427849411728, 'ml-object-detection': 0.20920805860724714}, price_cost: 196.375230, energy_cost: 6.821656, latency_p99 : 2.600000, feasible: True, total_requests: 1160, served_rps: 64.60, total_energy_j: 7913.120445 J, profiling_duration_s: 16.700000s, average_power: 473.839546 W
+wall_time_s    : 101.206
+================================================================================
+================================================================================
+objective      : price
+resource_config: [{'cpu_m': 691, 'memory_mi': 59}, {'cpu_m': 2038, 'memory_mi': 410}], latencies: {'ml-image-processing': 0.09845997866553564, 'ml-object-detection': 0.6981751400615193}, price_cost: 261.520953, energy_cost: 8.117371, latency_p99 : 3.800000, feasible: False, total_requests: 883, served_rps: 41.80, total_energy_j: 7167.638190 J, profiling_duration_s: 21.400000s, average_power: 334.936366 W
+wall_time_s    : 110.850
+================================================================================
+
+Batch  5: best_feasible_cost (random, qNEI) = (201.55789609969852, 196.37523029450446), best_constraint =  -0.400 (<=0 feasible), time = 324.14.
+Best feasible resource configuration: [{'cpu_m': 417, 'memory_mi': 64}, {'cpu_m': 4950, 'memory_mi': 499}]
+
+================================================================================
+================================================================================
+objective      : price
+resource_config: [{'cpu_m': 800, 'memory_mi': 65}, {'cpu_m': 3757, 'memory_mi': 512}], latencies: {'ml-image-processing': 0.09438623360446877, 'ml-object-detection': 0.271716311174844}, price_cost: 191.454682, energy_cost: 7.032752, latency_p99 : 3.700000, feasible: False, total_requests: 1228, served_rps: 63.20, total_energy_j: 8636.219584 J, profiling_duration_s: 19.500000s, average_power: 442.883056 W
+wall_time_s    : 104.935
+================================================================================
+================================================================================
+objective      : price
+resource_config: [{'cpu_m': 778, 'memory_mi': 59}, {'cpu_m': 3509, 'memory_mi': 455}], latencies: {'ml-image-processing': 0.09449864983013491, 'ml-object-detection': 0.29478376860753064}, price_cost: 193.387837, energy_cost: 6.997417, latency_p99 : 3.800000, feasible: False, total_requests: 1295, served_rps: 61.00, total_energy_j: 9061.655600 J, profiling_duration_s: 21.000000s, average_power: 431.507410 W
+wall_time_s    : 108.781
+================================================================================
+================================================================================
+objective      : price
+resource_config: [{'cpu_m': 430, 'memory_mi': 50}, {'cpu_m': 4638, 'memory_mi': 510}], latencies: {'ml-image-processing': 0.2070320125574759, 'ml-object-detection': 0.23273273406253345}, price_cost: 203.727063, energy_cost: 6.994233, latency_p99 : 2.900000, feasible: True, total_requests: 1157, served_rps: 62.70, total_energy_j: 8092.327302 J, profiling_duration_s: 17.000000s, average_power: 476.019253 W
+wall_time_s    : 106.446
+================================================================================
+
+Batch  6: best_feasible_cost (random, qNEI) = (201.55789609969852, 196.37523029450446), best_constraint =  -0.400 (<=0 feasible), time = 326.52.
+Best feasible resource configuration: [{'cpu_m': 417, 'memory_mi': 64}, {'cpu_m': 4950, 'memory_mi': 499}]
+
+================================================================================
+================================================================================
+objective      : price
+resource_config: [{'cpu_m': 300, 'memory_mi': 50}, {'cpu_m': 5631, 'memory_mi': 512}], latencies: {'ml-image-processing': 0.30911968620161395, 'ml-object-detection': 0.16664148259275993}, price_cost: 179.618828, energy_cost: 7.618766, latency_p99 : 5.200000, feasible: False, total_requests: 1001, served_rps: 53.90, total_energy_j: 7626.384805 J, profiling_duration_s: 17.900000s, average_power: 426.055015 W
+wall_time_s    : 103.001
+================================================================================
+================================================================================
+objective      : price
+resource_config: [{'cpu_m': 714, 'memory_mi': 52}, {'cpu_m': 3604, 'memory_mi': 438}], latencies: {'ml-image-processing': 0.1099902319997041, 'ml-object-detection': 0.2877396255710416}, price_cost: 194.610086, energy_cost: 7.193770, latency_p99 : 3.800000, feasible: False, total_requests: 1291, served_rps: 61.90, total_energy_j: 9287.157166 J, profiling_duration_s: 21.300000s, average_power: 436.016769 W
+wall_time_s    : 116.181
+================================================================================
+================================================================================
+objective      : price
+resource_config: [{'cpu_m': 686, 'memory_mi': 70}, {'cpu_m': 3631, 'memory_mi': 512}], latencies: {'ml-image-processing': 0.1067293514846824, 'ml-object-detection': 0.2787631223909557}, price_cost: 189.622538, energy_cost: 6.923189, latency_p99 : 3.900000, feasible: False, total_requests: 1320, served_rps: 62.90, total_energy_j: 9138.609999 J, profiling_duration_s: 20.700000s, average_power: 441.478743 W
+wall_time_s    : 108.785
+================================================================================
+
+Batch  7: best_feasible_cost (random, qNEI) = (201.55789609969852, 196.37523029450446), best_constraint =  -0.400 (<=0 feasible), time = 334.02.
+Best feasible resource configuration: [{'cpu_m': 417, 'memory_mi': 64}, {'cpu_m': 4950, 'memory_mi': 499}]
+
+================================================================================
+================================================================================
+objective      : price
+resource_config: [{'cpu_m': 765, 'memory_mi': 70}, {'cpu_m': 3642, 'memory_mi': 404}], latencies: {'ml-image-processing': 0.10313340423530654, 'ml-object-detection': 0.29557301285431575}, price_cost: 201.437256, energy_cost: 6.982631, latency_p99 : 3.800000, feasible: False, total_requests: 1310, served_rps: 60.50, total_energy_j: 9147.246981 J, profiling_duration_s: 20.900000s, average_power: 437.667323 W
+wall_time_s    : 106.951
+================================================================================
+================================================================================
+objective      : price
+resource_config: [{'cpu_m': 463, 'memory_mi': 50}, {'cpu_m': 5576, 'memory_mi': 468}], latencies: {'ml-image-processing': 0.1940702178609976, 'ml-object-detection': 0.20140791504873315}, price_cost: 211.111311, energy_cost: 6.582680, latency_p99 : 1.800000, feasible: True, total_requests: 1253, served_rps: 70.40, total_energy_j: 8248.097916 J, profiling_duration_s: 16.700000s, average_power: 493.898077 W
+wall_time_s    : 110.984
+================================================================================
+================================================================================
+objective      : price
+resource_config: [{'cpu_m': 439, 'memory_mi': 50}, {'cpu_m': 5780, 'memory_mi': 512}], latencies: {'ml-image-processing': 0.2026914080410306, 'ml-object-detection': 0.19643980284819185}, price_cost: 213.183575, energy_cost: 6.645490, latency_p99 : 1.700000, feasible: True, total_requests: 1241, served_rps: 70.20, total_energy_j: 8247.053188 J, profiling_duration_s: 16.900000s, average_power: 487.991310 W
+wall_time_s    : 107.922
+================================================================================
+
+Batch  8: best_feasible_cost (random, qNEI) = (201.55789609969852, 196.37523029450446), best_constraint =  -0.400 (<=0 feasible), time = 332.59.
+Best feasible resource configuration: [{'cpu_m': 417, 'memory_mi': 64}, {'cpu_m': 4950, 'memory_mi': 499}]
+
+================================================================================
+================================================================================
+objective      : price
+resource_config: [{'cpu_m': 734, 'memory_mi': 61}, {'cpu_m': 4023, 'memory_mi': 512}], latencies: {'ml-image-processing': 0.11716404472759297, 'ml-object-detection': 0.27134624559995396}, price_cost: 205.525752, energy_cost: 6.603268, latency_p99 : 3.700000, feasible: False, total_requests: 1180, served_rps: 64.40, total_energy_j: 7791.856726 J, profiling_duration_s: 17.100000s, average_power: 455.664139 W
+wall_time_s    : 106.276
+================================================================================
+================================================================================
+objective      : price
+resource_config: [{'cpu_m': 605, 'memory_mi': 70}, {'cpu_m': 3662, 'memory_mi': 512}], latencies: {'ml-image-processing': 0.12167416862668652, 'ml-object-detection': 0.28786769843495946}, price_cost: 197.024335, energy_cost: 7.258429, latency_p99 : 3.900000, feasible: False, total_requests: 1303, served_rps: 61.60, total_energy_j: 9457.733509 J, profiling_duration_s: 21.400000s, average_power: 441.950162 W
+wall_time_s    : 106.309
+================================================================================
+================================================================================
+objective      : price
+resource_config: [{'cpu_m': 752, 'memory_mi': 50}, {'cpu_m': 3734, 'memory_mi': 512}], latencies: {'ml-image-processing': 0.10432262862338981, 'ml-object-detection': 0.34031331712538576}, price_cost: 235.615549, energy_cost: 6.965164, latency_p99 : 3.900000, feasible: False, total_requests: 1253, served_rps: 64.90, total_energy_j: 8727.350644 J, profiling_duration_s: 20.300000s, average_power: 429.918747 W
+wall_time_s    : 106.796
+================================================================================
+
+Batch  9: best_feasible_cost (random, qNEI) = (201.55789609969852, 196.37523029450446), best_constraint =  -0.400 (<=0 feasible), time = 324.03.
+Best feasible resource configuration: [{'cpu_m': 417, 'memory_mi': 64}, {'cpu_m': 4950, 'memory_mi': 499}]
+
+================================================================================
+================================================================================
+objective      : price
+resource_config: [{'cpu_m': 423, 'memory_mi': 50}, {'cpu_m': 5205, 'memory_mi': 440}], latencies: {'ml-image-processing': 0.21271160670386796, 'ml-object-detection': 0.20345955172017444}, price_cost: 200.006169, energy_cost: 6.593203, latency_p99 : 2.200000, feasible: True, total_requests: 1213, served_rps: 66.50, total_energy_j: 7997.555693 J, profiling_duration_s: 16.500000s, average_power: 484.700345 W
+wall_time_s    : 106.530
+================================================================================
+================================================================================
+objective      : price
+resource_config: [{'cpu_m': 429, 'memory_mi': 50}, {'cpu_m': 5346, 'memory_mi': 512}], latencies: {'ml-image-processing': 0.21663578533053654, 'ml-object-detection': 0.23171278004984147}, price_cost: 231.971942, energy_cost: 7.057924, latency_p99 : 4.500000, feasible: False, total_requests: 1091, served_rps: 55.00, total_energy_j: 7700.195084 J, profiling_duration_s: 17.000000s, average_power: 452.952652 W
+wall_time_s    : 103.755
+================================================================================
+================================================================================
+objective      : price
+resource_config: [{'cpu_m': 640, 'memory_mi': 68}, {'cpu_m': 3560, 'memory_mi': 447}], latencies: {'ml-image-processing': 0.11622416387023084, 'ml-object-detection': 0.30743573690315}, price_cost: 203.999383, energy_cost: 7.105161, latency_p99 : 3.900000, feasible: False, total_requests: 1228, served_rps: 62.60, total_energy_j: 8725.137668 J, profiling_duration_s: 20.100000s, average_power: 434.086448 W
+wall_time_s    : 103.992
+================================================================================
+
+Batch 10: best_feasible_cost (random, qNEI) = (201.55789609969852, 196.37523029450446), best_constraint =  -0.400 (<=0 feasible), time = 320.34.
+Best feasible resource configuration: [{'cpu_m': 417, 'memory_mi': 64}, {'cpu_m': 4950, 'memory_mi': 499}]
+
+================================================================================
+================================================================================
+SORTED SAMPLE LOG
+{
+  "feasible_only": true,
+  "num_samples": 9,
+  "timestamp": "2026-01-08T12:30:02.446912"
+}
+--------------------------------------------------------------------------------
+{
+  "cost": 196.37523029450446,
+  "duration": 2.6,
+  "duration_s": 16.700000047683716,
+  "energy_cost": 6.821655556034482,
+  "energy_j": 7913.120445,
+  "feasible": "True",
+  "latencies": {
+    "ml-image-processing": 0.21851427849411728,
+    "ml-object-detection": 0.20920805860724714
+  },
+  "objective_name": "price",
+  "power": 473.8395462518305,
+  "price_cost": 196.37523029450446,
+  "rank": 0,
+  "resource_config": [
+    {
+      "cpu_m": 417,
+      "memory_mi": 64
+    },
+    {
+      "cpu_m": 4950,
+      "memory_mi": 499
+    }
+  ],
+  "served_rps": 64.6,
+  "total_requests": "1160"
+}
+--------------------------------------------------------------------------------
+{
+  "cost": 200.0061686387217,
+  "duration": 2.2,
+  "duration_s": 16.5,
+  "energy_cost": 6.593203374278648,
+  "energy_j": 7997.555693,
+  "feasible": "True",
+  "latencies": {
+    "ml-image-processing": 0.21271160670386796,
+    "ml-object-detection": 0.20345955172017444
+  },
+  "objective_name": "price",
+  "power": 484.700345030303,
+  "price_cost": 200.0061686387217,
+  "rank": 1,
+  "resource_config": [
+    {
+      "cpu_m": 423,
+      "memory_mi": 50
+    },
+    {
+      "cpu_m": 5205,
+      "memory_mi": 440
+    }
+  ],
+  "served_rps": 66.5,
+  "total_requests": "1213"
+}
+--------------------------------------------------------------------------------
+{
+  "cost": 201.55789609969852,
+  "duration": 2.3,
+  "duration_s": 17.09999990463257,
+  "energy_cost": 6.873171509243698,
+  "energy_j": 8179.074096,
+  "feasible": "True",
+  "latencies": {
+    "ml-image-processing": 0.20544057853773914,
+    "ml-object-detection": 0.214658345850749
+  },
+  "objective_name": "price",
+  "power": 478.30842933421326,
+  "price_cost": 201.55789609969852,
+  "rank": 2,
+  "resource_config": [
+    {
+      "cpu_m": 435,
+      "memory_mi": 51
+    },
+    {
+      "cpu_m": 4977,
+      "memory_mi": 433
+    }
+  ],
+  "served_rps": 66.6,
+  "total_requests": "1190"
+}
+--------------------------------------------------------------------------------
+{
+  "cost": 202.02032265566515,
+  "duration": 2.3,
+  "duration_s": 17.0,
+  "energy_cost": 6.852727198825503,
+  "energy_j": 8168.450821,
+  "feasible": "True",
+  "latencies": {
+    "ml-image-processing": 0.21788125135230296,
+    "ml-object-detection": 0.21510367702946745
+  },
+  "objective_name": "price",
+  "power": 480.4971071176471,
+  "price_cost": 202.02032265566515,
+  "rank": 3,
+  "resource_config": [
+    {
+      "cpu_m": 434,
+      "memory_mi": 63
+    },
+    {
+      "cpu_m": 4950,
+      "memory_mi": 487
+    }
+  ],
+  "served_rps": 65.7,
+  "total_requests": "1192"
+}
+--------------------------------------------------------------------------------
+{
+  "cost": 203.72706330333892,
+  "duration": 2.9,
+  "duration_s": 17.0,
+  "energy_cost": 6.994232758859118,
+  "energy_j": 8092.327302,
+  "feasible": "True",
+  "latencies": {
+    "ml-image-processing": 0.2070320125574759,
+    "ml-object-detection": 0.23273273406253345
+  },
+  "objective_name": "price",
+  "power": 476.0192530588235,
+  "price_cost": 203.72706330333892,
+  "rank": 4,
+  "resource_config": [
+    {
+      "cpu_m": 430,
+      "memory_mi": 50
+    },
+    {
+      "cpu_m": 4638,
+      "memory_mi": 510
+    }
+  ],
+  "served_rps": 62.7,
+  "total_requests": "1157"
+}
+--------------------------------------------------------------------------------
+{
+  "cost": 203.90988042820408,
+  "duration": 1.9,
+  "duration_s": 17.0,
+  "energy_cost": 6.778492235632184,
+  "energy_j": 8256.203543,
+  "feasible": "True",
+  "latencies": {
+    "ml-image-processing": 0.20615254654407952,
+    "ml-object-detection": 0.22408675291631935
+  },
+  "objective_name": "price",
+  "power": 485.65903194117647,
+  "price_cost": 203.90988042820408,
+  "rank": 5,
+  "resource_config": [
+    {
+      "cpu_m": 449,
+      "memory_mi": 53
+    },
+    {
+      "cpu_m": 4811,
+      "memory_mi": 455
+    }
+  ],
+  "served_rps": 67.8,
+  "total_requests": "1218"
+}
+--------------------------------------------------------------------------------
+{
+  "cost": 211.11131052254942,
+  "duration": 1.8,
+  "duration_s": 16.700000047683716,
+  "energy_cost": 6.58267990103751,
+  "energy_j": 8248.097916,
+  "feasible": "True",
+  "latencies": {
+    "ml-image-processing": 0.1940702178609976,
+    "ml-object-detection": 0.20140791504873315
+  },
+  "objective_name": "price",
+  "power": 493.89807739216195,
+  "price_cost": 211.11131052254942,
+  "rank": 6,
+  "resource_config": [
+    {
+      "cpu_m": 463,
+      "memory_mi": 50
+    },
+    {
+      "cpu_m": 5576,
+      "memory_mi": 468
+    }
+  ],
+  "served_rps": 70.4,
+  "total_requests": "1253"
+}
+--------------------------------------------------------------------------------
+{
+  "cost": 212.34649500075037,
+  "duration": 2.6,
+  "duration_s": 16.700000047683716,
+  "energy_cost": 6.517362288709678,
+  "energy_j": 8081.529238,
+  "feasible": "True",
+  "latencies": {
+    "ml-image-processing": 0.19785719541268368,
+    "ml-object-detection": 0.20332546218891034
+  },
+  "objective_name": "price",
+  "power": 483.92390508531196,
+  "price_cost": 212.34649500075037,
+  "rank": 7,
+  "resource_config": [
+    {
+      "cpu_m": 466,
+      "memory_mi": 68
+    },
+    {
+      "cpu_m": 5546,
+      "memory_mi": 459
+    }
+  ],
+  "served_rps": 68.4,
+  "total_requests": "1240"
+}
+--------------------------------------------------------------------------------
+{
+  "cost": 213.18357534487507,
+  "duration": 1.7,
+  "duration_s": 16.90000009536743,
+  "energy_cost": 6.645490078968574,
+  "energy_j": 8247.053188,
+  "feasible": "True",
+  "latencies": {
+    "ml-image-processing": 0.2026914080410306,
+    "ml-object-detection": 0.19643980284819185
+  },
+  "objective_name": "price",
+  "power": 487.99131014565216,
+  "price_cost": 213.18357534487507,
+  "rank": 8,
+  "resource_config": [
+    {
+      "cpu_m": 439,
+      "memory_mi": 50
+    },
+    {
+      "cpu_m": 5780,
+      "memory_mi": 512
+    }
+  ],
+  "served_rps": 70.2,
+  "total_requests": "1241"
+}
+--------------------------------------------------------------------------------
+BO loop time: 4326.98 seconds
+Best cost: 196.37523029450446
+Best resource configuration: [{'cpu_m': 417, 'memory_mi': 64}, {'cpu_m': 4950, 'memory_mi': 499}]

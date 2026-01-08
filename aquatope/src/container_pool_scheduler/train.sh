@@ -1,3 +1,6 @@
+python data_processing.py --column 6 --path /home/cc/uncertain-carbon/data/requests_minute -t -v
+
+
 python train_lstm_encoder_decoder.py \
     --n_input_steps 60 \
     --n_output_steps 60 \
@@ -17,9 +20,9 @@ python train_lstm_encoder_decoder.py \
     --num_epochs 350 \
     --batch_size 32 \
     --learning_rate 3e-4 \
-    --variational_dropout_p 0.1 \
+    --variational_dropout_p 0.15 \
     --trace_id "e896d7ac37090135a8a1c812e6d3a9a64d15e7806332d189935e9e593fab6322" \
-    --dataset_dir "/home/kevin/carbon/huawei-dataset/data/"
+    --dataset_dir "."
 
 python train_prediction_network.py \
     --n_input_steps 24 \

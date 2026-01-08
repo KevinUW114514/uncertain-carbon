@@ -38,7 +38,7 @@
   },
   "qos": 3.0,
   "function_pods_mapping": {
-    "ml-image-processing": 17,
-    "ml-object-detection": 49
+    "ml-image-processing": 13,
+    "ml-object-detection": 38
   }
 }

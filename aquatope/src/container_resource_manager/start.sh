@@ -1,4 +1,4 @@
-for i in {1..8}; do
+for i in {1..5}; do
     ts=$(date +"%Y%m%d_%H%M%S")
     log="result_${ts}.log"
 

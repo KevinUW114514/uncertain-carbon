@@ -461,10 +461,10 @@ def update_kube_deployment(
     # original_replicas = int(dep_before.spec.replicas or 0)
     if container_name == "ml-image-processing":
         # original_replicas = 17
-        original_replicas = 24
+        original_replicas = 13
     else:
         # original_replicas = 49
-        original_replicas = 73
+        original_replicas = 38
     label_selector = _deployment_label_selector(dep_before)
     print(f"[info] Original replicas={original_replicas}, selector='{label_selector}'")
 
