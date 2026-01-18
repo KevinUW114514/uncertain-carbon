@@ -1,0 +1,10 @@
+================================================================================
+Overall mean error rate: 15.28%
+================================================================================
+25th percentile error rate: 5.47%
+50th percentile error rate: 11.63%
+75th percentile error rate: 20.47%
+90th percentile error rate: 31.40%
+95th percentile error rate: 41.26%
+99th percentile error rate: 71.51%
+[inference] mean: -0.027210447937250137, var: 0.03017435222864151, smape_rate: 15.331974983215332

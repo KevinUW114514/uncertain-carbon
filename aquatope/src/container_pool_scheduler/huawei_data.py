@@ -6,17 +6,34 @@ from typing import Tuple
 import numpy as np
 import pandas as pd
 import torch
-from torch.utils.data import DataLoader, Dataset
+from torch.utils.data import DataLoader, Dataset, SequentialSampler
 
 import json
+
+
+def scale_to_range(arr, n):
+    arr = np.asarray(arr, dtype=float)
+    min_val = arr.min()
+    max_val = arr.max()
+
+    if min_val == max_val:
+        raise ValueError("Cannot scale an array with all identical values.")
+
+    return (arr - min_val) / (max_val - min_val) * n
+
 
 class AzureFunctionDataset(Dataset):
     """
     PyTorch Dataset class for Metro Traffic dataset
     """
 
-    def __init__(self, samples: dict, n_input_steps: int,
-                 key: str = 'train', pretraining: bool = True):
+    def __init__(
+        self,
+        samples: dict,
+        n_input_steps: int,
+        key: str = "train",
+        pretraining: bool = True,
+    ):
         # calculate normalisation parameters for columns `invocation_rate`
         # from training data
         # self.X_train = samples['train'][:, :n_input_steps, :].copy()
@@ -29,10 +46,12 @@ class AzureFunctionDataset(Dataset):
         self.X = samples[key][:, :n_input_steps, :].copy()
         self.y = samples[key][:, n_input_steps:, :].copy()
         for c, col in enumerate(cols_to_normalise):
-            self.X[:, :, col] = (self.X[:, :, col] -
-                                 self.train_mu[c]) / (self.train_sigma[c])
-            self.y[:, :, col] = (self.y[:, :, col] -
-                                 self.train_mu[c]) / (self.train_sigma[c])
+            self.X[:, :, col] = (self.X[:, :, col] - self.train_mu[c]) / (
+                self.train_sigma[c]
+            )
+            self.y[:, :, col] = (self.y[:, :, col] - self.train_mu[c]) / (
+                self.train_sigma[c]
+            )
 
         # provide external features for prediction network
         self.pretraining = pretraining
@@ -52,25 +71,28 @@ class AzureFunctionDataset(Dataset):
         # print(f"[hu] x shape: {x.shape}")
         # input("debug")
         if self.pretraining:
-            y = torch.Tensor(self.y[idx, :, invocation_idx] -
-                             self.X[idx, 0, invocation_idx]).float()
+            # y = torch.Tensor(
+            #     self.y[idx, :, invocation_idx] - self.X[idx, -1, invocation_idx]
+            # ).float()
+            y = torch.Tensor(self.y[idx, :, invocation_idx]).float()
             # y = torch.Tensor(self.y[idx, :, invocation_idx]).float()
-            
+
             # print((f"x: {x}"))
             # print(f"1st: {self.y[idx, :, invocation_idx]}")
             # print(f"2nd: {self.X[idx, 0, invocation_idx]}")
             # print(f"y: {y}")
             # input("debug")
+        
         else:
             y = self.y[idx, :, :].copy()
-            y[:, invocation_idx] -= self.X[idx, 0, invocation_idx]
-            y = torch.Tensor(
-                y[:, [invocation_idx] + self.prediction_cols]).float()
+            # y[:, invocation_idx] -= self.X[idx, -1, invocation_idx]
+            y = torch.Tensor(y[:, [invocation_idx] + self.prediction_cols]).float()
 
             # print(f"[hu] y shape: {y.shape}")
             # input("debug")
-            
-        return x, y, self.X[idx, 0, 0], self.y[idx, 0, 0], self.original_X[idx]  
+        
+        return x, y, self.X[idx, -1, 1], self.y[idx, 0, 1], self.original_X[idx], idx, self.y[idx, 0, 0]
+        
 
 
 def build_features(dataset_path: str, units_per_hour: int, data_type: str) -> pd.DataFrame:
@@ -79,12 +101,15 @@ def build_features(dataset_path: str, units_per_hour: int, data_type: str) -> pd
     elif data_type == "valid":
         file_name = "valid.csv"
     elif data_type == "inference":
-        file_name = "test.csv"
+        # file_name = "test.csv"
+        file_name = "valid.csv"
+    elif data_type == "calibration":
+        file_name = "calibration.csv"
     
     df = pd.read_csv(dataset_path + file_name)
-    if data_type == "train":
-        df_valid = pd.read_csv(dataset_path + "valid.csv")
-        df = pd.concat([df, df_valid], ignore_index=True)
+    # if data_type == "train":
+    #     df_valid = pd.read_csv(dataset_path + "valid.csv")
+    #     df = pd.concat([df, df_valid], ignore_index=True)
 
     data = df.copy().sort_values("time").reset_index(drop=True)
     
@@ -92,6 +117,7 @@ def build_features(dataset_path: str, units_per_hour: int, data_type: str) -> pd
     data["hour_of_day"] = (hours_since_0 % 24).astype(int)
     data["day_of_week"] = ((hours_since_0 // 24) % 7).astype(int)
     data["hour"] = (data["time"] // units_per_hour).astype(int)
+    data["invocation_rate"] = scale_to_range(data["invocation_rate"].astype(float), 150)
 
     hourly_df = (
         data.groupby("hour", as_index=False)
@@ -129,17 +155,23 @@ def get_datasets(samples: dict, n_input_steps: int, pretraining=True) -> dict:
     return datasets
 
 
-def get_dataloaders(datasets: dict, train_batch_size: int = 0) -> dict:
+def get_dataloaders(datasets: dict, train_batch_size: int = 0, shuffle: bool = False) -> dict:
     dataloaders = {}
+    # shuffle = False
+    shuffle = True
     for key, dataset in datasets.items():
         if key == 'train':
             dataloaders[key] = DataLoader(dataset,
                                           batch_size=train_batch_size,
-                                          shuffle=True)
+                                          shuffle=shuffle)
         else:
             dataloaders[key] = DataLoader(dataset,
                                           batch_size=len(dataset),
-                                          shuffle=False)
+                                          shuffle=False,
+                                          sampler=SequentialSampler(dataset),
+                                          drop_last=False,
+                                          num_workers=0
+                                          )
 
     return dataloaders
 
@@ -151,16 +183,20 @@ def pipeline(n_input_steps: int, n_pred_steps: int,
              is_inference: bool = False
             ) -> Tuple[pd.DataFrame, dict, dict]:
     datasets = dict()
+    units_per_hour = 3600
     
     if not is_inference:
-        train_df = build_features(dataset_path=dataset_path, units_per_hour=3600, data_type="train")
-        valid_df = build_features(dataset_path=dataset_path, units_per_hour=3600, data_type="valid")
+        train_df = build_features(dataset_path=dataset_path, units_per_hour=units_per_hour, data_type="train")
+        valid_df = build_features(dataset_path=dataset_path, units_per_hour=units_per_hour, data_type="valid")
         datasets['train'] = train_df
         datasets['valid'] = valid_df
     else:
-        infer_df = build_features(dataset_path=dataset_path, units_per_hour=3600, data_type="inference")
+        calibration_df = build_features(dataset_path=dataset_path, units_per_hour=units_per_hour, data_type="calibration")
+        infer_df = build_features(dataset_path=dataset_path, units_per_hour=units_per_hour, data_type="inference")
+        datasets['calibration'] = calibration_df
         datasets['inference'] = infer_df
-        
+    
+    # print(f"[hu] datasets['inference'].shape: {datasets['inference'].shape}")
     samples = create_samples(datasets, n_input_steps, n_pred_steps)
 
     return samples
@@ -192,7 +228,7 @@ def create_samples(datasets: dict, n_input_steps: int, n_pred_steps: int) -> dic
         # 1) Drop rows with NaN or 0 in invocation_rate
         df_clean = dataset.copy()
         df_clean = df_clean.dropna(subset=["hour_invocation"])
-        df_clean = df_clean[df_clean["hour_invocation"] >= 10]
+        # df_clean = df_clean[df_clean["hour_invocation"] >= 10]
 
         # If all rows were dropped, return an empty tensor
         if df_clean.empty:
