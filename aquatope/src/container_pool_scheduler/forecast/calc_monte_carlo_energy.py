@@ -32,7 +32,10 @@ import argparse
 import pickle
 import sys
 from pathlib import Path
-
+from statsmodels.tsa.ar_model import AutoReg
+from statsmodels.stats.diagnostic import acorr_ljungbox
+from statsmodels.tsa.stattools import acf
+from statsmodels.tsa.statespace.sarimax import SARIMAX
 import numpy as np
 import pandas as pd
 
@@ -195,7 +198,7 @@ def mean_absolute_error(y_true, y_pred):
     return np.mean(np.abs(y_true - y_pred))
 
 class CI_data:
-    def __init__(self, pred_ci_list, actual_ci_list, ramp_list, samples_list, pred_refined_list, smape_before, smape_after):
+    def __init__(self, pred_ci_list, actual_ci_list, ramp_list, samples_list, pred_refined_list, smape_before, smape_after, verification_code):
         self.predicted_ci_list = pred_ci_list
         self.actual_ci_list = actual_ci_list
         self.predicted_refined_list = pred_refined_list
@@ -203,7 +206,17 @@ class CI_data:
         self.samples_list = samples_list
         self.smape_before = smape_before
         self.smape_after = smape_after
+        self.verification_code = verification_code
 
+def scale_to_range(arr, n):
+    arr = np.asarray(arr, dtype=float)
+    min_val = arr.min()
+    max_val = arr.max()
+
+    if min_val == max_val:
+        raise ValueError("Cannot scale an array with all identical values.")
+
+    return (arr - min_val) / (max_val - min_val) * n
             
 def change_CI_length(CI_data_obj, length):
     CI_data_obj.predicted_ci_list = CI_data_obj.predicted_ci_list[:length]
@@ -213,10 +226,74 @@ def change_CI_length(CI_data_obj, length):
     CI_data_obj.samples_list = CI_data_obj.samples_list[:length]
     
     return CI_data_obj
-        
+
+
+def residual_seasonal_ar_correction(
+    y_true,
+    y_pred,
+    lags=(1, 2, 24),
+    min_train=200,
+    lb_lags=(1, 2, 24),
+):
+    """
+    Correct base predictions using a seasonal AR model fitted on residuals.
+
+    Parameters
+    ----------
+    y_true : array-like
+        Ground-truth time series y_t (time-ordered).
+    y_pred : array-like
+        Base model predictions \hat{y}_t aligned with y_true.
+    lags : tuple[int]
+        Residual AR lags to model. Include 24 for daily seasonality in hourly data.
+    min_train : int
+        Minimum number of points before starting walk-forward correction.
+        Must be > max(lags). Increase for stability.
+    lb_lags : tuple[int]
+        Lags to use in Ljung–Box test for corrected residuals.
+
+    Returns
+    -------
+    result : dict
+        Contains corrected residuals, corrected predictions, and Ljung–Box table.
+    """
+    y_true = np.asarray(y_true, dtype=float)
+    y_pred = np.asarray(y_pred, dtype=float)
+    assert y_true.shape == y_pred.shape, "y_true and y_pred must have the same length"
+
+    e = y_true - y_pred  # residuals
+    T = len(e)
+
+    max_lag = int(max(lags))
+    start_t = max(min_train, max_lag + 5)
+
+    # Predicted residuals (one-step-ahead) for each t
+    e_hat = np.full(T, np.nan, dtype=float)
+
+    for t in range(start_t, T):
+        hist = pd.Series(e[:t])  # residuals up to t-1
+        # Fit seasonal AR on residuals
+        ar = AutoReg(hist, lags=list(lags), old_names=False).fit()
+        pred_t = ar.predict(start=t, end=t)  # predict e_t using only past info
+        e_hat[t] = float(pred_t.iloc[0])
+
+    mask = ~np.isnan(e_hat)
+    y_pred_adj = y_pred[mask] + e_hat[mask]          # corrected prediction
+    e_corrected = y_true[mask] - y_pred_adj          # corrected residual
+
+    lb = acorr_ljungbox(e_corrected, lags=list(lb_lags), return_df=True)
+
+    return {
+        "start_index": start_t,
+        "mask": mask,
+        "y_pred_adj": y_pred_adj,
+        "e_corrected": e_corrected,
+        "mean_corrected_residual": float(np.mean(e_corrected)),
+        "lb_table": lb,
+    }
 
         
-def main(region: str, days: int, window_size: int, DATA_PATH: str = "data"):
+def main(region: str, days: int, window_size: int, DATA_PATH: str = "data", is_vertical: bool = False, is_refined: bool = False):
     print(f"=" * 80)
     print(f"Processing region: {region}")
     args = parse_args()
@@ -271,6 +348,8 @@ def main(region: str, days: int, window_size: int, DATA_PATH: str = "data"):
     ddof = 0  # population variance recommended for sigma^2 term
     if not args.population_var:
         ddof = 0
+        
+    df["invocation_rate"] = scale_to_range(df["invocation_rate"].astype(float), 150)
 
     hourly_stats = (
         df.groupby("hour")["invocation_rate"]
@@ -291,6 +370,8 @@ def main(region: str, days: int, window_size: int, DATA_PATH: str = "data"):
           )
     )
     
+    gt_hourly_energy.to_csv("debug_hourly_ground_truth_energy.csv", index=False)
+    # input("debug")
 
     # ----------------------------
     # 4) Load Monte-Carlo samples
@@ -446,13 +527,114 @@ def main(region: str, days: int, window_size: int, DATA_PATH: str = "data"):
     # ci_samples = pickle.load(open("/home/kevin/research/uncertain-carbon/aquatope/src/container_pool_scheduler/forecast/gb_t1_1step_samples_14d.pkl", "rb"))
     
     # gb_ci_data: CI_data = pickle.load(open("ci_data_LT_14d.pkl", "rb"))
-    gb_ci_data: CI_data = pickle.load(open(f"{DATA_PATH}/ci_data_{region}_window_{window_size}_{days}d.pkl", "rb"))
+    gb_ci_data: CI_data = pickle.load(open(f"{DATA_PATH}/ci_data_{region}_window_{window_size}_{days}d_{'vertical' if is_vertical else 'horizontal'}_no_bias_correction.pkl", "rb"))
+    print(f"[ci] verification code: {gb_ci_data.verification_code}")
+    print(f"[ci] path: {DATA_PATH}/ci_data_{region}_window_{window_size}_{days}d_{'vertical' if is_vertical else 'horizontal'}.pkl")
+    print(f"[ci] gb_ci_data[\"predicted_ci_list\"].shape: {np.array(gb_ci_data.predicted_ci_list).shape}")
+    # input("[ci] loaded gb_ci_data")
+    # residuals = gb_ci_data.actual_ci_list - gb_ci_data.predicted_ci_list
+    # mean_residuals = np.mean(residuals)
+    # print(f"[*ci*] region: {region}, original mean residuals (actual - predicted): {mean_residuals:.6g}")
+    # test_lb = acorr_ljungbox(residuals, lags=[10], return_df=True)
+    # print(f"[*ci*] Ljung-Box test results for original CI residuals:\n{test_lb}\n")
+    
+    
+    # # 1) Original refined residuals
+    # refined_residuals = np.asarray(gb_ci_data.actual_ci_list) - np.asarray(gb_ci_data.predicted_refined_list)
+
+    # refined_mean_residuals = float(np.mean(refined_residuals))
+    # print(f"[*ci*] region: {region}, refined mean residuals (actual - predicted): {refined_mean_residuals:.6g}")
+
+    # refined_test_lb = acorr_ljungbox(refined_residuals, lags=[10], return_df=True)
+    # print(f"[*ci*] Ljung-Box test results for refined CI residuals:\n{refined_test_lb}\n")
+
+    # # 2) Fit AR(p) on residuals
+    # y_true = gb_ci_data.actual_ci_list
+    # y_pred = gb_ci_data.predicted_refined_list
+    
+    # e = y_true - y_pred
+    
+    # print(acorr_ljungbox(e, lags=[1, 2, 24], return_df=True).to_string())
+    # # input("debug")
+    
+    # hour = np.arange(len(e)) % 24
+    
+    # hour_bias = (
+    #     pd.Series(e)
+    #     .groupby(hour)
+    #     .mean()
+    #     .reindex(range(24), fill_value=0.0)
+    # )
+    
+    # y_pred_hourly_adjusted = y_pred + hour_bias.to_numpy()[hour]
+    
+    # e = np.asarray(y_true) - np.asarray(y_pred_hourly_adjusted)
+    
+    # print(f"after hourly adjustment: ")
+    # print(acorr_ljungbox(e, lags=[1, 2, 24], return_df=True).to_string())
+
+    # hour = np.arange(len(e)) % 24
+
+    # hourly_stats = (
+    #     pd.DataFrame({
+    #         "residual": e,
+    #         "hour": hour,
+    #         "predicted": y_pred_hourly_adjusted,
+    #     })
+    #     .groupby("hour")
+    #     .agg(
+    #         count=("residual", "count"),
+    #         mean=("residual", "mean"),
+    #         var=("residual", "var"),      # sample variance
+    #         std=("residual", "std"),      # sample std
+    #         y_mean=("predicted", "mean"),
+    #     )
+    # )
+
+    # print(hourly_stats)
+    # input("debug")
+    # # out = residual_seasonal_ar_correction(
+    # #     y_true=y_true,
+    # #     y_pred=y_pred,
+    # #     lags=(1, 2, 24),       # key change: include 24
+    # #     min_train=200,         # increase if you have lots of data
+    # #     lb_lags=(1, 2, 24),
+    # # )
+
+    # model = SARIMAX(
+    #     endog=y_true,
+    #     exog=y_pred_hourly_adjusted,
+    #     order=(1, 0, 1),              # ARMA errors
+    #     seasonal_order=(1, 0, 1, 24), # DAILY seasonal ARMA
+    #     enforce_stationarity=False,
+    #     enforce_invertibility=False,
+    # ).fit(disp=False)
+
+    # resid = model.resid
+    
+    # # fixed_24_y_pred = 
+    
+
+    # print(acorr_ljungbox(resid, lags=[1, 2, 24], return_df=True).to_string())
+    
+    
+    # # r24 = acf(out["e_corrected"], nlags=24, fft=True)[24]
+    # # print("[*ci*] ACF at lag 24:", r24)
+
+    # # print("[*ci*] Corrected mean residual:", out["mean_corrected_residual"])
+    # # print("[*ci*] Ljung-Box (corrected):")
+    # # print(out["lb_table"].to_string())
+
+    # print("[*ci*]" + "=" * 80)
+    
     gb_ci_data_length = len(gb_ci_data.predicted_ci_list)
     print(f"[ci] loaded ci data length: {gb_ci_data_length}")
     min_length = min(gb_ci_data_length, rate_data_length)
     gb_ci_data = change_CI_length(gb_ci_data, length=min_length)
     print(f"[ci] ground truth original predicted smape: {gb_ci_data.smape_before:.2f}%")
     print(f"[ci] ground truth refined predicted smape: {gb_ci_data.smape_after:.2f}%")
+    # print(f"[ci] mc_100: {gb_ci_data.samples_list[100]}")
+    # input("debug")
     
     # print(ci_samples[0])
     # input("[ci] loaded ci samples")
@@ -478,7 +660,11 @@ def main(region: str, days: int, window_size: int, DATA_PATH: str = "data"):
     original_point_carbon_prediction = gb_ci_data.predicted_ci_list * p_ori_E_corr.mean(axis=1)
     refined_point_carbon_prediction = gb_ci_data.predicted_refined_list * p_ref_E_corr.mean(axis=1)
 
-    final_carbon_mc_samples = gb_ci_data.samples_list * E_corr
+    m = min_len
+    n = E_corr.shape[1]
+    k = gb_ci_data.samples_list.shape[1]
+    # final_carbon_mc_samples = gb_ci_data.samples_list * E_corr
+    final_carbon_mc_samples = (gb_ci_data.samples_list[:, :, None] * E_corr[:, None, :]).reshape(m, n * k)
     # final_carbon_samples = ci_samples * E_corr
     # final_carbon_samples = point_of_estimation_rates_energy.reshape(-1, 1) * ci_samples
 
@@ -513,8 +699,10 @@ def main(region: str, days: int, window_size: int, DATA_PATH: str = "data"):
         # "original_point_carbon_prediction": original_point_carbon_prediction,
         # "refined_point_carbon_prediction": refined_point_carbon_prediction,
         # "point_estimation_carbon": np.median(final_carbon_mc_samples, axis=1),
+        # "point_estimation_carbon": original_point_carbon_prediction,
         "point_estimation_carbon": original_point_carbon_prediction,
-        "mc_carbon_samples": final_carbon_mc_samples
+        "refined_point_estimation_carbon": refined_point_carbon_prediction,
+        "mc_carbon_samples": final_carbon_mc_samples,
     }
     
     return region_result
@@ -703,11 +891,11 @@ class BiasCalibratedThompsonCVaRRouter:
 
         # Cache central forecast used for bias updates
         if center_forecast is None:
-            center = {r: float(np.mean(np.asarray(mc_samples[r], dtype=float))) for r in self.regions}
+            center = {r: float(np.median(np.asarray(mc_samples[r], dtype=float))) for r in self.regions}
         else:
             center = {r: float(center_forecast[r]) for r in self.regions}
 
-        mc_mean = {r: float(np.mean(np.asarray(mc_samples[r], dtype=float))) for r in self.regions}
+        mc_mean = {r: float(np.median(np.asarray(mc_samples[r], dtype=float))) for r in self.regions}
         self._last_center_forecast = center
         self._last_mc_mean = mc_mean
 
@@ -848,6 +1036,7 @@ class BiasCalibratedThompsonCVaRRouter:
             X_use = X[idx]
 
         K = max(1, int(self.cvar_num_bias_draws))
+        # b_draws = np.array([0])
         b_draws = self.rng.normal(loc=st.mu, scale=np.sqrt(max(st.s2, 1e-12)), size=K)
         calibrated = b_draws.reshape(-1, 1) + X_use.reshape(1, -1)
         return calibrated.ravel()
@@ -872,6 +1061,7 @@ def run_routing_on_region_data(
     verbose: bool = True,
     is_tail_aware: bool = True,
     window_size: int = 1,
+    # unbiased_residual_data: Optional[List[Dict[str, Any]]] = None,
 ) -> Dict[str, Any]:
     """
     region_data: list of region_result dicts, each like:
@@ -900,6 +1090,7 @@ def run_routing_on_region_data(
 
     actual: Dict[str, np.ndarray] = {}
     point: Dict[str, np.ndarray] = {}
+    original_point: Dict[str, np.ndarray] = {}
     mc: Dict[str, np.ndarray] = {}
 
     for rr in region_data:
@@ -922,7 +1113,8 @@ def run_routing_on_region_data(
                 raise ValueError("All regions must have identical 'hour' arrays. Align timestamps before running.")
 
         actual_arr = np.asarray(rr["actual_carbon"], dtype=float)
-        point_arr = np.asarray(rr["point_estimation_carbon"], dtype=float)
+        original_point_arr = np.asarray(rr["point_estimation_carbon"], dtype=float)
+        point_arr = np.asarray(rr["refined_point_estimation_carbon"], dtype=float)
         mc_arr = np.asarray(rr["mc_carbon_samples"], dtype=float)
 
         if actual_arr.shape[0] != T_ref or point_arr.shape[0] != T_ref:
@@ -934,6 +1126,7 @@ def run_routing_on_region_data(
 
         actual[rname] = actual_arr
         point[rname] = point_arr
+        original_point[rname] = original_point_arr
         mc[rname] = mc_arr
 
     regions = names
@@ -941,7 +1134,7 @@ def run_routing_on_region_data(
     hours = hours_ref
 
     # Router instance
-    rng = np.random.default_rng(seed)
+    rng = np.random.default_rng()
 
     def sw_cost(prev: Optional[str], new: str) -> float:
         return default_switch_cost(prev, new, cost_if_switch=switch_cost_if_switch)
@@ -971,18 +1164,34 @@ def run_routing_on_region_data(
     
     wrong_decisions = []
     better_decisions = []
-
+    """
+    region_result = {
+        "hour": target_hours[:min_length],
+        "name": region,
+        "actual_carbon": final_carbon_gt,
+        # "ground_truth_carbon": final_carbon_gt,
+        # "original_point_carbon_prediction": original_point_carbon_prediction,
+        # "refined_point_carbon_prediction": refined_point_carbon_prediction,
+        # "point_estimation_carbon": np.median(final_carbon_mc_samples, axis=1),
+        "point_estimation_carbon": original_point_carbon_prediction,
+        "mc_carbon_samples": final_carbon_mc_samples
+    }
+    """
     for t in range(T):
         # Build per-step inputs
         mc_step = {r: mc[r][t, :].astype(float) for r in regions}
         center_step = {r: float(point[r][t]) for r in regions}  # use your provided point estimate as center
+        original_center_step = {r: float(original_point[r][t]) for r in regions}
 
         # Baseline decision: choose region with lowest point estimate
-        baseline_choice = min(regions, key=lambda r: center_step[r])
+        baseline_choice = min(regions, key=lambda r: original_center_step[r])
 
         # Algorithm decision
         choice, diag = router.decide(mc_step, center_forecast=center_step, prev_choice=prev_choice, is_tail_aware=is_tail_aware)
-
+        
+        # for r in region_data:
+        #     unbiased_residual_data[r['name']].append(diag[r['name']]['thompson_draw'] + diag[r['name']]['bias_draw'] - r["actual_carbon"][t])
+        
         algo_actual = float(actual[choice][t])
         base_actual = float(actual[baseline_choice][t])
 
@@ -1077,62 +1286,140 @@ def run_routing_on_region_data(
         "total_baseline_actual_carbon": base_total,
         "total_pct_change_vs_baseline": total_pct_change,
         "final_states": {r: router.state[r] for r in regions},
+        "total_savings_pct": total_pct_change,
+        "p90_improvement_pct": pct,
     }
 
+
+def print_actual_carbon_std_var(region_result: Dict[str, Any]) -> None:
+    actual = region_result["actual_carbon"]
+    std_dev = np.std(actual, ddof=1)
+    variance = np.var(actual, ddof=1)
+    print(f"Region {region_result['name']} actual carbon std dev: {std_dev:.6g}, variance: {variance:.6g}")
+    
+def print_predicted_carbon_residual_std_var(region_result: Dict[str, Any]) -> None:
+    predicted_residual = region_result["actual_carbon"] - region_result["point_estimation_carbon"]
+    std_dev = np.std(predicted_residual, ddof=1)
+    variance = np.var(predicted_residual, ddof=1)
+    print(f"Region {region_result['name']} predicted_residual carbon std dev: {std_dev:.6g}, variance: {variance:.6g}")
+    
+def print_unbaised_predicted_carbon_residual_std_var(region_name: str, region_result: list) -> None:
+        residuals_array = np.array(region_result)
+        std_dev = np.std(residuals_array, ddof=1)
+        variance = np.var(residuals_array, ddof=1)
+        print(f"Region {region_name} unbiased predicted_residual carbon std dev: {std_dev:.6g}, variance: {variance:.6g}")
 
 
 if __name__ == "__main__":
     days = 30
-    window_size = 10
-    region1_result = main("GB", days, window_size)
-    region2_result = main("LT", days, window_size)
-    region3_result = main("CISO", days, window_size)
-    region4_result = main("NWMT", days, window_size)
-
-    region_data = [region1_result, region2_result, region3_result, region4_result]
-
-    residuals = []
-    for rr in region_data:
-        r = rr["actual_carbon"][:5] - rr["point_estimation_carbon"][:5]
-        residuals.append(r)
-
-    all_residuals = np.concatenate(residuals)
-    sigma2_init = np.var(all_residuals, ddof=1)
-    s2 = sigma2_init / 0.3
-
-    cvar_q = 0.9
-    risk_aversion = 1
-    discount = 0.7
-
-    out = run_routing_on_region_data(
-        region_data,
-        # switch_cost_if_switch=0.0,
-        risk_aversion=risk_aversion,
-        cvar_q=cvar_q,
-        paired_mc_index=False,
-        verbose=True,
-        init_sigma2=sigma2_init,
-        prior_s2=s2,
-        ewma_alpha = 0.03,
-        switch_cost_if_switch=0,
-        is_tail_aware=True,
-        discount=discount,
-        window_size=window_size
-    )
+    window_size = 7
     
-    out = run_routing_on_region_data(
-        region_data,
-        # switch_cost_if_switch=0.0,
-        risk_aversion=risk_aversion,
-        cvar_q=cvar_q,
-        paired_mc_index=False,
-        verbose=True,
-        init_sigma2=sigma2_init,
-        prior_s2=s2,
-        ewma_alpha = 0.03,
-        switch_cost_if_switch=0,
-        is_tail_aware=False,
-        discount=discount,
-        window_size=window_size
-    )
+    window_sizes = [1, 3, 7, 10, 24, 72, 96]
+    # is_vertical = True
+    is_vertical = False
+    is_refined = True
+    # is_refined = False
+    
+    total_savings = {}
+    total_tail_savings = {}
+    
+    for window_size in window_sizes:
+        total_savings["window_size_" + str(window_size)] = []
+        total_tail_savings["window_size_" + str(window_size)] = []
+        
+        region1_result = main("GB", days, window_size, ".", is_vertical, is_refined)
+        region2_result = main("LT", days, window_size, ".", is_vertical, is_refined)
+        region3_result = main("CISO", days, window_size, ".", is_vertical, is_refined)
+        region4_result = main("NWMT", days, window_size, ".", is_vertical, is_refined)
+        # exit()
+
+        region_data = [region1_result, region2_result, region3_result, region4_result]
+
+        residuals = []
+        for rr in region_data:
+            r = rr["actual_carbon"][:5] - rr["point_estimation_carbon"][:5]
+            residuals.append(r)
+
+        all_residuals = np.concatenate(residuals)
+        sigma2_init = np.var(all_residuals, ddof=1)
+        s2 = sigma2_init / 0.3
+
+        cvar_q = 0.9
+        risk_aversion = 0.5
+        discount = 0.7
+        
+        print(f"=" * 80)
+        
+        # unbiased_residual_data = dict()
+        # for rr in region_data:
+        #     unbiased_residual_data[rr['name']] = []
+        
+        
+        for i in range(30):
+            out = run_routing_on_region_data(
+                region_data,
+                # switch_cost_if_switch=0.0,
+                risk_aversion=risk_aversion,
+                cvar_q=cvar_q,
+                paired_mc_index=False,
+                verbose=True,
+                init_sigma2=sigma2_init,
+                prior_s2=s2,
+                ewma_alpha = 0.03,
+                switch_cost_if_switch=0,
+                is_tail_aware=True,
+                discount=discount,
+                window_size=window_size,
+                # unbiased_residual_data=unbiased_residual_data
+            )
+            
+            total_savings["window_size_" + str(window_size)].append(out["total_savings_pct"])
+            total_tail_savings["window_size_" + str(window_size)].append(out["p90_improvement_pct"])
+            
+            # print(f"=" * 80)
+            # for rr in region_data:
+            #     print_actual_carbon_std_var(rr)
+            # print(f"=" * 80)
+            # for rr in region_data:
+            #     print_predicted_carbon_residual_std_var(rr)
+            # print(f"=" * 80)
+            # for rr in region_data:
+            #     print_unbaised_predicted_carbon_residual_std_var(rr['name'], unbiased_residual_data[rr['name']])
+            # print(f"=" * 80)
+            
+
+            # residuals: 1D array-like
+
+            # for rr in region_data:
+            #     # residuals_array = np.array(unbiased_residual_data[rr['name']])
+            #     # mean_residual = np.mean(residuals_array)
+            #     # print(f"Region {rr['name']} unbiased residuals mean: {mean_residual :.6g}")
+            #     # lb_test = acorr_ljungbox(residuals_array, lags=[10], return_df=True)
+            #     # print(f"Region {rr['name']} Ljung-Box test results:\n{lb_test}\n")
+            #     residuals = rr[""] - rr["point_estimation_carbon"]
+            # exit()
+            # input("input")
+            
+            # out = run_routing_on_region_data(
+            #     region_data,
+            #     # switch_cost_if_switch=0.0,
+            #     risk_aversion=risk_aversion,
+            #     cvar_q=cvar_q,
+            #     paired_mc_index=False,
+            #     verbose=True,
+            #     init_sigma2=sigma2_init,
+            #     prior_s2=s2,
+            #     ewma_alpha = 0.03,
+            #     switch_cost_if_switch=0,
+            #     is_tail_aware=False,
+            #     discount=discount,
+            #     window_size=window_size
+            # )
+        
+    for window_size in window_sizes:
+        print("=" * 80)
+        savings_array = np.array(total_savings["window_size_" + str(window_size)])
+        tail_savings_array = np.array(total_tail_savings["window_size_" + str(window_size)])
+        print(f"Window size: {window_size}, Average Total Savings: {np.mean(savings_array):.3f}%, Std: {np.std(savings_array, ddof=1):.3f}%")
+        print(f"Window size: {window_size}, Average Tail Savings: {np.mean(tail_savings_array):.3f}%, Std: {np.std(tail_savings_array, ddof=1):.3f}%")
     

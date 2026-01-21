@@ -1,0 +1,4088 @@
+================================================================================
+Processing region: GB
+len(mc_obj) = 695
+len (mc_obj) = 695
+len gt_hourly_energy = 695
+Point-estimation prediction rate SMAPE: 24.49%
+Wrote 2-D pickles:
+  energy_samples_2d_uncorrected.pkl (shape (695, 15))
+  energy_samples_2d_corrected.pkl (shape (695, 15))
+Save to energy_summary.csv
+Corrected energy SMAPE: 8.43%
+Uncorrected energy SMAPE: 8.49%
+Original point-estimation energy rate SMAPE: 7.29%
+Refined point-estimation energy rate SMAPE: 8.43%
+[ci] verification code: 9324
+[ci] path: ./ci_data_GB_window_1_30d_horizontal.pkl
+[ci] gb_ci_data["predicted_ci_list"].shape: (720,)
+[ci] loaded ci data length: 720
+[ci] ground truth original predicted smape: 20.37%
+[ci] ground truth refined predicted smape: 20.37%
+[ci] ci original predicted smape: 18.12%
+[ci] ci refined predicted smape: 18.12%
+[final] point-estimation carbon SMAPE: 19.89%
+[final] refined point-estimation carbon SMAPE: 20.37%
+[final] mc smape: 20.37%
+================================================================================
+Processing region: LT
+len(mc_obj) = 695
+len (mc_obj) = 695
+len gt_hourly_energy = 695
+Point-estimation prediction rate SMAPE: 24.49%
+Wrote 2-D pickles:
+  energy_samples_2d_uncorrected.pkl (shape (695, 15))
+  energy_samples_2d_corrected.pkl (shape (695, 15))
+Save to energy_summary.csv
+Corrected energy SMAPE: 8.43%
+Uncorrected energy SMAPE: 8.49%
+Original point-estimation energy rate SMAPE: 7.29%
+Refined point-estimation energy rate SMAPE: 8.43%
+[ci] verification code: 9324
+[ci] path: ./ci_data_LT_window_1_30d_horizontal.pkl
+[ci] gb_ci_data["predicted_ci_list"].shape: (720,)
+[ci] loaded ci data length: 720
+[ci] ground truth original predicted smape: 38.55%
+[ci] ground truth refined predicted smape: 38.55%
+[ci] ci original predicted smape: 31.90%
+[ci] ci refined predicted smape: 31.90%
+[final] point-estimation carbon SMAPE: 32.80%
+[final] refined point-estimation carbon SMAPE: 33.68%
+[final] mc smape: 33.68%
+================================================================================
+Processing region: CISO
+len(mc_obj) = 695
+len (mc_obj) = 695
+len gt_hourly_energy = 695
+Point-estimation prediction rate SMAPE: 24.49%
+Wrote 2-D pickles:
+  energy_samples_2d_uncorrected.pkl (shape (695, 15))
+  energy_samples_2d_corrected.pkl (shape (695, 15))
+Save to energy_summary.csv
+Corrected energy SMAPE: 8.43%
+Uncorrected energy SMAPE: 8.49%
+Original point-estimation energy rate SMAPE: 7.29%
+Refined point-estimation energy rate SMAPE: 8.43%
+[ci] verification code: 9324
+[ci] path: ./ci_data_CISO_window_1_30d_horizontal.pkl
+[ci] gb_ci_data["predicted_ci_list"].shape: (720,)
+[ci] loaded ci data length: 720
+[ci] ground truth original predicted smape: 6.93%
+[ci] ground truth refined predicted smape: 6.93%
+[ci] ci original predicted smape: 6.59%
+[ci] ci refined predicted smape: 6.59%
+[final] point-estimation carbon SMAPE: 9.04%
+[final] refined point-estimation carbon SMAPE: 10.10%
+[final] mc smape: 10.10%
+================================================================================
+Processing region: NWMT
+len(mc_obj) = 695
+len (mc_obj) = 695
+len gt_hourly_energy = 695
+Point-estimation prediction rate SMAPE: 24.49%
+Wrote 2-D pickles:
+  energy_samples_2d_uncorrected.pkl (shape (695, 15))
+  energy_samples_2d_corrected.pkl (shape (695, 15))
+Save to energy_summary.csv
+Corrected energy SMAPE: 8.43%
+Uncorrected energy SMAPE: 8.49%
+Original point-estimation energy rate SMAPE: 7.29%
+Refined point-estimation energy rate SMAPE: 8.43%
+[ci] verification code: 9324
+[ci] path: ./ci_data_NWMT_window_1_30d_horizontal.pkl
+[ci] gb_ci_data["predicted_ci_list"].shape: (720,)
+[ci] loaded ci data length: 720
+[ci] ground truth original predicted smape: 4.44%
+[ci] ground truth refined predicted smape: 4.44%
+[ci] ci original predicted smape: 4.46%
+[ci] ci refined predicted smape: 4.46%
+[final] point-estimation carbon SMAPE: 8.62%
+[final] refined point-estimation carbon SMAPE: 9.44%
+[final] mc smape: 9.44%
+================================================================================
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 1
+
+TOTAL actual carbon: algo=1.89458e+10, baseline=1.98363e+10 => total saving=-4.489%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.55577e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.30096e+07
+Percent improvement: 10.939%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 1
+
+TOTAL actual carbon: algo=1.91653e+10, baseline=1.98363e+10 => total saving=-3.382%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.59261e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.37746e+07
+Percent improvement: 9.858%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 1
+
+TOTAL actual carbon: algo=1.89314e+10, baseline=1.98363e+10 => total saving=-4.562%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.55577e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.25609e+07
+Percent improvement: 11.573%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 1
+
+TOTAL actual carbon: algo=1.89818e+10, baseline=1.98363e+10 => total saving=-4.308%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.56403e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.32394e+07
+Percent improvement: 10.614%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 1
+
+TOTAL actual carbon: algo=1.90466e+10, baseline=1.98363e+10 => total saving=-3.981%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.54412e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.4423e+07
+Percent improvement: 8.941%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 1
+
+TOTAL actual carbon: algo=1.90484e+10, baseline=1.98363e+10 => total saving=-3.972%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.54412e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.35036e+07
+Percent improvement: 10.240%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 1
+
+TOTAL actual carbon: algo=1.8971e+10, baseline=1.98363e+10 => total saving=-4.362%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.53558e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.36383e+07
+Percent improvement: 10.050%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 1
+
+TOTAL actual carbon: algo=1.89233e+10, baseline=1.98363e+10 => total saving=-4.602%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.54429e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.20651e+07
+Percent improvement: 12.274%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 1
+
+TOTAL actual carbon: algo=1.90716e+10, baseline=1.98363e+10 => total saving=-3.855%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.54412e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.46815e+07
+Percent improvement: 8.576%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 1
+
+TOTAL actual carbon: algo=1.88497e+10, baseline=1.98363e+10 => total saving=-4.973%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.54357e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.13759e+07
+Percent improvement: 13.248%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 1
+
+TOTAL actual carbon: algo=1.90556e+10, baseline=1.98363e+10 => total saving=-3.936%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.56403e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.43659e+07
+Percent improvement: 9.022%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 1
+
+TOTAL actual carbon: algo=1.89156e+10, baseline=1.98363e+10 => total saving=-4.641%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.54357e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.16986e+07
+Percent improvement: 12.792%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 1
+
+TOTAL actual carbon: algo=1.89081e+10, baseline=1.98363e+10 => total saving=-4.679%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.50829e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.23154e+07
+Percent improvement: 11.920%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 1
+
+TOTAL actual carbon: algo=1.88577e+10, baseline=1.98363e+10 => total saving=-4.933%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.50064e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.20003e+07
+Percent improvement: 12.365%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 1
+
+TOTAL actual carbon: algo=1.89218e+10, baseline=1.98363e+10 => total saving=-4.610%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.53558e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.28109e+07
+Percent improvement: 11.220%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 1
+
+TOTAL actual carbon: algo=1.89799e+10, baseline=1.98363e+10 => total saving=-4.317%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.53558e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.26869e+07
+Percent improvement: 11.395%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 1
+
+TOTAL actual carbon: algo=1.89434e+10, baseline=1.98363e+10 => total saving=-4.501%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.51958e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.29412e+07
+Percent improvement: 11.035%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 1
+
+TOTAL actual carbon: algo=1.89631e+10, baseline=1.98363e+10 => total saving=-4.402%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.53558e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.35105e+07
+Percent improvement: 10.231%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 1
+
+TOTAL actual carbon: algo=1.91332e+10, baseline=1.98363e+10 => total saving=-3.544%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.59261e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.46892e+07
+Percent improvement: 8.565%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 1
+
+TOTAL actual carbon: algo=1.90381e+10, baseline=1.98363e+10 => total saving=-4.024%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.56909e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.34907e+07
+Percent improvement: 10.259%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 1
+
+TOTAL actual carbon: algo=1.89029e+10, baseline=1.98363e+10 => total saving=-4.705%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.50829e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.30487e+07
+Percent improvement: 10.884%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 1
+
+TOTAL actual carbon: algo=1.90571e+10, baseline=1.98363e+10 => total saving=-3.928%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.54357e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.28413e+07
+Percent improvement: 11.177%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 1
+
+TOTAL actual carbon: algo=1.89404e+10, baseline=1.98363e+10 => total saving=-4.516%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.51958e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.22188e+07
+Percent improvement: 12.057%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 1
+
+TOTAL actual carbon: algo=1.90158e+10, baseline=1.98363e+10 => total saving=-4.136%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.50829e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.26354e+07
+Percent improvement: 11.468%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 1
+
+TOTAL actual carbon: algo=1.89521e+10, baseline=1.98363e+10 => total saving=-4.457%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.53558e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.2856e+07
+Percent improvement: 11.156%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 1
+
+TOTAL actual carbon: algo=1.89004e+10, baseline=1.98363e+10 => total saving=-4.718%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.53558e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.30321e+07
+Percent improvement: 10.907%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 1
+
+TOTAL actual carbon: algo=1.90971e+10, baseline=1.98363e+10 => total saving=-3.726%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.5869e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.33173e+07
+Percent improvement: 10.504%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 1
+
+TOTAL actual carbon: algo=1.88661e+10, baseline=1.98363e+10 => total saving=-4.891%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.50829e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.25298e+07
+Percent improvement: 11.617%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 1
+
+TOTAL actual carbon: algo=1.88734e+10, baseline=1.98363e+10 => total saving=-4.854%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.51958e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.2488e+07
+Percent improvement: 11.676%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 1
+
+TOTAL actual carbon: algo=1.89969e+10, baseline=1.98363e+10 => total saving=-4.232%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.55577e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.30386e+07
+Percent improvement: 10.898%
+================================================================================
+Processing region: GB
+len(mc_obj) = 695
+len (mc_obj) = 695
+len gt_hourly_energy = 695
+Point-estimation prediction rate SMAPE: 24.49%
+Wrote 2-D pickles:
+  energy_samples_2d_uncorrected.pkl (shape (695, 15))
+  energy_samples_2d_corrected.pkl (shape (695, 15))
+Save to energy_summary.csv
+Corrected energy SMAPE: 8.43%
+Uncorrected energy SMAPE: 8.49%
+Original point-estimation energy rate SMAPE: 7.29%
+Refined point-estimation energy rate SMAPE: 8.43%
+[ci] verification code: 9324
+[ci] path: ./ci_data_GB_window_3_30d_horizontal.pkl
+[ci] gb_ci_data["predicted_ci_list"].shape: (720,)
+[ci] loaded ci data length: 720
+[ci] ground truth original predicted smape: 20.37%
+[ci] ground truth refined predicted smape: 20.73%
+[ci] ci original predicted smape: 18.12%
+[ci] ci refined predicted smape: 18.18%
+[final] point-estimation carbon SMAPE: 19.89%
+[final] refined point-estimation carbon SMAPE: 20.31%
+[final] mc smape: 19.82%
+================================================================================
+Processing region: LT
+len(mc_obj) = 695
+len (mc_obj) = 695
+len gt_hourly_energy = 695
+Point-estimation prediction rate SMAPE: 24.49%
+Wrote 2-D pickles:
+  energy_samples_2d_uncorrected.pkl (shape (695, 15))
+  energy_samples_2d_corrected.pkl (shape (695, 15))
+Save to energy_summary.csv
+Corrected energy SMAPE: 8.43%
+Uncorrected energy SMAPE: 8.49%
+Original point-estimation energy rate SMAPE: 7.29%
+Refined point-estimation energy rate SMAPE: 8.43%
+[ci] verification code: 9324
+[ci] path: ./ci_data_LT_window_3_30d_horizontal.pkl
+[ci] gb_ci_data["predicted_ci_list"].shape: (720,)
+[ci] loaded ci data length: 720
+[ci] ground truth original predicted smape: 38.55%
+[ci] ground truth refined predicted smape: 38.63%
+[ci] ci original predicted smape: 31.90%
+[ci] ci refined predicted smape: 31.37%
+[final] point-estimation carbon SMAPE: 32.80%
+[final] refined point-estimation carbon SMAPE: 32.91%
+[final] mc smape: 32.71%
+================================================================================
+Processing region: CISO
+len(mc_obj) = 695
+len (mc_obj) = 695
+len gt_hourly_energy = 695
+Point-estimation prediction rate SMAPE: 24.49%
+Wrote 2-D pickles:
+  energy_samples_2d_uncorrected.pkl (shape (695, 15))
+  energy_samples_2d_corrected.pkl (shape (695, 15))
+Save to energy_summary.csv
+Corrected energy SMAPE: 8.43%
+Uncorrected energy SMAPE: 8.49%
+Original point-estimation energy rate SMAPE: 7.29%
+Refined point-estimation energy rate SMAPE: 8.43%
+[ci] verification code: 9324
+[ci] path: ./ci_data_CISO_window_3_30d_horizontal.pkl
+[ci] gb_ci_data["predicted_ci_list"].shape: (720,)
+[ci] loaded ci data length: 720
+[ci] ground truth original predicted smape: 6.93%
+[ci] ground truth refined predicted smape: 7.00%
+[ci] ci original predicted smape: 6.59%
+[ci] ci refined predicted smape: 6.60%
+[final] point-estimation carbon SMAPE: 9.04%
+[final] refined point-estimation carbon SMAPE: 10.37%
+[final] mc smape: 10.13%
+================================================================================
+Processing region: NWMT
+len(mc_obj) = 695
+len (mc_obj) = 695
+len gt_hourly_energy = 695
+Point-estimation prediction rate SMAPE: 24.49%
+Wrote 2-D pickles:
+  energy_samples_2d_uncorrected.pkl (shape (695, 15))
+  energy_samples_2d_corrected.pkl (shape (695, 15))
+Save to energy_summary.csv
+Corrected energy SMAPE: 8.43%
+Uncorrected energy SMAPE: 8.49%
+Original point-estimation energy rate SMAPE: 7.29%
+Refined point-estimation energy rate SMAPE: 8.43%
+[ci] verification code: 9324
+[ci] path: ./ci_data_NWMT_window_3_30d_horizontal.pkl
+[ci] gb_ci_data["predicted_ci_list"].shape: (720,)
+[ci] loaded ci data length: 720
+[ci] ground truth original predicted smape: 4.44%
+[ci] ground truth refined predicted smape: 4.35%
+[ci] ci original predicted smape: 4.46%
+[ci] ci refined predicted smape: 4.32%
+[final] point-estimation carbon SMAPE: 8.62%
+[final] refined point-estimation carbon SMAPE: 9.35%
+[final] mc smape: 9.23%
+================================================================================
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 3
+
+TOTAL actual carbon: algo=1.90261e+10, baseline=1.98363e+10 => total saving=-4.084%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.54412e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.28991e+07
+Percent improvement: 11.095%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 3
+
+TOTAL actual carbon: algo=1.90009e+10, baseline=1.98363e+10 => total saving=-4.211%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.54412e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.38357e+07
+Percent improvement: 9.771%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 3
+
+TOTAL actual carbon: algo=1.88343e+10, baseline=1.98363e+10 => total saving=-5.051%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.50064e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.18049e+07
+Percent improvement: 12.642%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 3
+
+TOTAL actual carbon: algo=1.89591e+10, baseline=1.98363e+10 => total saving=-4.422%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.50829e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.31238e+07
+Percent improvement: 10.777%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 3
+
+TOTAL actual carbon: algo=1.90044e+10, baseline=1.98363e+10 => total saving=-4.194%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.51958e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.40444e+07
+Percent improvement: 9.476%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 3
+
+TOTAL actual carbon: algo=1.89213e+10, baseline=1.98363e+10 => total saving=-4.612%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.54486e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.24457e+07
+Percent improvement: 11.736%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 3
+
+TOTAL actual carbon: algo=1.89503e+10, baseline=1.98363e+10 => total saving=-4.466%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.51958e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.34416e+07
+Percent improvement: 10.328%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 3
+
+TOTAL actual carbon: algo=1.89457e+10, baseline=1.98363e+10 => total saving=-4.490%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.51958e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.32256e+07
+Percent improvement: 10.633%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 3
+
+TOTAL actual carbon: algo=1.88848e+10, baseline=1.98363e+10 => total saving=-4.796%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.51817e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.2473e+07
+Percent improvement: 11.697%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 3
+
+TOTAL actual carbon: algo=1.87747e+10, baseline=1.98363e+10 => total saving=-5.351%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.45572e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.03816e+07
+Percent improvement: 14.653%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 3
+
+TOTAL actual carbon: algo=1.89558e+10, baseline=1.98363e+10 => total saving=-4.439%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.54429e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.3271e+07
+Percent improvement: 10.569%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 3
+
+TOTAL actual carbon: algo=1.89159e+10, baseline=1.98363e+10 => total saving=-4.640%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.50064e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.24565e+07
+Percent improvement: 11.721%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 3
+
+TOTAL actual carbon: algo=1.88443e+10, baseline=1.98363e+10 => total saving=-5.001%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.51958e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.13117e+07
+Percent improvement: 13.339%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 3
+
+TOTAL actual carbon: algo=1.88449e+10, baseline=1.98363e+10 => total saving=-4.997%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.54486e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.19174e+07
+Percent improvement: 12.483%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 3
+
+TOTAL actual carbon: algo=1.87605e+10, baseline=1.98363e+10 => total saving=-5.423%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.50829e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.07363e+07
+Percent improvement: 14.152%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 3
+
+TOTAL actual carbon: algo=1.88089e+10, baseline=1.98363e+10 => total saving=-5.179%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.50064e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.13352e+07
+Percent improvement: 13.305%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 3
+
+TOTAL actual carbon: algo=1.87172e+10, baseline=1.98363e+10 => total saving=-5.641%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.45572e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.13522e+07
+Percent improvement: 13.281%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 3
+
+TOTAL actual carbon: algo=1.88932e+10, baseline=1.98363e+10 => total saving=-4.754%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.50829e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.26985e+07
+Percent improvement: 11.378%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 3
+
+TOTAL actual carbon: algo=1.89747e+10, baseline=1.98363e+10 => total saving=-4.343%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.54412e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.29039e+07
+Percent improvement: 11.088%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 3
+
+TOTAL actual carbon: algo=1.89427e+10, baseline=1.98363e+10 => total saving=-4.505%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.51958e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.18797e+07
+Percent improvement: 12.536%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 3
+
+TOTAL actual carbon: algo=1.88869e+10, baseline=1.98363e+10 => total saving=-4.786%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.54412e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.23889e+07
+Percent improvement: 11.816%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 3
+
+TOTAL actual carbon: algo=1.88814e+10, baseline=1.98363e+10 => total saving=-4.814%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.54429e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.24464e+07
+Percent improvement: 11.735%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 3
+
+TOTAL actual carbon: algo=1.89894e+10, baseline=1.98363e+10 => total saving=-4.269%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.50829e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.30665e+07
+Percent improvement: 10.858%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 3
+
+TOTAL actual carbon: algo=1.90186e+10, baseline=1.98363e+10 => total saving=-4.122%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.55577e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.35488e+07
+Percent improvement: 10.177%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 3
+
+TOTAL actual carbon: algo=1.90065e+10, baseline=1.98363e+10 => total saving=-4.183%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.53558e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.39145e+07
+Percent improvement: 9.660%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 3
+
+TOTAL actual carbon: algo=1.8881e+10, baseline=1.98363e+10 => total saving=-4.816%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.54412e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.23209e+07
+Percent improvement: 11.912%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 3
+
+TOTAL actual carbon: algo=1.88913e+10, baseline=1.98363e+10 => total saving=-4.764%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.54357e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.20123e+07
+Percent improvement: 12.348%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 3
+
+TOTAL actual carbon: algo=1.88804e+10, baseline=1.98363e+10 => total saving=-4.819%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.50829e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.20332e+07
+Percent improvement: 12.319%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 3
+
+TOTAL actual carbon: algo=1.89043e+10, baseline=1.98363e+10 => total saving=-4.698%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.50829e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.2817e+07
+Percent improvement: 11.211%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 3
+
+TOTAL actual carbon: algo=1.893e+10, baseline=1.98363e+10 => total saving=-4.569%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.51958e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.17865e+07
+Percent improvement: 12.668%
+================================================================================
+Processing region: GB
+len(mc_obj) = 695
+len (mc_obj) = 695
+len gt_hourly_energy = 695
+Point-estimation prediction rate SMAPE: 24.49%
+Wrote 2-D pickles:
+  energy_samples_2d_uncorrected.pkl (shape (695, 15))
+  energy_samples_2d_corrected.pkl (shape (695, 15))
+Save to energy_summary.csv
+Corrected energy SMAPE: 8.43%
+Uncorrected energy SMAPE: 8.49%
+Original point-estimation energy rate SMAPE: 7.29%
+Refined point-estimation energy rate SMAPE: 8.43%
+[ci] verification code: 9324
+[ci] path: ./ci_data_GB_window_7_30d_horizontal.pkl
+[ci] gb_ci_data["predicted_ci_list"].shape: (720,)
+[ci] loaded ci data length: 720
+[ci] ground truth original predicted smape: 20.37%
+[ci] ground truth refined predicted smape: 19.81%
+[ci] ci original predicted smape: 18.12%
+[ci] ci refined predicted smape: 17.92%
+[final] point-estimation carbon SMAPE: 19.89%
+[final] refined point-estimation carbon SMAPE: 19.99%
+[final] mc smape: 19.55%
+================================================================================
+Processing region: LT
+len(mc_obj) = 695
+len (mc_obj) = 695
+len gt_hourly_energy = 695
+Point-estimation prediction rate SMAPE: 24.49%
+Wrote 2-D pickles:
+  energy_samples_2d_uncorrected.pkl (shape (695, 15))
+  energy_samples_2d_corrected.pkl (shape (695, 15))
+Save to energy_summary.csv
+Corrected energy SMAPE: 8.43%
+Uncorrected energy SMAPE: 8.49%
+Original point-estimation energy rate SMAPE: 7.29%
+Refined point-estimation energy rate SMAPE: 8.43%
+[ci] verification code: 9324
+[ci] path: ./ci_data_LT_window_7_30d_horizontal.pkl
+[ci] gb_ci_data["predicted_ci_list"].shape: (720,)
+[ci] loaded ci data length: 720
+[ci] ground truth original predicted smape: 38.55%
+[ci] ground truth refined predicted smape: 37.72%
+[ci] ci original predicted smape: 31.90%
+[ci] ci refined predicted smape: 31.57%
+[final] point-estimation carbon SMAPE: 32.80%
+[final] refined point-estimation carbon SMAPE: 33.16%
+[final] mc smape: 33.14%
+================================================================================
+Processing region: CISO
+len(mc_obj) = 695
+len (mc_obj) = 695
+len gt_hourly_energy = 695
+Point-estimation prediction rate SMAPE: 24.49%
+Wrote 2-D pickles:
+  energy_samples_2d_uncorrected.pkl (shape (695, 15))
+  energy_samples_2d_corrected.pkl (shape (695, 15))
+Save to energy_summary.csv
+Corrected energy SMAPE: 8.43%
+Uncorrected energy SMAPE: 8.49%
+Original point-estimation energy rate SMAPE: 7.29%
+Refined point-estimation energy rate SMAPE: 8.43%
+[ci] verification code: 9324
+[ci] path: ./ci_data_CISO_window_7_30d_horizontal.pkl
+[ci] gb_ci_data["predicted_ci_list"].shape: (720,)
+[ci] loaded ci data length: 720
+[ci] ground truth original predicted smape: 6.93%
+[ci] ground truth refined predicted smape: 6.70%
+[ci] ci original predicted smape: 6.59%
+[ci] ci refined predicted smape: 6.36%
+[final] point-estimation carbon SMAPE: 9.04%
+[final] refined point-estimation carbon SMAPE: 9.94%
+[final] mc smape: 9.87%
+================================================================================
+Processing region: NWMT
+len(mc_obj) = 695
+len (mc_obj) = 695
+len gt_hourly_energy = 695
+Point-estimation prediction rate SMAPE: 24.49%
+Wrote 2-D pickles:
+  energy_samples_2d_uncorrected.pkl (shape (695, 15))
+  energy_samples_2d_corrected.pkl (shape (695, 15))
+Save to energy_summary.csv
+Corrected energy SMAPE: 8.43%
+Uncorrected energy SMAPE: 8.49%
+Original point-estimation energy rate SMAPE: 7.29%
+Refined point-estimation energy rate SMAPE: 8.43%
+[ci] verification code: 9324
+[ci] path: ./ci_data_NWMT_window_7_30d_horizontal.pkl
+[ci] gb_ci_data["predicted_ci_list"].shape: (720,)
+[ci] loaded ci data length: 720
+[ci] ground truth original predicted smape: 4.44%
+[ci] ground truth refined predicted smape: 4.18%
+[ci] ci original predicted smape: 4.46%
+[ci] ci refined predicted smape: 4.20%
+[final] point-estimation carbon SMAPE: 8.62%
+[final] refined point-estimation carbon SMAPE: 9.33%
+[final] mc smape: 9.24%
+================================================================================
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 7
+
+TOTAL actual carbon: algo=1.88113e+10, baseline=1.98363e+10 => total saving=-5.167%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.48612e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.18783e+07
+Percent improvement: 12.538%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 7
+
+TOTAL actual carbon: algo=1.90217e+10, baseline=1.98363e+10 => total saving=-4.107%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.54412e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.25167e+07
+Percent improvement: 11.635%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 7
+
+TOTAL actual carbon: algo=1.90001e+10, baseline=1.98363e+10 => total saving=-4.215%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.53558e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.25351e+07
+Percent improvement: 11.609%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 7
+
+TOTAL actual carbon: algo=1.89794e+10, baseline=1.98363e+10 => total saving=-4.319%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.54486e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.22051e+07
+Percent improvement: 12.076%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 7
+
+TOTAL actual carbon: algo=1.91774e+10, baseline=1.98363e+10 => total saving=-3.321%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.57469e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.44533e+07
+Percent improvement: 8.898%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 7
+
+TOTAL actual carbon: algo=1.8914e+10, baseline=1.98363e+10 => total saving=-4.649%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.53558e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.25678e+07
+Percent improvement: 11.563%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 7
+
+TOTAL actual carbon: algo=1.89828e+10, baseline=1.98363e+10 => total saving=-4.303%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.57469e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.24713e+07
+Percent improvement: 11.700%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 7
+
+TOTAL actual carbon: algo=1.90689e+10, baseline=1.98363e+10 => total saving=-3.868%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.54429e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.30772e+07
+Percent improvement: 10.843%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 7
+
+TOTAL actual carbon: algo=1.90501e+10, baseline=1.98363e+10 => total saving=-3.963%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.55577e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.311e+07
+Percent improvement: 10.797%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 7
+
+TOTAL actual carbon: algo=1.89449e+10, baseline=1.98363e+10 => total saving=-4.493%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.49568e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.2677e+07
+Percent improvement: 11.409%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 7
+
+TOTAL actual carbon: algo=1.89904e+10, baseline=1.98363e+10 => total saving=-4.264%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.54357e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.28016e+07
+Percent improvement: 11.233%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 7
+
+TOTAL actual carbon: algo=1.88997e+10, baseline=1.98363e+10 => total saving=-4.721%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.5213e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.18667e+07
+Percent improvement: 12.554%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 7
+
+TOTAL actual carbon: algo=1.88458e+10, baseline=1.98363e+10 => total saving=-4.993%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.48016e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.23015e+07
+Percent improvement: 11.940%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 7
+
+TOTAL actual carbon: algo=1.89502e+10, baseline=1.98363e+10 => total saving=-4.467%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.50829e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.2961e+07
+Percent improvement: 11.007%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 7
+
+TOTAL actual carbon: algo=1.89966e+10, baseline=1.98363e+10 => total saving=-4.233%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.54357e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.29951e+07
+Percent improvement: 10.959%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 7
+
+TOTAL actual carbon: algo=1.89357e+10, baseline=1.98363e+10 => total saving=-4.540%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.53558e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.24011e+07
+Percent improvement: 11.799%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 7
+
+TOTAL actual carbon: algo=1.8867e+10, baseline=1.98363e+10 => total saving=-4.886%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.50829e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.2014e+07
+Percent improvement: 12.346%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 7
+
+TOTAL actual carbon: algo=1.89188e+10, baseline=1.98363e+10 => total saving=-4.625%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.53558e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.15543e+07
+Percent improvement: 12.996%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 7
+
+TOTAL actual carbon: algo=1.90861e+10, baseline=1.98363e+10 => total saving=-3.782%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.54429e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.415e+07
+Percent improvement: 9.327%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 7
+
+TOTAL actual carbon: algo=1.91446e+10, baseline=1.98363e+10 => total saving=-3.487%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.55577e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.39445e+07
+Percent improvement: 9.617%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 7
+
+TOTAL actual carbon: algo=1.89175e+10, baseline=1.98363e+10 => total saving=-4.632%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.54486e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.22623e+07
+Percent improvement: 11.995%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 7
+
+TOTAL actual carbon: algo=1.89266e+10, baseline=1.98363e+10 => total saving=-4.586%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.54357e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.25921e+07
+Percent improvement: 11.529%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 7
+
+TOTAL actual carbon: algo=1.93877e+10, baseline=1.98363e+10 => total saving=-2.261%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.62528e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.57669e+07
+Percent improvement: 7.041%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 7
+
+TOTAL actual carbon: algo=1.89386e+10, baseline=1.98363e+10 => total saving=-4.525%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.49568e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.15975e+07
+Percent improvement: 12.935%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 7
+
+TOTAL actual carbon: algo=1.91001e+10, baseline=1.98363e+10 => total saving=-3.711%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.55577e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.42216e+07
+Percent improvement: 9.226%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 7
+
+TOTAL actual carbon: algo=1.90296e+10, baseline=1.98363e+10 => total saving=-4.066%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.53558e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.35991e+07
+Percent improvement: 10.105%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 7
+
+TOTAL actual carbon: algo=1.90941e+10, baseline=1.98363e+10 => total saving=-3.742%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.54412e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.44487e+07
+Percent improvement: 8.905%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 7
+
+TOTAL actual carbon: algo=1.90675e+10, baseline=1.98363e+10 => total saving=-3.876%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.55577e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.23427e+07
+Percent improvement: 11.881%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 7
+
+TOTAL actual carbon: algo=1.89796e+10, baseline=1.98363e+10 => total saving=-4.318%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.53558e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.30365e+07
+Percent improvement: 10.901%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 7
+
+TOTAL actual carbon: algo=1.90091e+10, baseline=1.98363e+10 => total saving=-4.170%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.53558e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.26527e+07
+Percent improvement: 11.443%
+================================================================================
+Processing region: GB
+len(mc_obj) = 695
+len (mc_obj) = 695
+len gt_hourly_energy = 695
+Point-estimation prediction rate SMAPE: 24.49%
+Wrote 2-D pickles:
+  energy_samples_2d_uncorrected.pkl (shape (695, 15))
+  energy_samples_2d_corrected.pkl (shape (695, 15))
+Save to energy_summary.csv
+Corrected energy SMAPE: 8.43%
+Uncorrected energy SMAPE: 8.49%
+Original point-estimation energy rate SMAPE: 7.29%
+Refined point-estimation energy rate SMAPE: 8.43%
+[ci] verification code: 9324
+[ci] path: ./ci_data_GB_window_10_30d_horizontal.pkl
+[ci] gb_ci_data["predicted_ci_list"].shape: (720,)
+[ci] loaded ci data length: 720
+[ci] ground truth original predicted smape: 20.37%
+[ci] ground truth refined predicted smape: 19.70%
+[ci] ci original predicted smape: 18.12%
+[ci] ci refined predicted smape: 17.50%
+[final] point-estimation carbon SMAPE: 19.89%
+[final] refined point-estimation carbon SMAPE: 19.88%
+[final] mc smape: 19.39%
+================================================================================
+Processing region: LT
+len(mc_obj) = 695
+len (mc_obj) = 695
+len gt_hourly_energy = 695
+Point-estimation prediction rate SMAPE: 24.49%
+Wrote 2-D pickles:
+  energy_samples_2d_uncorrected.pkl (shape (695, 15))
+  energy_samples_2d_corrected.pkl (shape (695, 15))
+Save to energy_summary.csv
+Corrected energy SMAPE: 8.43%
+Uncorrected energy SMAPE: 8.49%
+Original point-estimation energy rate SMAPE: 7.29%
+Refined point-estimation energy rate SMAPE: 8.43%
+[ci] verification code: 9324
+[ci] path: ./ci_data_LT_window_10_30d_horizontal.pkl
+[ci] gb_ci_data["predicted_ci_list"].shape: (720,)
+[ci] loaded ci data length: 720
+[ci] ground truth original predicted smape: 38.55%
+[ci] ground truth refined predicted smape: 37.42%
+[ci] ci original predicted smape: 31.90%
+[ci] ci refined predicted smape: 30.59%
+[final] point-estimation carbon SMAPE: 32.80%
+[final] refined point-estimation carbon SMAPE: 32.59%
+[final] mc smape: 32.59%
+================================================================================
+Processing region: CISO
+len(mc_obj) = 695
+len (mc_obj) = 695
+len gt_hourly_energy = 695
+Point-estimation prediction rate SMAPE: 24.49%
+Wrote 2-D pickles:
+  energy_samples_2d_uncorrected.pkl (shape (695, 15))
+  energy_samples_2d_corrected.pkl (shape (695, 15))
+Save to energy_summary.csv
+Corrected energy SMAPE: 8.43%
+Uncorrected energy SMAPE: 8.49%
+Original point-estimation energy rate SMAPE: 7.29%
+Refined point-estimation energy rate SMAPE: 8.43%
+[ci] verification code: 9324
+[ci] path: ./ci_data_CISO_window_10_30d_horizontal.pkl
+[ci] gb_ci_data["predicted_ci_list"].shape: (720,)
+[ci] loaded ci data length: 720
+[ci] ground truth original predicted smape: 6.93%
+[ci] ground truth refined predicted smape: 6.71%
+[ci] ci original predicted smape: 6.59%
+[ci] ci refined predicted smape: 6.51%
+[final] point-estimation carbon SMAPE: 9.04%
+[final] refined point-estimation carbon SMAPE: 10.12%
+[final] mc smape: 9.96%
+================================================================================
+Processing region: NWMT
+len(mc_obj) = 695
+len (mc_obj) = 695
+len gt_hourly_energy = 695
+Point-estimation prediction rate SMAPE: 24.49%
+Wrote 2-D pickles:
+  energy_samples_2d_uncorrected.pkl (shape (695, 15))
+  energy_samples_2d_corrected.pkl (shape (695, 15))
+Save to energy_summary.csv
+Corrected energy SMAPE: 8.43%
+Uncorrected energy SMAPE: 8.49%
+Original point-estimation energy rate SMAPE: 7.29%
+Refined point-estimation energy rate SMAPE: 8.43%
+[ci] verification code: 9324
+[ci] path: ./ci_data_NWMT_window_10_30d_horizontal.pkl
+[ci] gb_ci_data["predicted_ci_list"].shape: (720,)
+[ci] loaded ci data length: 720
+[ci] ground truth original predicted smape: 4.44%
+[ci] ground truth refined predicted smape: 4.21%
+[ci] ci original predicted smape: 4.46%
+[ci] ci refined predicted smape: 4.24%
+[final] point-estimation carbon SMAPE: 8.62%
+[final] refined point-estimation carbon SMAPE: 9.31%
+[final] mc smape: 9.23%
+================================================================================
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 10
+
+TOTAL actual carbon: algo=1.89119e+10, baseline=1.98363e+10 => total saving=-4.660%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.51958e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.30213e+07
+Percent improvement: 10.922%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 10
+
+TOTAL actual carbon: algo=1.89575e+10, baseline=1.98363e+10 => total saving=-4.430%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.52305e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.32784e+07
+Percent improvement: 10.559%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 10
+
+TOTAL actual carbon: algo=1.90656e+10, baseline=1.98363e+10 => total saving=-3.885%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.52305e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.31846e+07
+Percent improvement: 10.691%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 10
+
+TOTAL actual carbon: algo=1.9001e+10, baseline=1.98363e+10 => total saving=-4.211%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.53558e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.29495e+07
+Percent improvement: 11.024%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 10
+
+TOTAL actual carbon: algo=1.91169e+10, baseline=1.98363e+10 => total saving=-3.627%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.62477e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.35156e+07
+Percent improvement: 10.224%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 10
+
+TOTAL actual carbon: algo=1.91557e+10, baseline=1.98363e+10 => total saving=-3.431%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.57764e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.40907e+07
+Percent improvement: 9.411%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 10
+
+TOTAL actual carbon: algo=1.89786e+10, baseline=1.98363e+10 => total saving=-4.324%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.52305e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.28015e+07
+Percent improvement: 11.233%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 10
+
+TOTAL actual carbon: algo=1.89441e+10, baseline=1.98363e+10 => total saving=-4.498%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.50829e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.29109e+07
+Percent improvement: 11.078%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 10
+
+TOTAL actual carbon: algo=1.90072e+10, baseline=1.98363e+10 => total saving=-4.180%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.56403e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.32405e+07
+Percent improvement: 10.612%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 10
+
+TOTAL actual carbon: algo=1.91218e+10, baseline=1.98363e+10 => total saving=-3.602%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.54486e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.38907e+07
+Percent improvement: 9.693%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 10
+
+TOTAL actual carbon: algo=1.90181e+10, baseline=1.98363e+10 => total saving=-4.125%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.54412e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.38112e+07
+Percent improvement: 9.806%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 10
+
+TOTAL actual carbon: algo=1.89452e+10, baseline=1.98363e+10 => total saving=-4.492%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.51817e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.2582e+07
+Percent improvement: 11.543%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 10
+
+TOTAL actual carbon: algo=1.88875e+10, baseline=1.98363e+10 => total saving=-4.783%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.54357e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.14313e+07
+Percent improvement: 13.170%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 10
+
+TOTAL actual carbon: algo=1.88634e+10, baseline=1.98363e+10 => total saving=-4.904%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.55577e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.12e+07
+Percent improvement: 13.497%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 10
+
+TOTAL actual carbon: algo=1.89565e+10, baseline=1.98363e+10 => total saving=-4.435%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.53558e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.27348e+07
+Percent improvement: 11.327%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 10
+
+TOTAL actual carbon: algo=1.90987e+10, baseline=1.98363e+10 => total saving=-3.718%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.56403e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.37341e+07
+Percent improvement: 9.915%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 10
+
+TOTAL actual carbon: algo=1.88897e+10, baseline=1.98363e+10 => total saving=-4.772%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.52305e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.24914e+07
+Percent improvement: 11.671%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 10
+
+TOTAL actual carbon: algo=1.90499e+10, baseline=1.98363e+10 => total saving=-3.964%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.56852e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.38862e+07
+Percent improvement: 9.700%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 10
+
+TOTAL actual carbon: algo=1.90675e+10, baseline=1.98363e+10 => total saving=-3.876%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.52305e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.32627e+07
+Percent improvement: 10.581%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 10
+
+TOTAL actual carbon: algo=1.92103e+10, baseline=1.98363e+10 => total saving=-3.155%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.56403e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.48615e+07
+Percent improvement: 8.321%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 10
+
+TOTAL actual carbon: algo=1.91723e+10, baseline=1.98363e+10 => total saving=-3.347%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.56852e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.3664e+07
+Percent improvement: 10.014%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 10
+
+TOTAL actual carbon: algo=1.89549e+10, baseline=1.98363e+10 => total saving=-4.443%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.51817e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.23715e+07
+Percent improvement: 11.841%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 10
+
+TOTAL actual carbon: algo=1.89843e+10, baseline=1.98363e+10 => total saving=-4.295%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.53558e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.33405e+07
+Percent improvement: 10.471%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 10
+
+TOTAL actual carbon: algo=1.89796e+10, baseline=1.98363e+10 => total saving=-4.319%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.54412e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.29822e+07
+Percent improvement: 10.977%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 10
+
+TOTAL actual carbon: algo=1.89436e+10, baseline=1.98363e+10 => total saving=-4.500%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.53558e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.2854e+07
+Percent improvement: 11.159%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 10
+
+TOTAL actual carbon: algo=1.89734e+10, baseline=1.98363e+10 => total saving=-4.350%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.52305e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.23014e+07
+Percent improvement: 11.940%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 10
+
+TOTAL actual carbon: algo=1.89286e+10, baseline=1.98363e+10 => total saving=-4.576%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.51817e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.18347e+07
+Percent improvement: 12.599%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 10
+
+TOTAL actual carbon: algo=1.89531e+10, baseline=1.98363e+10 => total saving=-4.452%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.51817e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.2847e+07
+Percent improvement: 11.169%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 10
+
+TOTAL actual carbon: algo=1.88145e+10, baseline=1.98363e+10 => total saving=-5.151%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.48016e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.15954e+07
+Percent improvement: 12.938%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 10
+
+TOTAL actual carbon: algo=1.90284e+10, baseline=1.98363e+10 => total saving=-4.073%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.55577e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.23478e+07
+Percent improvement: 11.874%
+================================================================================
+Processing region: GB
+len(mc_obj) = 695
+len (mc_obj) = 695
+len gt_hourly_energy = 695
+Point-estimation prediction rate SMAPE: 24.49%
+Wrote 2-D pickles:
+  energy_samples_2d_uncorrected.pkl (shape (695, 15))
+  energy_samples_2d_corrected.pkl (shape (695, 15))
+Save to energy_summary.csv
+Corrected energy SMAPE: 8.43%
+Uncorrected energy SMAPE: 8.49%
+Original point-estimation energy rate SMAPE: 7.29%
+Refined point-estimation energy rate SMAPE: 8.43%
+[ci] verification code: 9324
+[ci] path: ./ci_data_GB_window_24_30d_horizontal.pkl
+[ci] gb_ci_data["predicted_ci_list"].shape: (720,)
+[ci] loaded ci data length: 720
+[ci] ground truth original predicted smape: 20.37%
+[ci] ground truth refined predicted smape: 20.15%
+[ci] ci original predicted smape: 18.12%
+[ci] ci refined predicted smape: 17.81%
+[final] point-estimation carbon SMAPE: 19.89%
+[final] refined point-estimation carbon SMAPE: 20.15%
+[final] mc smape: 19.87%
+================================================================================
+Processing region: LT
+len(mc_obj) = 695
+len (mc_obj) = 695
+len gt_hourly_energy = 695
+Point-estimation prediction rate SMAPE: 24.49%
+Wrote 2-D pickles:
+  energy_samples_2d_uncorrected.pkl (shape (695, 15))
+  energy_samples_2d_corrected.pkl (shape (695, 15))
+Save to energy_summary.csv
+Corrected energy SMAPE: 8.43%
+Uncorrected energy SMAPE: 8.49%
+Original point-estimation energy rate SMAPE: 7.29%
+Refined point-estimation energy rate SMAPE: 8.43%
+[ci] verification code: 9324
+[ci] path: ./ci_data_LT_window_24_30d_horizontal.pkl
+[ci] gb_ci_data["predicted_ci_list"].shape: (720,)
+[ci] loaded ci data length: 720
+[ci] ground truth original predicted smape: 38.55%
+[ci] ground truth refined predicted smape: 37.91%
+[ci] ci original predicted smape: 31.90%
+[ci] ci refined predicted smape: 31.59%
+[final] point-estimation carbon SMAPE: 32.80%
+[final] refined point-estimation carbon SMAPE: 33.47%
+[final] mc smape: 33.16%
+================================================================================
+Processing region: CISO
+len(mc_obj) = 695
+len (mc_obj) = 695
+len gt_hourly_energy = 695
+Point-estimation prediction rate SMAPE: 24.49%
+Wrote 2-D pickles:
+  energy_samples_2d_uncorrected.pkl (shape (695, 15))
+  energy_samples_2d_corrected.pkl (shape (695, 15))
+Save to energy_summary.csv
+Corrected energy SMAPE: 8.43%
+Uncorrected energy SMAPE: 8.49%
+Original point-estimation energy rate SMAPE: 7.29%
+Refined point-estimation energy rate SMAPE: 8.43%
+[ci] verification code: 9324
+[ci] path: ./ci_data_CISO_window_24_30d_horizontal.pkl
+[ci] gb_ci_data["predicted_ci_list"].shape: (720,)
+[ci] loaded ci data length: 720
+[ci] ground truth original predicted smape: 6.93%
+[ci] ground truth refined predicted smape: 6.80%
+[ci] ci original predicted smape: 6.59%
+[ci] ci refined predicted smape: 6.49%
+[final] point-estimation carbon SMAPE: 9.04%
+[final] refined point-estimation carbon SMAPE: 9.88%
+[final] mc smape: 9.86%
+================================================================================
+Processing region: NWMT
+len(mc_obj) = 695
+len (mc_obj) = 695
+len gt_hourly_energy = 695
+Point-estimation prediction rate SMAPE: 24.49%
+Wrote 2-D pickles:
+  energy_samples_2d_uncorrected.pkl (shape (695, 15))
+  energy_samples_2d_corrected.pkl (shape (695, 15))
+Save to energy_summary.csv
+Corrected energy SMAPE: 8.43%
+Uncorrected energy SMAPE: 8.49%
+Original point-estimation energy rate SMAPE: 7.29%
+Refined point-estimation energy rate SMAPE: 8.43%
+[ci] verification code: 9324
+[ci] path: ./ci_data_NWMT_window_24_30d_horizontal.pkl
+[ci] gb_ci_data["predicted_ci_list"].shape: (720,)
+[ci] loaded ci data length: 720
+[ci] ground truth original predicted smape: 4.44%
+[ci] ground truth refined predicted smape: 4.32%
+[ci] ci original predicted smape: 4.46%
+[ci] ci refined predicted smape: 4.38%
+[final] point-estimation carbon SMAPE: 8.62%
+[final] refined point-estimation carbon SMAPE: 9.36%
+[final] mc smape: 9.27%
+================================================================================
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 24
+
+TOTAL actual carbon: algo=1.89532e+10, baseline=1.98363e+10 => total saving=-4.452%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.52305e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.23995e+07
+Percent improvement: 11.801%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 24
+
+TOTAL actual carbon: algo=1.91013e+10, baseline=1.98363e+10 => total saving=-3.705%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.59315e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.34035e+07
+Percent improvement: 10.382%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 24
+
+TOTAL actual carbon: algo=1.89942e+10, baseline=1.98363e+10 => total saving=-4.245%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.52305e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.26421e+07
+Percent improvement: 11.458%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 24
+
+TOTAL actual carbon: algo=1.90223e+10, baseline=1.98363e+10 => total saving=-4.103%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.54412e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.36929e+07
+Percent improvement: 9.973%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 24
+
+TOTAL actual carbon: algo=1.89962e+10, baseline=1.98363e+10 => total saving=-4.235%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.54429e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.33215e+07
+Percent improvement: 10.498%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 24
+
+TOTAL actual carbon: algo=1.89331e+10, baseline=1.98363e+10 => total saving=-4.553%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.53558e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.29474e+07
+Percent improvement: 11.027%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 24
+
+TOTAL actual carbon: algo=1.90223e+10, baseline=1.98363e+10 => total saving=-4.103%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.50829e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.26302e+07
+Percent improvement: 11.475%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 24
+
+TOTAL actual carbon: algo=1.90643e+10, baseline=1.98363e+10 => total saving=-3.892%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.58146e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.42599e+07
+Percent improvement: 9.172%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 24
+
+TOTAL actual carbon: algo=1.89184e+10, baseline=1.98363e+10 => total saving=-4.627%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.56909e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.28826e+07
+Percent improvement: 11.118%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 24
+
+TOTAL actual carbon: algo=1.9057e+10, baseline=1.98363e+10 => total saving=-3.928%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.53558e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.43016e+07
+Percent improvement: 9.113%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 24
+
+TOTAL actual carbon: algo=1.90017e+10, baseline=1.98363e+10 => total saving=-4.207%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.54429e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.35973e+07
+Percent improvement: 10.108%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 24
+
+TOTAL actual carbon: algo=1.90023e+10, baseline=1.98363e+10 => total saving=-4.204%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.56403e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.32648e+07
+Percent improvement: 10.578%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 24
+
+TOTAL actual carbon: algo=1.90073e+10, baseline=1.98363e+10 => total saving=-4.179%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.54412e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.35751e+07
+Percent improvement: 10.139%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 24
+
+TOTAL actual carbon: algo=1.89695e+10, baseline=1.98363e+10 => total saving=-4.370%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.55577e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.22995e+07
+Percent improvement: 11.942%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 24
+
+TOTAL actual carbon: algo=1.90254e+10, baseline=1.98363e+10 => total saving=-4.088%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.55577e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.317e+07
+Percent improvement: 10.712%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 24
+
+TOTAL actual carbon: algo=1.89872e+10, baseline=1.98363e+10 => total saving=-4.280%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.57764e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.2862e+07
+Percent improvement: 11.147%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 24
+
+TOTAL actual carbon: algo=1.88571e+10, baseline=1.98363e+10 => total saving=-4.936%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.52305e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.22019e+07
+Percent improvement: 12.080%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 24
+
+TOTAL actual carbon: algo=1.90949e+10, baseline=1.98363e+10 => total saving=-3.738%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.56403e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.33954e+07
+Percent improvement: 10.393%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 24
+
+TOTAL actual carbon: algo=1.89477e+10, baseline=1.98363e+10 => total saving=-4.480%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.54357e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.25018e+07
+Percent improvement: 11.656%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 24
+
+TOTAL actual carbon: algo=1.90159e+10, baseline=1.98363e+10 => total saving=-4.136%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.54429e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.25775e+07
+Percent improvement: 11.550%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 24
+
+TOTAL actual carbon: algo=1.90904e+10, baseline=1.98363e+10 => total saving=-3.760%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.56852e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.35943e+07
+Percent improvement: 10.112%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 24
+
+TOTAL actual carbon: algo=1.89047e+10, baseline=1.98363e+10 => total saving=-4.696%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.54412e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.29727e+07
+Percent improvement: 10.991%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 24
+
+TOTAL actual carbon: algo=1.89542e+10, baseline=1.98363e+10 => total saving=-4.446%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.54412e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.25978e+07
+Percent improvement: 11.521%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 24
+
+TOTAL actual carbon: algo=1.9113e+10, baseline=1.98363e+10 => total saving=-3.646%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.55577e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.37353e+07
+Percent improvement: 9.913%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 24
+
+TOTAL actual carbon: algo=1.92134e+10, baseline=1.98363e+10 => total saving=-3.140%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.56909e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.58453e+07
+Percent improvement: 6.931%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 24
+
+TOTAL actual carbon: algo=1.8874e+10, baseline=1.98363e+10 => total saving=-4.851%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.51958e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.2188e+07
+Percent improvement: 12.100%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 24
+
+TOTAL actual carbon: algo=1.89729e+10, baseline=1.98363e+10 => total saving=-4.352%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.56403e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.30482e+07
+Percent improvement: 10.884%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 24
+
+TOTAL actual carbon: algo=1.90431e+10, baseline=1.98363e+10 => total saving=-3.999%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.5869e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.36801e+07
+Percent improvement: 9.991%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 24
+
+TOTAL actual carbon: algo=1.91478e+10, baseline=1.98363e+10 => total saving=-3.471%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.54429e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.47024e+07
+Percent improvement: 8.546%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 24
+
+TOTAL actual carbon: algo=1.90271e+10, baseline=1.98363e+10 => total saving=-4.079%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.56852e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.36527e+07
+Percent improvement: 10.030%
+================================================================================
+Processing region: GB
+len(mc_obj) = 695
+len (mc_obj) = 695
+len gt_hourly_energy = 695
+Point-estimation prediction rate SMAPE: 24.49%
+Wrote 2-D pickles:
+  energy_samples_2d_uncorrected.pkl (shape (695, 15))
+  energy_samples_2d_corrected.pkl (shape (695, 15))
+Save to energy_summary.csv
+Corrected energy SMAPE: 8.43%
+Uncorrected energy SMAPE: 8.49%
+Original point-estimation energy rate SMAPE: 7.29%
+Refined point-estimation energy rate SMAPE: 8.43%
+[ci] verification code: 9324
+[ci] path: ./ci_data_GB_window_72_30d_horizontal.pkl
+[ci] gb_ci_data["predicted_ci_list"].shape: (720,)
+[ci] loaded ci data length: 720
+[ci] ground truth original predicted smape: 20.37%
+[ci] ground truth refined predicted smape: 20.30%
+[ci] ci original predicted smape: 18.12%
+[ci] ci refined predicted smape: 18.00%
+[final] point-estimation carbon SMAPE: 19.89%
+[final] refined point-estimation carbon SMAPE: 20.30%
+[final] mc smape: 20.04%
+================================================================================
+Processing region: LT
+len(mc_obj) = 695
+len (mc_obj) = 695
+len gt_hourly_energy = 695
+Point-estimation prediction rate SMAPE: 24.49%
+Wrote 2-D pickles:
+  energy_samples_2d_uncorrected.pkl (shape (695, 15))
+  energy_samples_2d_corrected.pkl (shape (695, 15))
+Save to energy_summary.csv
+Corrected energy SMAPE: 8.43%
+Uncorrected energy SMAPE: 8.49%
+Original point-estimation energy rate SMAPE: 7.29%
+Refined point-estimation energy rate SMAPE: 8.43%
+[ci] verification code: 9324
+[ci] path: ./ci_data_LT_window_72_30d_horizontal.pkl
+[ci] gb_ci_data["predicted_ci_list"].shape: (720,)
+[ci] loaded ci data length: 720
+[ci] ground truth original predicted smape: 38.55%
+[ci] ground truth refined predicted smape: 38.28%
+[ci] ci original predicted smape: 31.90%
+[ci] ci refined predicted smape: 31.78%
+[final] point-estimation carbon SMAPE: 32.80%
+[final] refined point-estimation carbon SMAPE: 33.53%
+[final] mc smape: 33.46%
+================================================================================
+Processing region: CISO
+len(mc_obj) = 695
+len (mc_obj) = 695
+len gt_hourly_energy = 695
+Point-estimation prediction rate SMAPE: 24.49%
+Wrote 2-D pickles:
+  energy_samples_2d_uncorrected.pkl (shape (695, 15))
+  energy_samples_2d_corrected.pkl (shape (695, 15))
+Save to energy_summary.csv
+Corrected energy SMAPE: 8.43%
+Uncorrected energy SMAPE: 8.49%
+Original point-estimation energy rate SMAPE: 7.29%
+Refined point-estimation energy rate SMAPE: 8.43%
+[ci] verification code: 9324
+[ci] path: ./ci_data_CISO_window_72_30d_horizontal.pkl
+[ci] gb_ci_data["predicted_ci_list"].shape: (720,)
+[ci] loaded ci data length: 720
+[ci] ground truth original predicted smape: 6.93%
+[ci] ground truth refined predicted smape: 6.91%
+[ci] ci original predicted smape: 6.59%
+[ci] ci refined predicted smape: 6.61%
+[final] point-estimation carbon SMAPE: 9.04%
+[final] refined point-estimation carbon SMAPE: 10.04%
+[final] mc smape: 9.97%
+================================================================================
+Processing region: NWMT
+len(mc_obj) = 695
+len (mc_obj) = 695
+len gt_hourly_energy = 695
+Point-estimation prediction rate SMAPE: 24.49%
+Wrote 2-D pickles:
+  energy_samples_2d_uncorrected.pkl (shape (695, 15))
+  energy_samples_2d_corrected.pkl (shape (695, 15))
+Save to energy_summary.csv
+Corrected energy SMAPE: 8.43%
+Uncorrected energy SMAPE: 8.49%
+Original point-estimation energy rate SMAPE: 7.29%
+Refined point-estimation energy rate SMAPE: 8.43%
+[ci] verification code: 9324
+[ci] path: ./ci_data_NWMT_window_72_30d_horizontal.pkl
+[ci] gb_ci_data["predicted_ci_list"].shape: (720,)
+[ci] loaded ci data length: 720
+[ci] ground truth original predicted smape: 4.44%
+[ci] ground truth refined predicted smape: 4.39%
+[ci] ci original predicted smape: 4.46%
+[ci] ci refined predicted smape: 4.40%
+[final] point-estimation carbon SMAPE: 8.62%
+[final] refined point-estimation carbon SMAPE: 9.40%
+[final] mc smape: 9.29%
+================================================================================
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 72
+
+TOTAL actual carbon: algo=1.90155e+10, baseline=1.98363e+10 => total saving=-4.137%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.53558e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.36947e+07
+Percent improvement: 9.970%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 72
+
+TOTAL actual carbon: algo=1.89548e+10, baseline=1.98363e+10 => total saving=-4.443%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.52305e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.31113e+07
+Percent improvement: 10.795%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 72
+
+TOTAL actual carbon: algo=1.90084e+10, baseline=1.98363e+10 => total saving=-4.174%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.54429e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.30369e+07
+Percent improvement: 10.900%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 72
+
+TOTAL actual carbon: algo=1.89413e+10, baseline=1.98363e+10 => total saving=-4.511%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.53558e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.34904e+07
+Percent improvement: 10.259%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 72
+
+TOTAL actual carbon: algo=1.9183e+10, baseline=1.98363e+10 => total saving=-3.293%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.56403e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.45483e+07
+Percent improvement: 8.764%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 72
+
+TOTAL actual carbon: algo=1.90295e+10, baseline=1.98363e+10 => total saving=-4.067%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.52305e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.30833e+07
+Percent improvement: 10.835%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 72
+
+TOTAL actual carbon: algo=1.90025e+10, baseline=1.98363e+10 => total saving=-4.203%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.52305e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.35094e+07
+Percent improvement: 10.232%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 72
+
+TOTAL actual carbon: algo=1.9056e+10, baseline=1.98363e+10 => total saving=-3.934%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.56403e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.34937e+07
+Percent improvement: 10.254%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 72
+
+TOTAL actual carbon: algo=1.89615e+10, baseline=1.98363e+10 => total saving=-4.410%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.56403e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.27307e+07
+Percent improvement: 11.333%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 72
+
+TOTAL actual carbon: algo=1.90713e+10, baseline=1.98363e+10 => total saving=-3.856%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.56909e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.40037e+07
+Percent improvement: 9.534%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 72
+
+TOTAL actual carbon: algo=1.88838e+10, baseline=1.98363e+10 => total saving=-4.802%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.54429e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.17319e+07
+Percent improvement: 12.745%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 72
+
+TOTAL actual carbon: algo=1.88318e+10, baseline=1.98363e+10 => total saving=-5.064%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.49568e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.15257e+07
+Percent improvement: 13.036%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 72
+
+TOTAL actual carbon: algo=1.90401e+10, baseline=1.98363e+10 => total saving=-4.014%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.56909e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.3471e+07
+Percent improvement: 10.287%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 72
+
+TOTAL actual carbon: algo=1.90827e+10, baseline=1.98363e+10 => total saving=-3.799%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.58391e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.39984e+07
+Percent improvement: 9.541%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 72
+
+TOTAL actual carbon: algo=1.90264e+10, baseline=1.98363e+10 => total saving=-4.083%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.55577e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.40552e+07
+Percent improvement: 9.461%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 72
+
+TOTAL actual carbon: algo=1.8989e+10, baseline=1.98363e+10 => total saving=-4.271%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.56909e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.28582e+07
+Percent improvement: 11.153%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 72
+
+TOTAL actual carbon: algo=1.90579e+10, baseline=1.98363e+10 => total saving=-3.924%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.55577e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.35035e+07
+Percent improvement: 10.241%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 72
+
+TOTAL actual carbon: algo=1.89302e+10, baseline=1.98363e+10 => total saving=-4.568%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.54357e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.28209e+07
+Percent improvement: 11.205%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 72
+
+TOTAL actual carbon: algo=1.91414e+10, baseline=1.98363e+10 => total saving=-3.503%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.54429e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.48884e+07
+Percent improvement: 8.283%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 72
+
+TOTAL actual carbon: algo=1.89697e+10, baseline=1.98363e+10 => total saving=-4.369%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.55577e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.30058e+07
+Percent improvement: 10.944%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 72
+
+TOTAL actual carbon: algo=1.89148e+10, baseline=1.98363e+10 => total saving=-4.645%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.56403e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.17697e+07
+Percent improvement: 12.691%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 72
+
+TOTAL actual carbon: algo=1.90724e+10, baseline=1.98363e+10 => total saving=-3.851%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.56909e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.33369e+07
+Percent improvement: 10.476%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 72
+
+TOTAL actual carbon: algo=1.89572e+10, baseline=1.98363e+10 => total saving=-4.432%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.56403e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.26066e+07
+Percent improvement: 11.508%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 72
+
+TOTAL actual carbon: algo=1.88751e+10, baseline=1.98363e+10 => total saving=-4.845%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.50829e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.24088e+07
+Percent improvement: 11.788%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 72
+
+TOTAL actual carbon: algo=1.91103e+10, baseline=1.98363e+10 => total saving=-3.660%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.59261e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.49945e+07
+Percent improvement: 8.133%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 72
+
+TOTAL actual carbon: algo=1.89717e+10, baseline=1.98363e+10 => total saving=-4.359%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.5213e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.30183e+07
+Percent improvement: 10.926%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 72
+
+TOTAL actual carbon: algo=1.9093e+10, baseline=1.98363e+10 => total saving=-3.747%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.5869e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.43325e+07
+Percent improvement: 9.069%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 72
+
+TOTAL actual carbon: algo=1.92028e+10, baseline=1.98363e+10 => total saving=-3.194%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.60537e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.50777e+07
+Percent improvement: 8.016%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 72
+
+TOTAL actual carbon: algo=1.89165e+10, baseline=1.98363e+10 => total saving=-4.637%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.51958e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.24049e+07
+Percent improvement: 11.793%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 72
+
+TOTAL actual carbon: algo=1.92005e+10, baseline=1.98363e+10 => total saving=-3.205%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.56852e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.46914e+07
+Percent improvement: 8.562%
+================================================================================
+Processing region: GB
+len(mc_obj) = 695
+len (mc_obj) = 695
+len gt_hourly_energy = 695
+Point-estimation prediction rate SMAPE: 24.49%
+Wrote 2-D pickles:
+  energy_samples_2d_uncorrected.pkl (shape (695, 15))
+  energy_samples_2d_corrected.pkl (shape (695, 15))
+Save to energy_summary.csv
+Corrected energy SMAPE: 8.43%
+Uncorrected energy SMAPE: 8.49%
+Original point-estimation energy rate SMAPE: 7.29%
+Refined point-estimation energy rate SMAPE: 8.43%
+[ci] verification code: 9324
+[ci] path: ./ci_data_GB_window_96_30d_horizontal.pkl
+[ci] gb_ci_data["predicted_ci_list"].shape: (720,)
+[ci] loaded ci data length: 720
+[ci] ground truth original predicted smape: 20.37%
+[ci] ground truth refined predicted smape: 20.32%
+[ci] ci original predicted smape: 18.12%
+[ci] ci refined predicted smape: 17.94%
+[final] point-estimation carbon SMAPE: 19.89%
+[final] refined point-estimation carbon SMAPE: 20.20%
+[final] mc smape: 19.96%
+================================================================================
+Processing region: LT
+len(mc_obj) = 695
+len (mc_obj) = 695
+len gt_hourly_energy = 695
+Point-estimation prediction rate SMAPE: 24.49%
+Wrote 2-D pickles:
+  energy_samples_2d_uncorrected.pkl (shape (695, 15))
+  energy_samples_2d_corrected.pkl (shape (695, 15))
+Save to energy_summary.csv
+Corrected energy SMAPE: 8.43%
+Uncorrected energy SMAPE: 8.49%
+Original point-estimation energy rate SMAPE: 7.29%
+Refined point-estimation energy rate SMAPE: 8.43%
+[ci] verification code: 9324
+[ci] path: ./ci_data_LT_window_96_30d_horizontal.pkl
+[ci] gb_ci_data["predicted_ci_list"].shape: (720,)
+[ci] loaded ci data length: 720
+[ci] ground truth original predicted smape: 38.55%
+[ci] ground truth refined predicted smape: 38.25%
+[ci] ci original predicted smape: 31.90%
+[ci] ci refined predicted smape: 31.72%
+[final] point-estimation carbon SMAPE: 32.80%
+[final] refined point-estimation carbon SMAPE: 33.55%
+[final] mc smape: 33.42%
+================================================================================
+Processing region: CISO
+len(mc_obj) = 695
+len (mc_obj) = 695
+len gt_hourly_energy = 695
+Point-estimation prediction rate SMAPE: 24.49%
+Wrote 2-D pickles:
+  energy_samples_2d_uncorrected.pkl (shape (695, 15))
+  energy_samples_2d_corrected.pkl (shape (695, 15))
+Save to energy_summary.csv
+Corrected energy SMAPE: 8.43%
+Uncorrected energy SMAPE: 8.49%
+Original point-estimation energy rate SMAPE: 7.29%
+Refined point-estimation energy rate SMAPE: 8.43%
+[ci] verification code: 9324
+[ci] path: ./ci_data_CISO_window_96_30d_horizontal.pkl
+[ci] gb_ci_data["predicted_ci_list"].shape: (720,)
+[ci] loaded ci data length: 720
+[ci] ground truth original predicted smape: 6.93%
+[ci] ground truth refined predicted smape: 6.91%
+[ci] ci original predicted smape: 6.59%
+[ci] ci refined predicted smape: 6.59%
+[final] point-estimation carbon SMAPE: 9.04%
+[final] refined point-estimation carbon SMAPE: 10.05%
+[final] mc smape: 9.92%
+================================================================================
+Processing region: NWMT
+len(mc_obj) = 695
+len (mc_obj) = 695
+len gt_hourly_energy = 695
+Point-estimation prediction rate SMAPE: 24.49%
+Wrote 2-D pickles:
+  energy_samples_2d_uncorrected.pkl (shape (695, 15))
+  energy_samples_2d_corrected.pkl (shape (695, 15))
+Save to energy_summary.csv
+Corrected energy SMAPE: 8.43%
+Uncorrected energy SMAPE: 8.49%
+Original point-estimation energy rate SMAPE: 7.29%
+Refined point-estimation energy rate SMAPE: 8.43%
+[ci] verification code: 9324
+[ci] path: ./ci_data_NWMT_window_96_30d_horizontal.pkl
+[ci] gb_ci_data["predicted_ci_list"].shape: (720,)
+[ci] loaded ci data length: 720
+[ci] ground truth original predicted smape: 4.44%
+[ci] ground truth refined predicted smape: 4.41%
+[ci] ci original predicted smape: 4.46%
+[ci] ci refined predicted smape: 4.42%
+[final] point-estimation carbon SMAPE: 8.62%
+[final] refined point-estimation carbon SMAPE: 9.39%
+[final] mc smape: 9.27%
+================================================================================
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 96
+
+TOTAL actual carbon: algo=1.9065e+10, baseline=1.98363e+10 => total saving=-3.888%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.58238e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.37314e+07
+Percent improvement: 9.919%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 96
+
+TOTAL actual carbon: algo=1.90611e+10, baseline=1.98363e+10 => total saving=-3.908%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.57169e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.35682e+07
+Percent improvement: 10.149%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 96
+
+TOTAL actual carbon: algo=1.90859e+10, baseline=1.98363e+10 => total saving=-3.783%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.54412e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.34387e+07
+Percent improvement: 10.332%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 96
+
+TOTAL actual carbon: algo=1.91146e+10, baseline=1.98363e+10 => total saving=-3.638%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.56403e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.41096e+07
+Percent improvement: 9.384%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 96
+
+TOTAL actual carbon: algo=1.90002e+10, baseline=1.98363e+10 => total saving=-4.215%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.54429e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.29856e+07
+Percent improvement: 10.973%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 96
+
+TOTAL actual carbon: algo=1.91091e+10, baseline=1.98363e+10 => total saving=-3.666%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.55591e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.45684e+07
+Percent improvement: 8.736%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 96
+
+TOTAL actual carbon: algo=1.91437e+10, baseline=1.98363e+10 => total saving=-3.491%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.56909e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.46002e+07
+Percent improvement: 8.691%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 96
+
+TOTAL actual carbon: algo=1.91789e+10, baseline=1.98363e+10 => total saving=-3.314%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.62477e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.43344e+07
+Percent improvement: 9.066%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 96
+
+TOTAL actual carbon: algo=1.90285e+10, baseline=1.98363e+10 => total saving=-4.072%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.51958e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.44378e+07
+Percent improvement: 8.920%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 96
+
+TOTAL actual carbon: algo=1.89776e+10, baseline=1.98363e+10 => total saving=-4.329%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.55577e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.26546e+07
+Percent improvement: 11.441%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 96
+
+TOTAL actual carbon: algo=1.91686e+10, baseline=1.98363e+10 => total saving=-3.366%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.56403e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.5548e+07
+Percent improvement: 7.351%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 96
+
+TOTAL actual carbon: algo=1.91193e+10, baseline=1.98363e+10 => total saving=-3.614%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.58334e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.45642e+07
+Percent improvement: 8.741%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 96
+
+TOTAL actual carbon: algo=1.90459e+10, baseline=1.98363e+10 => total saving=-3.984%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.55577e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.32891e+07
+Percent improvement: 10.544%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 96
+
+TOTAL actual carbon: algo=1.90509e+10, baseline=1.98363e+10 => total saving=-3.959%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.55577e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.34722e+07
+Percent improvement: 10.285%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 96
+
+TOTAL actual carbon: algo=1.90091e+10, baseline=1.98363e+10 => total saving=-4.170%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.5869e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.42713e+07
+Percent improvement: 9.155%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 96
+
+TOTAL actual carbon: algo=1.90709e+10, baseline=1.98363e+10 => total saving=-3.858%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.54412e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.44155e+07
+Percent improvement: 8.952%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 96
+
+TOTAL actual carbon: algo=1.9009e+10, baseline=1.98363e+10 => total saving=-4.171%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.5213e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.35452e+07
+Percent improvement: 10.182%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 96
+
+TOTAL actual carbon: algo=1.90016e+10, baseline=1.98363e+10 => total saving=-4.208%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.53558e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.38427e+07
+Percent improvement: 9.761%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 96
+
+TOTAL actual carbon: algo=1.92073e+10, baseline=1.98363e+10 => total saving=-3.171%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.56909e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.48791e+07
+Percent improvement: 8.296%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 96
+
+TOTAL actual carbon: algo=1.91028e+10, baseline=1.98363e+10 => total saving=-3.697%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.62477e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.41585e+07
+Percent improvement: 9.315%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 96
+
+TOTAL actual carbon: algo=1.92467e+10, baseline=1.98363e+10 => total saving=-2.972%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.5869e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.51142e+07
+Percent improvement: 7.964%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 96
+
+TOTAL actual carbon: algo=1.90715e+10, baseline=1.98363e+10 => total saving=-3.855%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.55591e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.483e+07
+Percent improvement: 8.366%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 96
+
+TOTAL actual carbon: algo=1.90164e+10, baseline=1.98363e+10 => total saving=-4.133%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.54412e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.28363e+07
+Percent improvement: 11.184%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 96
+
+TOTAL actual carbon: algo=1.92069e+10, baseline=1.98363e+10 => total saving=-3.173%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.56403e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.55887e+07
+Percent improvement: 7.293%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 96
+
+TOTAL actual carbon: algo=1.9061e+10, baseline=1.98363e+10 => total saving=-3.908%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.58064e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.35298e+07
+Percent improvement: 10.204%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 96
+
+TOTAL actual carbon: algo=1.90668e+10, baseline=1.98363e+10 => total saving=-3.879%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.55577e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.38162e+07
+Percent improvement: 9.799%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 96
+
+TOTAL actual carbon: algo=1.90172e+10, baseline=1.98363e+10 => total saving=-4.129%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.53558e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.27354e+07
+Percent improvement: 11.326%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 96
+
+TOTAL actual carbon: algo=1.8953e+10, baseline=1.98363e+10 => total saving=-4.453%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.51958e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.35321e+07
+Percent improvement: 10.200%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 96
+
+TOTAL actual carbon: algo=1.89264e+10, baseline=1.98363e+10 => total saving=-4.587%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.49568e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.33e+07
+Percent improvement: 10.528%
+================================================================================
+
+Wrong decisions made:
+================================================================================
+
+Better decisions made:
+================================================================================
+is_tail_aware=True, window_size: 96
+
+TOTAL actual carbon: algo=1.89872e+10, baseline=1.98363e+10 => total saving=-4.280%
+At alpha=0.90:
+Baseline VaR: 4.64388e+07
+Algorithm VaR: 4.55577e+07
+Baseline CVaR: 7.07486e+07
+Algorithm CVaR: 6.35969e+07
+Percent improvement: 10.109%
+================================================================================
+Window size: 1, Average Total Savings: -4.341%, Std: 0.415%
+Window size: 1, Average Tail Savings: 10.915%, Std: 1.167%
+================================================================================
+Window size: 3, Average Total Savings: -4.681%, Std: 0.395%
+Window size: 3, Average Tail Savings: 11.712%, Std: 1.294%
+================================================================================
+Window size: 7, Average Total Savings: -4.210%, Std: 0.570%
+Window size: 7, Average Tail Savings: 11.094%, Std: 1.365%
+================================================================================
+Window size: 10, Average Total Savings: -4.219%, Std: 0.476%
+Window size: 10, Average Tail Savings: 10.999%, Std: 1.156%
+================================================================================
+Window size: 24, Average Total Savings: -4.163%, Std: 0.399%
+Window size: 24, Average Tail Savings: 10.578%, Std: 1.135%
+================================================================================
+Window size: 72, Average Total Savings: -4.133%, Std: 0.479%
+Window size: 72, Average Tail Savings: 10.425%, Std: 1.337%
+================================================================================
+Window size: 96, Average Total Savings: -3.862%, Std: 0.395%
+Window size: 96, Average Tail Savings: 9.572%, Std: 1.104%

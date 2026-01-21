@@ -11,6 +11,7 @@ import torch.optim as optim
 from models.encoder_decoder_dropout import *
 from torch.utils.data import DataLoader
 import pandas as pd
+from statsmodels.stats.diagnostic import acorr_ljungbox
 
 SCHED_DIR = Path(__file__).resolve().parents[0]
 sys.path.append(str(SCHED_DIR))
@@ -461,7 +462,7 @@ def plot_like_example(
     ax.legend(loc="upper left")
 
     plt.tight_layout()
-    plt.savefig("prediction_with_uncertainty.png", dpi=150)
+    plt.savefig("prediction_with_uncertainty.png", dpi=350)
     print("Saved plot to prediction_with_uncertainty.png")
     plt.show()
 
@@ -1136,12 +1137,12 @@ import pandas as pd
 import torch
 from torch import nn
 
-
+# horizontal
 # -----------------------------
 # Main function
 # -----------------------------
 @torch.no_grad()
-def inference_conformal(
+def inference_conformal_horizontal(
     datasets: dict,
     model: nn.Module,
     # NOTE: window_size here is now used for "conditioning residual set"
@@ -1237,6 +1238,8 @@ def inference_conformal(
     # histories for conditioning
     resid_hist = []   # list[float] signed residuals (target - point_pred)
     feat_hist = []    # list[torch.Tensor] regime features
+    
+    centers = []
 
     # -----------------------------
     # Helpers
@@ -1358,8 +1361,9 @@ def inference_conformal(
                 bw = min(bias_window, resid_all.numel())
                 bias_set = resid_all[-bw:]
                 bias_hat = bias_set.median()  # robust
-                center = point_pred[t] + bias_hat
-
+                center = point_pred[t] #+ bias_hat
+                centers.append(center.item())
+                
                 # Uncertainty scale from longer window (prevents collapse at window_size=1)
                 sw = min(scale_window, resid_all.numel())
                 scale_set = resid_all[-sw:]
@@ -1391,7 +1395,8 @@ def inference_conformal(
                     scale_std=scale_std,
                 )  # [mc_samples]
 
-                samples = center + dev_samp
+                samples = center + dev_samp 
+                # samples = center + torch.zeros_like(dev_samp)
                 samples = samples.clamp(min=0.0)
 
                 # -----------------------------
@@ -1480,12 +1485,485 @@ def inference_conformal(
         }
     )
     df.to_csv("inference_results_uncertain.csv", index=False)
+    
+    print(f"=" * 80)
+    residuals = torch.tensor(centers, dtype=target.dtype, device=target.device) - target[len(target) - len(centers):]
+    print(f"residual means: {torch.mean(residuals).item()}")
+    exit()
+    
+    print("data itself's stats:")
+    std_y = target.std().item()
+    print(f"target std: {std_y}")
+    variance_y = target.var().item()
+    print(f"target variance: {variance_y}")
+    print(f"=" * 80)
+    print("point of prediction vs target stats:")
+    std_r = (point_pred - target).std().item()
+    print(f"residual std: {std_r}")
+    variance_r = (point_pred - target).var().item()
+    print(f"residual variance: {variance_r}")
+    print(f"=" * 80)
+    print("residual mean:")
+    mean_r = (point_pred - target).mean().item()
+    print(f"residual mean: {mean_r}")
+    print(f"scale_window={scale_window}, bias_window={bias_window}, cond_window={window_size} used for uncertainty estimation.")
+    print("refined prediction vs target stats:")
+    std_r2 = (final_pred - target).std().item()
+    print(f"residual std: {std_r2}")
+    variance_r2 = (final_pred - target).var().item()
+    print(f"residual variance: {variance_r2}")
+    print(f"=" * 80)
+    
+    from statsmodels.stats.diagnostic import acorr_ljungbox
+
+    # residuals: 1D array-like
+
+    result = acorr_ljungbox((point_pred - target).detach().cpu().numpy(), lags=[10], return_df=True)
+    print(result)
 
     plot_like_example(df)
+    
+
+    return df, data_object
+
+from collections import deque
+
+# vertical
+@torch.no_grad()
+def inference_conformal_vertical(
+    datasets: dict,
+    model: nn.Module,
+    # NOTE: window_size here is now used for "conditioning residual set"
+    window_size: int = 2,
+    k_neighbors: int = 2,
+    alpha: float = 0.1,                # miscoverage; 90% CI => alpha=0.1
+    mc_samples: int = 300,
+    agg: str = "median",               # "median", "mean", "trimmed_mean"
+    lam_recency: float = 0.0,          # recency decay weights inside conditioning window
+    noise: str = "gaussian",           # "studentt" or "gaussian"
+    studentt_df: float = 4.0,
+    bandwidth_scale: float = 0.3,      # typical 0.3–0.8
+    clamp_to_ci: bool = True,
+    # NEW: decouple bias tracking from uncertainty estimation
+    bias_window: int = 15,             
+    scale_window: int = 72,            # longer history for uncertainty (e.g., 72 hours)
+    min_history: int = 8,              # minimum history before generating non-degenerate samples
+    use_knn: bool = True,              # actually use regime conditioning (was disabled in your code)
+    min_bw: float = 1e-6,
+    # Optional: if your model output is a delta relative to last x, set use_delta=True
+    use_delta: bool = False,
+):
+    """
+    Rolling conformal interval + regime-conditioned residual sampling.
+
+    Key fix vs your original:
+      - Keep bias_window=1 for best point tracking.
+      - Estimate uncertainty scale from scale_window (or longer) so window_size=1 does NOT collapse variance.
+      - Fix KNN conditioning (was overwritten/disabled).
+      - Use conformal symmetric CI (center ± q_hat) and optionally clamp samples to it.
+    """
+
+    # -----------------------------
+    # External project hooks you already have in your repo:
+    #   - get_device()
+    #   - data.get_dataloaders(...)
+    #   - read_json_params(...)
+    #   - smape(...)
+    #   - calc_percentile_stats(...)
+    #   - plot_like_example(...)
+    # -----------------------------
+    device = get_device()
+
+    # IMPORTANT: inference loader must be ordered (shuffle=False / sequential sampler)
+    valid_loader = data.get_dataloaders(datasets=datasets)["inference"]
+
+    model.to(device)
+    model.eval()
+    
+    model = model.apply(dropout_off)
+
+    # normalization params
+    json_data = read_json_params("train_invocation_rate_normalization.json")
+    train_mu, train_sigma = json_data["mu"], json_data["sigma"]
+
+    # one batch containing all data
+    (x, y, last_x, first_y, first_x, idx, hours) = next(iter(valid_loader))
+    x, y = x.to(device), y.to(device)
+
+    # Ensure idx is 1D CPU tensor for sorting/validation
+    idx_cpu = idx.detach().cpu().view(-1)
+    if not torch.all(idx_cpu[:-1] <= idx_cpu[1:]):
+        sort_perm = torch.argsort(idx_cpu)
+        idx_cpu = idx_cpu[sort_perm]
+        x = x[sort_perm]
+        y = y[sort_perm]
+        last_x = last_x[sort_perm]
+        first_y = first_y[sort_perm]
+        first_x = first_x[sort_perm]
+        hours = hours[sort_perm]
+
+    # model conditional input
+    cond = y[:, 0, 1:].to(device)
+
+    # -----------------------------
+    # Point prediction
+    # -----------------------------
+    res = model((x, cond))
+    model_var = torch.zeros(res.shape[0], device=device)
+
+    # Denormalize
+    # model predicts absolute normalized target
+    point_pred = (res.squeeze(-1)) * train_sigma + train_mu
+    target = ((y[:, 0, 0]) * train_sigma + train_mu).squeeze(-1)
+
+    point_pred = point_pred.clamp(min=0.0)
+
+    n = point_pred.shape[0]
+    ci_lower = torch.empty(n, device=device)
+    ci_upper = torch.empty(n, device=device)
+    refined = torch.empty(n, device=device)
+
+    # histories for conditioning
+    resid_hist = []   # list[float] signed residuals (target - point_pred)
+    feat_hist = []    # list[torch.Tensor] regime features
+    bias_bufs = {h: deque(maxlen=bias_window) for h in range(24)}
+    # Per-hour residual buffers for sampling/scale (use longer window than bias)
+    # size = scale_window (or you can choose a separate param if you want)
+    resid_bufs = {h: deque(maxlen=scale_window) for h in range(24)}
+    feat_bufs  = {h: deque(maxlen=scale_window) for h in range(24)}  # optional but needed if you want KNN within-hour
+    centers = []
+
+    # -----------------------------
+    # Helpers
+    # -----------------------------
+    def conformal_q(abs_resids: torch.Tensor, alpha_: float) -> torch.Tensor:
+        """
+        Conformal quantile with 'higher' interpolation:
+          k = ceil((m+1)*(1-alpha)), q = k-th smallest abs residual
+        """
+        m = abs_resids.numel()
+        if m == 0:
+            return torch.tensor(0.0, device=abs_resids.device, dtype=abs_resids.dtype)
+        k = int(math.ceil((m + 1) * (1 - alpha_)))
+        k = min(max(k, 1), m)
+        return abs_resids.kthvalue(k).values
+
+    def build_regime_feature(t: int) -> torch.Tensor:
+        # Default regime feature: last value + short trend
+        x_last = x[t, -1, 0]
+        x_trend = x[t, -1, 0] - x[t, -2, 0] if x.shape[1] >= 2 else x_last.new_tensor(0.0)
+        return torch.stack([x_last, x_trend])  # [2]
+
+    def knn_conditioned_residuals(
+        resid_window: torch.Tensor,   # [m]
+        feat_window: torch.Tensor,    # [m, d]
+        feat_t: torch.Tensor,         # [d]
+        k: int,
+    ) -> torch.Tensor:
+        """
+        Return the k nearest residuals in regime-feature space.
+        """
+        m = resid_window.numel()
+        if m == 0:
+            return resid_window
+        k = min(k, m)
+        d = (feat_window - feat_t.unsqueeze(0)).abs().sum(dim=1)  # [m], L1 distance
+        nn_idx = torch.topk(-d, k=k).indices
+        return resid_window[nn_idx]
+
+    def sample_deviations(
+        deviations: torch.Tensor,     # [k], typically centered residuals
+        num_samples: int,
+        lam: float,
+        noise_kind: str,
+        df: float,
+        scale_std: torch.Tensor,
+    ) -> torch.Tensor:
+        """
+        Bootstrap deviations (possibly degenerate) + add smooth noise with externally estimated scale_std.
+        This is the key to avoid collapse when window_size=1.
+        """
+        k = deviations.numel()
+        if k == 0 or num_samples <= 0:
+            return deviations.new_zeros((max(1, num_samples),))
+
+        # Recency weights assume deviations ordered oldest->newest
+        if lam > 0 and k > 1:
+            ages = torch.arange(k - 1, -1, -1, device=deviations.device, dtype=torch.float32)  # 0 newest
+            w = torch.exp(-lam * ages)
+            w = w / w.sum()
+            bidx = torch.multinomial(w, num_samples=num_samples, replacement=True)
+        else:
+            bidx = torch.randint(low=0, high=k, size=(num_samples,), device=deviations.device)
+
+        base = deviations[bidx]
+
+        # bandwidth derived from longer history scale
+        h = torch.clamp(bandwidth_scale * scale_std, min=min_bw)
+
+        if noise_kind == "gaussian":
+            eps = torch.randn(num_samples, device=deviations.device, dtype=deviations.dtype) * h
+        else:
+            eps = torch.distributions.StudentT(df=df, loc=0.0, scale=h).sample((num_samples,))
+            eps = eps.to(device=deviations.device, dtype=deviations.dtype)
+
+        return base + eps
+
+    def aggregate_samples(samples: torch.Tensor, how: str) -> torch.Tensor:
+        if how == "median":
+            return samples.median()
+        if how == "trimmed_mean":
+            srt, _ = torch.sort(samples)
+            ktrim = max(1, int(0.1 * samples.numel()))
+            if samples.numel() <= 2 * ktrim:
+                return samples.mean()
+            return srt[ktrim:-ktrim].mean()
+        return samples.mean()
+
+    # -----------------------------
+    # store samples for later analysis
+    # -----------------------------
+    data_object = []
+    dev_samps = []
+    
+
+    pickle_path = "rate_data.pkl"
+    with open(pickle_path, "wb") as pickle_file:
+
+        # -----------------------------
+        # Main loop
+        # -----------------------------
+        for t in range(n):
+            # feat_t = build_regime_feature(t)
+            # feat_hist.append(feat_t.detach())
+            
+            hour_bucket = int(hours[t].item()) % 24  # <-- compute once
+
+            feat_t = build_regime_feature(t)
+            feat_hist.append(feat_t.detach())        # keep global if you still want it
+
+
+            # Need history to do anything non-degenerate
+            if len(resid_bufs[hour_bucket]) < min_history or mc_samples <= 0:
+                center = point_pred[t]
+                samples = center.repeat(1)  # degenerate
+                # CI also degenerate
+                ci_lower[t] = center
+                ci_upper[t] = center
+                refined[t] = center
+            else:
+                # -----------------------------
+                # Build residual tensors
+                # -----------------------------
+                # Build residual tensors from THIS hour-of-day bucket only
+                resid_hour = torch.tensor(list(resid_bufs[hour_bucket]), device=device, dtype=point_pred.dtype)
+
+                # Bias estimate from short window (keep this small; bias_window=1 if best)
+                # --- Hour-of-day specific bias (24 rolling windows) ---
+                # Map timestamp to hour-of-day bucket.
+                # If `hours[t]` is already 0..23 you're good; if it's a running hour index,
+                # modulo makes it periodic by day.
+                hour_bucket = int(hours[t].item()) % 24
+
+                buf = bias_bufs[hour_bucket]
+                if len(buf) > 0:
+                    bias_set = torch.tensor(list(buf), device=device, dtype=point_pred.dtype)
+                    bias_hat = bias_set.median()  # robust per-hour rolling median
+                    bias_hat = torch.tensor(resid_hist[-1:], device=device, dtype=point_pred.dtype)
+                else:
+                    bias_hat = point_pred.new_tensor(0.0)
+
+                center = point_pred[t] + bias_hat
+                centers.append(center.item())
+
+                # Uncertainty scale from longer window within-hour
+                sw = min(scale_window, resid_hour.numel())
+                scale_set = resid_hour[-sw:]
+                loc_s, scale_std = robust_median_mad(scale_set)
+
+                # Conditioning residual set within-hour (regime-conditioned if enabled)
+                cw = min(window_size, resid_hour.numel())
+                cond_resid_full = resid_hour[-cw:]  # oldest->newest within the within-hour window
+
+                if use_knn and cw >= 2:
+                    # KNN within the same hour bucket
+                    past_feat = torch.stack(list(feat_bufs[hour_bucket])[-cw:], dim=0).to(device=device, dtype=point_pred.dtype)
+                    K = min(k_neighbors, cw)
+                    cond_resid = knn_conditioned_residuals(cond_resid_full, past_feat, feat_t, k=K)
+                else:
+                    cond_resid = cond_resid_full
+
+                # Deviations around 0 (do NOT re-introduce bias here)
+                # If cond_resid has one element, deviations will be 0; sampling still gets variance via scale_std.
+                cond_loc = cond_resid.median()
+                deviations = cond_resid - cond_loc
+
+                # Monte-Carlo deviations + smooth noise using longer-horizon scale_std
+                dev_samp = sample_deviations(
+                    deviations=deviations,
+                    num_samples=mc_samples,
+                    lam=lam_recency,
+                    noise_kind=noise,
+                    df=studentt_df,
+                    scale_std=scale_std,
+                )  # [mc_samples]
+                
+                dev_samps.append(dev_samp.cpu().numpy())
+
+                samples = center + dev_samp 
+                # samples = center + torch.zeros_like(dev_samp)
+                samples = samples.clamp(min=0.0)
+
+                # -----------------------------
+                # Conformal CI from absolute residuals (symmetric)
+                # -----------------------------
+                abs_resids = (scale_set - loc_s).abs()
+                qhat = conformal_q(abs_resids, alpha_=alpha)
+
+                lo = (center - qhat).clamp(min=0.0)
+                hi = (center + qhat).clamp(min=0.0)
+                lo, hi = torch.minimum(lo, hi), torch.maximum(lo, hi)
+                ci_lower[t], ci_upper[t] = lo, hi
+
+                # Optionally clamp samples to CI (stabilizes tails)
+                if clamp_to_ci:
+                    samples = torch.clamp(samples, min=lo, max=hi)
+
+                # Point refinement from samples
+                refined_t = aggregate_samples(samples, agg)
+                if clamp_to_ci:
+                    refined_t = torch.clamp(refined_t, min=lo, max=hi)
+                refined[t] = refined_t
+
+                # Save per-step object for later analysis
+                data_object.append({
+                    "hour": float(hours[t].item()),
+                    "mc_samples": samples.detach().cpu().numpy(),
+                    "original_prediction": float(point_pred[t].item()),
+                    "target": float(target[t].item()),
+                    "refined_prediction": float(refined[t].item()),
+                    "ci_lower": float(ci_lower[t].item()),
+                    "ci_upper": float(ci_upper[t].item()),
+                    "bias_hat": float(bias_hat.item()),
+                    "scale_std": float(scale_std.item()),
+                })
+
+            # -----------------------------
+            # Update histories with observed residual from POINT forecast
+            # -----------------------------
+            r_t = (target[t] - point_pred[t]).detach()
+            r_item = float(r_t.item())
+
+            # keep global history if you still want it for logging/other uses
+            resid_hist.append(r_item)
+
+            # update hour-of-day buffers
+            bias_bufs[hour_bucket].append(r_item)     # size = 15 (bias)
+            resid_bufs[hour_bucket].append(r_item)    # size = scale_window (sampling/scale)
+            feat_bufs[hour_bucket].append(feat_t.detach().cpu())  # store feature aligned to residual (on CPU to save GPU mem)
+
+
+        pickle.dump(data_object, pickle_file, protocol=pickle.HIGHEST_PROTOCOL)
+
+    final_pred = refined.clamp(min=0.0)
+
+    # -----------------------------
+    # Metrics / outputs (same as your original structure)
+    # -----------------------------
+    error_rates = torch.abs(final_pred - target) / torch.clamp(target, min=1e-9)
+
+    smape_rate = smape(target.detach().cpu().numpy(), final_pred.detach().cpu().numpy())
+    mean_abs_err = torch.mean(torch.abs(final_pred - target))
+    mean_model_var = model_var.mean()
+
+    print(f"max target: {target.max().item()}, min target: {target.min().item()}")
+    calc_percentile_stats(
+        error_rates.detach().cpu().numpy(),
+        (torch.abs(final_pred - target) / torch.clamp(target, min=1e-9)).mean().item(),
+        "inference_results_uncertain",
+    )
+
+    s = (
+        f"[inference_conformal_decoupled] "
+        f"mean_abs_err: {mean_abs_err.item():.6f}, "
+        f"mean_model_var: {mean_model_var.item():.6f}, "
+        f"smape_rate: {smape_rate}"
+    )
+    with open("inference_results_uncertain.log", "a") as f:
+        f.write(s + "\n")
+    print(s)
+
+    to_1d = lambda t: t.detach().cpu().numpy().reshape(-1)
+
+    df = pd.DataFrame(
+        {
+            "idx": to_1d(idx_cpu),
+            "x_last_hour": to_1d(x[:, -1, 0] * train_sigma + train_mu),
+            "x_start_hour": to_1d(x[:, 0, 0] * train_sigma + train_mu),
+            "point_pred": to_1d(point_pred),
+            "pred_refined": to_1d(final_pred),
+            "target": to_1d(target),
+            "ci_lower": to_1d(ci_lower),
+            "ci_upper": to_1d(ci_upper),
+            "error_rate_refined_pct": to_1d(error_rates) * 100,
+        }
+    )
+    df.to_csv("inference_results_uncertain.csv", index=False)
+    
+    # print(dev_samps)
+    # input("debug")
+       
+    print(f"=" * 80)
+    print(f"center residual means: {np.mean(np.array(centers) - target.detach().cpu().numpy()[len(target) - len(centers):])}")
+    result = acorr_ljungbox((centers - target.detach().cpu().numpy()[len(target) - len(centers):]), lags=[1, 2, 10], return_df=True)
+    print(result)
+    # input("debug")
+    
+    print(f"=" * 80)
+    print("data itself's stats:")
+    std_y = target.std().item()
+    print(f"target std: {std_y}")
+    variance_y = target.var().item()
+    print(f"target variance: {variance_y}")
+    print(f"=" * 80)
+    print("point of prediction vs target stats:")
+    std_r = (point_pred - target).std().item()
+    print(f"residual std: {std_r}")
+    variance_r = (point_pred - target).var().item()
+    print(f"residual variance: {variance_r}")
+    print(f"=" * 80)
+    print("residual mean:")
+    mean_r = (point_pred - target).mean().item()
+    print(f"residual mean: {mean_r}")
+    print(f"scale_window={scale_window}, bias_window={bias_window}, cond_window={window_size} used for uncertainty estimation.")
+    print("refined prediction vs target stats:")
+    print(f"refined residual mean: {(final_pred - target).mean().item()}")
+    std_r2 = (final_pred - target).std().item()
+    print(f"residual std: {std_r2}")
+    variance_r2 = (final_pred - target).var().item()
+    print(f"residual variance: {variance_r2}")
+    print(f"=" * 80)
+    
+    
+    # residuals: 1D array-like
+
+    result = acorr_ljungbox((final_pred - target).detach().cpu().numpy(), lags=[1, 2, 10], return_df=True)
+    print(result)
+
+    plot_like_example(df)
+    
 
     return df, data_object
 
 
+
+def simple_plot(data):
+    plt.close()
+    plt.plot(data)
+    plt.xlabel("Index")
+    plt.ylabel("Value")
+    plt.title("Array Plot")
+    plt.savefig("autocorrelation_residual_test.png")
 
 # @torch.no_grad()
 # def inference_conformal(

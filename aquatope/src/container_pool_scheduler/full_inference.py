@@ -10,8 +10,6 @@ import torch.nn.functional as F
 import torch.optim as optim
 from torch.utils.data import DataLoader
 
-from personal.projects.server.qa.python_models.add_sub import model
-
 PROJECT_DIR = Path(__file__).resolve().parents[2]
 SCHED_DIR = Path(__file__).resolve().parents[0]
 sys.path.append(str(PROJECT_DIR))
@@ -65,26 +63,28 @@ def main():
     start = time.time()
     utils.inference(datasets=datasets, model=predict, not_used1=False, not_used2=128)
     # df = utils.inference_conformal(datasets=datasets, model=predict, mc_dropout=False)
-    df = utils.inference_conformal(
+    window_size = 24
+    df = utils.inference_conformal_horizontal(
         datasets=datasets,
         model=predict,
-        k_neighbors: int = 2,
-        alpha: float = 0.1,                # miscoverage; 90% CI => alpha=0.1
-        mc_samples: int = 300,
-        agg: str = "median",               # "median", "mean", "trimmed_mean"
-        lam_recency: float = 0.0,          # recency decay weights inside conditioning window
-        noise: str = "gaussian",           # "studentt" or "gaussian"
-        studentt_df: float = 4.0,
-        bandwidth_scale: float = 0.3,      # typical 0.3–0.8
-        clamp_to_ci: bool = False,
+        alpha=0.1,                # miscoverage; 90% CI => alpha=0.1
+        mc_samples=int(np.ceil(window_size*0.6)),
+        agg="median",               # "median", "mean", "trimmed_mean"
+        lam_recency=0.0,          # recency decay weights inside conditioning window
+        noise="studentt",           # "studentt" or "gaussian"
+        studentt_df=5.0,
+        bandwidth_scale=0.3,      # typical 0.3–0.8
+        clamp_to_ci=False,
         # NEW: decouple bias tracking from uncertainty estimation
-        bias_window: int = 1,              # keep 1 if that gives best point accuracy
-        scale_window: int = 12,            # longer history for uncertainty (e.g., 72 hours)
-        min_history: int = 5,              # minimum history before generating non-degenerate samples
-        use_knn: bool = True,              # actually use regime conditioning (was disabled in your code)
-        min_bw: float = 1e-6,
+        bias_window=1,              # keep 1 if that gives best point accuracy
+        k_neighbors=6,
+        scale_window=window_size, #24*4,            # longer history for uncertainty (e.g., 72 hours)
+        window_size=window_size,  #24*2,
+        min_history=1,
+        use_knn=False,              # actually use regime conditioning (was disabled in your code)
+        min_bw=1e-6,
         # Optional: if your model output is a delta relative to last x, set use_delta=True
-        use_delta: bool = False,
+        use_delta=False,
     )
     
 #     # 1) Build profile on a held-out window
